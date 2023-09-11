@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import validator from 'validator'
 
 const HomePage = () => {
 
@@ -10,15 +11,15 @@ const HomePage = () => {
     const [contact, setContact] = useState('');
     const [Error, setError] = useState('');
 
-    
+
     const handleName = (event) => {
         setName(event.target.value);
     }
-    
+
     const handleAddress = (event) => {
         setAddress(event.target.value);
     }
-    
+
     const handleCity = (event) => {
         setCity(event.target.value);
     }
@@ -32,29 +33,54 @@ const HomePage = () => {
     }
 
     const handleSubmit = async (event) => {
-        const res = {
-            username: name,
-            useraddress: address,
-            city: city,
-            email: email,
-            contact: contact
-        }
         event.preventDefault();
         try {
-
-            axios
-                .post('https://localhost:7104/api/AtmUsers', res)
-                //.get('./data.json')
-                .then((response) => {
-                    console.log(response.data);
-                    // const { pwd, email } = response.data
-                    // if (res.email == email && res.pwd == pwd) {
-                    //     alert('Successful Login');
-                    // }
-                    // else {
-                    //     alert('Invalid Details');
-                    // }
-                });
+            if (name.trim() == "") {
+                alert('Name cannot be empty')
+                return;
+            }
+            if (address.trim() == "") {
+                alert('Address cannot be empty')
+                return;
+            }
+            if (city.trim() == "") {
+                alert('City cannot be empty')
+                return;
+            }
+            if (contact.trim() == "") {
+                alert('Contact cannot be empty')
+                return;
+            }
+            if (!validator.isEmail(email)) {
+                alert('Enter a valid email address');
+                return;
+            }
+            else {
+                const res = {
+                    username: name,
+                    useraddress: address,
+                    city: city,
+                    email: email,
+                    contact: contact
+                };
+                axios
+                    .post('https://localhost:7104/api/AtmUsers', res)
+                    //.get('./data.json')
+                    .then((response) => {
+                        if (response.status >= 200 && response.status < 300) {
+                            console.log(response);
+                            alert(`User registered successfully`);
+                            setName('');
+                            setAddress('');
+                            setCity('');
+                            setEmail('');
+                            setContact('');
+                        }
+                        else {
+                            alert("Registration failed");
+                        }
+                    });
+            }
         }
         catch (error) {
             setError(error.Message);
@@ -76,7 +102,7 @@ const HomePage = () => {
                     Email: <input type="text" value={email} onChange={handleEmail} />
                 </div>
                 <div>
-                    Contact: <input type="text" pattern ="[0-9]{10}"value={contact} onChange={handleContact} />
+                    Contact: <input type="text" pattern="[0-9]{10}" value={contact} onChange={handleContact} />
                 </div>
                 <div>
                     <button type="submit"> Submit </button>
