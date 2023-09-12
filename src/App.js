@@ -1,16 +1,46 @@
 import logo from './logo.svg';
 import './App.css';
-import HomePage from './Pages/HomePage';
-//import LoginPage from './Pages/LoginPage';
+import AddCustomerPage from './Pages/AddCustomerPage';
+import LoginPage from './Pages/LoginPage';
+//import ProfilePage from './Pages/ProfilePage';
+//import LoginwithToken from './Pages/LoginwithToken';
+import { createBrowserRouter } from 'react-router-dom';
+//import LayoutComponent from './Components/Layout.component';
+import { AppProvider } from "../src/Context/AppContext";
+import { RouterProvider } from 'react-router-dom';
+import ProtectedRoute from './Components/ProtectedRoute';
+//import CustomerPage from './Pages/CustomerPage';
 
-function App() {
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <AddCustomerPage />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  /*{
+    path: "/customer",
+    element: <ProtectedRoute>
+      <CustomerPage />
+    </ProtectedRoute>
+  },
+  {
+    path: "/profile",
+    element: <ProtectedRoute>
+      <ProfilePage />
+    </ProtectedRoute>,
+  },*/
+]);
+
+const App = () => {
   return (
-    <div className="App">
-      <h1>Create Account</h1>
-      <h4>Enter details:</h4>
-      <HomePage/>
-    </div>
+    <AppProvider>
+      <RouterProvider router={router} />
+    </AppProvider>
   );
+
 }
 
 export default App;

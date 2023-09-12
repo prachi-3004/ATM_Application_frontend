@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import validator from 'validator'
 
-const HomePage = () => {
+const AddCustomerPage = () => {
 
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
@@ -112,4 +112,4 @@ const HomePage = () => {
     );
 }
 
-export default HomePage;
+export default AddCustomerPage;
