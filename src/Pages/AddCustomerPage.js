@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import validator from 'validator'
-
-const HomePage = () => {
+import {AppContext} from '../Context/AppContext';
+const AddCustomerPage = () => {
 
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
@@ -10,7 +10,8 @@ const HomePage = () => {
     const [email, setEmail] = useState('');
     const [contact, setContact] = useState('');
     const [Error, setError] = useState('');
-
+    const[user,setUser]=useContext(AppContext);
+    const[token,setToken]=useState(');')
 
     const handleName = (event) => {
         setName(event.target.value);
@@ -63,8 +64,11 @@ const HomePage = () => {
                     email: email,
                     contact: contact
                 };
+                setToken(user.token);
+                const headers={"Authorization":`Bearer${user.token}`};
+                console.log(headers);
                 axios
-                    .post('https://localhost:7104/api/AtmUsers', res)
+                    .post('https://localhost:7104/api/AtmUsers', res, {headers})
                     //.get('./data.json')
                     .then((response) => {
                         if (response.status >= 200 && response.status < 300) {
@@ -112,4 +116,4 @@ const HomePage = () => {
     );
 }
 
-export default HomePage;
+export default AddCustomerPage;
