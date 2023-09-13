@@ -13,25 +13,21 @@ import ProtectedRoute from './Components/ProtectedRoute';
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <AddCustomerPage />,
-  },
-  {
     path: "/login",
     element: <LoginPage />,
   },
-  /*{
-    path: "/customer",
+  {
+    path: "/addcustomer",
     element: <ProtectedRoute>
-      <CustomerPage />
+      <AddCustomerPage />
     </ProtectedRoute>
   },
-  {
-    path: "/profile",
-    element: <ProtectedRoute>
-      <ProfilePage />
-    </ProtectedRoute>,
-  },*/
+  // {
+  //   path: "/profile",
+  //   element: <ProtectedRoute>
+  //     <ProfilePage />
+  //   </ProtectedRoute>,
+  // },
 ]);
 
 const App = () => {
