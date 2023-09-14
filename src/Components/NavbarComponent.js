@@ -14,6 +14,8 @@ const NavbarComponent = () => {
       <ul>
         <li className="nav-link"><NavLink to="/addcustomer">Add Customer</NavLink></li>
         <li className="nav-link"><NavLink to="/customer/getcustomer">Get Customerdetails</NavLink></li>
+        <li className="nav-link"><NavLink to="/updatecustomer">Update Customer</NavLink></li>
+        <li className="nav-link"><NavLink to="/deletecustomer/">Delete Customer</NavLink></li>
         <li className="nav-link"><NavLink to="/login" onClick={()=>setUser(null)}>Logout</NavLink></li>
        </ul>
 
