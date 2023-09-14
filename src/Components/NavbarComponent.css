@@ -1,0 +1,36 @@
+.navbar{
+    background-color: rgb(45, 38, 38);
+}
+.navbar-contents{
+    font-style: normal;
+    list-style:none;
+    display:flex;
+   
+}
+ul{
+    margin:0;
+    padding:0;
+    list-style-type: none;
+    overflow:hidden;
+    
+}
+li{
+    list-style:none;
+    text-decoration: none;
+   float:left;
+  
+}
+li NavLink{
+    list-style:none;
+   
+}
+li a {
+    display:block;
+   padding:8px; 
+   color:white;
+   list-style:none;
+   text-decoration:none;
+}
+li a:hover{
+    background-color:grey;
+}

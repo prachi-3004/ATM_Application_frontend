@@ -28,19 +28,20 @@ const LoginPage = () => {
         event.preventDefault();
         try {
                 console.log(res);
-                axios.post('https://localhost:44306/api/Authorization',res).then((response)=>{
+                const response = await axios.post('https://localhost:44306/api/Authorization',res);
                 if(response.status >= 200 && response.status < 300){
                     console.log(response.data);
                     setLogin(true);   
                     setUser(response.data);
-                    console.log(login);
-                    console.log("User details "+user);               
-                    // if (response.data.user_Id =="ALOK") {
-                    //     navigate('/addcustomer');
-                    // }
-                }
-            });
-           
+                    //console.log(login);
+                    //console.log("User details "+user);               
+                    if (response.data.role==0) {
+                       navigate('/navigateadmin');
+                    }
+                    if(response.data.role==1){
+                        navigate('/navigatecustomer');
+                    }
+                }           
             }  
         catch (error)
         {

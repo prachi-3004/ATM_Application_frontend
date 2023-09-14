@@ -9,9 +9,10 @@ const AddCustomerPage = () => {
     const [city, setCity] = useState('');
     const [email, setEmail] = useState('');
     const [contact, setContact] = useState('');
+    const [password, setPassword]=useState('');
     const [Error, setError] = useState('');
-    const[user,setUser]=useContext(AppContext);
-    const[token,setToken]=useState(');')
+    const {user,setUser}=useContext(AppContext);
+    const[token,setToken]=useState('');
 
     const handleName = (event) => {
         setName(event.target.value);
@@ -33,6 +34,10 @@ const AddCustomerPage = () => {
         setContact(event.target.value);
     }
 
+    const handlePassword = (event) => {
+        setPassword(event.target.value);
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -52,21 +57,28 @@ const AddCustomerPage = () => {
                 alert('Contact cannot be empty')
                 return;
             }
+            if (password.trim() == "") {
+                alert('Password cannot be empty');
+                return;
+            }
             if (!validator.isEmail(email)) {
                 alert('Enter a valid email address');
                 return;
             }
             else {
+                console.log("User at addCustomer", user)
                 const res = {
                     username: name,
                     useraddress: address,
                     city: city,
                     email: email,
-                    contact: contact
+                    contact: contact,
+                    password:password
                 };
                 setToken(user.token);
                 const headers={"Authorization":`Bearer${user.token}`};
                 console.log(headers);
+                console.log(res);
                 axios
                     .post('https://localhost:7104/api/AtmUsers', res, {headers})
                     //.get('./data.json')
@@ -79,6 +91,7 @@ const AddCustomerPage = () => {
                             setCity('');
                             setEmail('');
                             setContact('');
+                            setPassword('');
                         }
                         else {
                             alert("Registration failed");
@@ -94,19 +107,22 @@ const AddCustomerPage = () => {
         <div>
             <form onSubmit={handleSubmit}>
                 <div>
-                    Name: <input type="text" value={name} onChange={handleName} />
+                    Name: <input type="text" value={name} onChange={handleName} placeholder="Enter Customer Name" required />
                 </div>
                 <div>
-                    Address: <input type="text" value={address} onChange={handleAddress} />
+                    Address: <input type="text" value={address} onChange={handleAddress} placeholder="Enter Customer Address" required/>
                 </div>
                 <div>
-                    City: <input type="text" value={city} onChange={handleCity} />
+                    City: <input type="text" value={city} onChange={handleCity} placeholder="Enter Customer City"/>
                 </div>
                 <div>
-                    Email: <input type="text" value={email} onChange={handleEmail} />
+                    Email: <input type="text" value={email} onChange={handleEmail} placeholder="Enter Email id" required/>
+                </div>
+                 <div>
+                    Contact: <input type="text" pattern="[0-9]{10}" value={contact} onChange={handleContact} placeholder="Enter Contact Number" required />
                 </div>
                 <div>
-                    Contact: <input type="text" pattern="[0-9]{10}" value={contact} onChange={handleContact} />
+                    Password: <input type="password" value={password} onChange={handlePassword} placeholder="Enter Password" required/>
                 </div>
                 <div>
                     <button type="submit"> Submit </button>
