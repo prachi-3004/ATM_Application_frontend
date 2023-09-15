@@ -3,14 +3,11 @@ import axios from 'axios';
 import { AppContext } from '../Context/AppContext';
 import { useNavigate } from 'react-router-dom';
 const LoginPage = () => {
-   // const [loginobj, setLoginObj] = useState({ username: '', password: '' });//change
     const [username, setUsername] = useState('');
     const [password, setpwd] = useState('');
     const [login, setLogin] = useState(false);
-    //const [storage, setStorage] = useState('');
-    //const [Error, setError] = useState({name:'',pwd:''});
     const { user, setUser } = useContext(AppContext);
-
+    const [userType,setuserType]=useState('Customer');
     const navigate = useNavigate();
     const handleUsername = (event) => {
         setUsername(event.target.value);
@@ -18,12 +15,11 @@ const LoginPage = () => {
     const handlepwd = (event) => {
         setpwd(event.target.value);
     }
-
     const handleSubmit = async (event) => {
-      
         const res = {
             username: username,
-            password:password
+            password:password,
+            role:userType
         };
         event.preventDefault();
         try {
@@ -33,12 +29,11 @@ const LoginPage = () => {
                     console.log(response.data);
                     setLogin(true);   
                     setUser(response.data);
-                    //console.log(login);
-                    //console.log("User details "+user);               
-                    if (response.data.role==0) {
+                                   
+                    if (res.role=='Admin') {
                        navigate('/navigateadmin');
                     }
-                    if(response.data.role==1){
+                    if(res.role=='Customer'){
                         navigate('/navigatecustomer');
                     }
                 }           
@@ -54,6 +49,12 @@ const LoginPage = () => {
             <h1>Login to ATM Banking</h1>
             <form style={{align:'center'}} className="loginform" onSubmit={handleSubmit}>
                 <div>
+                    Login as: 
+                    <label><input type="radio" value="Customer" checked={userType==='Customer'} onChange={()=> setuserType('Customer')}/>Customer</label>
+                    <label><input type="radio" value="Admin" checked={userType==='Admin'} onChange={()=> setuserType('Admin')}/>Admin</label>
+                </div>
+                <br/>
+                <div>
                     Username: <input type="text" placeholder="Enter User Name" value={username} onChange={handleUsername}  required/>
                 </div>
                
@@ -68,6 +69,8 @@ const LoginPage = () => {
                 </div>
                
             </form>
+            <br/>
+            
         </div>
     );
 }

@@ -17,6 +17,7 @@ const router = createBrowserRouter([
     path: "/login",
     element: <LoginPage />,
   },
+  //currentForm === "login" ? <LoginPage onFormSwitch={toggleForm} /> : <RegisterPage onFormSwitch={toggleForm} />
   {
     path: "/navigateadmin",
     element: <NavbarComponent />,
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
+  // const [currentForm, setCurrentForm] = useState('login');
+
+  // const toggleForm = (formName) => {
+  //   setCurrentForm(formName);}
   return (
     <AppProvider>
       <RouterProvider router={router} />

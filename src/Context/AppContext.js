@@ -1,8 +1,5 @@
 import { createContext,useState, useEffect } from "react";
-
-
 const AppContext = createContext(); //to create the context
-
 //children - 
 const AppProvider = ({ children }) => {
     
