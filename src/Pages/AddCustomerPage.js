@@ -2,9 +2,11 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import validator from 'validator'
 import {AppContext} from '../Context/AppContext';
+import { useNavigate } from 'react-router-dom';
 const AddCustomerPage = () => {
 
     const [name, setName] = useState('');
+    const[username,setUserName]=useState('');
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
     const [email, setEmail] = useState('');
@@ -13,11 +15,13 @@ const AddCustomerPage = () => {
     const [Error, setError] = useState('');
     const {user,setUser}=useContext(AppContext);
     const[token,setToken]=useState('');
-
+    const navigate = useNavigate();
     const handleName = (event) => {
         setName(event.target.value);
     }
-
+const handleUserName=(event)=>{
+    setUserName(event.target.value);
+}
     const handleAddress = (event) => {
         setAddress(event.target.value);
     }
@@ -45,6 +49,10 @@ const AddCustomerPage = () => {
                 alert('Name cannot be empty')
                 return;
             }
+            if(username.trim()==""){
+                alert("User Name cannot be empty");
+                return;
+            }
             if (address.trim() == "") {
                 alert('Address cannot be empty')
                 return;
@@ -66,32 +74,37 @@ const AddCustomerPage = () => {
                 return;
             }
             else {
-                console.log("User at addCustomer", user)
+                //console.log("User at addCustomer", user);
+               // navigate('/');
                 const res = {
-                    username: name,
+                    name:name,
+                    userName: username,
                     useraddress: address,
                     city: city,
                     email: email,
                     contact: contact,
                     password:password
                 };
+                
                 setToken(user.token);
                 const headers={"Authorization":`Bearer${user.token}`};
                 console.log(headers);
                 console.log(res);
                 axios
-                    .post('https://localhost:7104/api/AtmUsers', res, {headers})
+                    .post('https://localhost:44307/api/Customer/AddCustomer', res, {headers})
                     //.get('./data.json')
                     .then((response) => {
                         if (response.status >= 200 && response.status < 300) {
                             console.log(response);
-                            alert(`User registered successfully`);
+                            alert("Customer added successfully");
                             setName('');
+                            setUserName('');
                             setAddress('');
                             setCity('');
                             setEmail('');
                             setContact('');
                             setPassword('');
+                            navigate("/navigateadmin");
                         }
                         else {
                             alert("Registration failed");
@@ -107,7 +120,10 @@ const AddCustomerPage = () => {
         <div>
             <form onSubmit={handleSubmit}>
                 <div>
-                    Name: <input type="text" value={name} onChange={handleName} placeholder="Enter Customer Name" required />
+                    Name: <input type="text" value={name} onChange={handleName} placeholder="Enter Name" required />
+                </div>
+                <div>
+                    User Name: <input type="text" value={username} onChange={handleUserName} placeholder="Enter User Name" required />
                 </div>
                 <div>
                     Address: <input type="text" value={address} onChange={handleAddress} placeholder="Enter Customer Address" required/>

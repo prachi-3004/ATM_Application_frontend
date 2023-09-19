@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, {useContext,useState,useEffect} from 'react';
 import { NavLink, useNavigate } from "react-router-dom";
 import { AppContext } from '../Context/AppContext';
+import MainPage from '../Pages/MainPage';
 import "./NavbarComponent.css";
 const NavbarComponent = () => {
   //const navigate = useNavigate();
@@ -11,6 +12,7 @@ const NavbarComponent = () => {
   //   await axios.get('').then((res)=>{setcustCount(res.data)});
   // }
   // useEffect(()=>{getcustCount()},[]);
+ 
   return (
     <div>
     <div className="navbar">
@@ -26,6 +28,7 @@ const NavbarComponent = () => {
       </div>
     </div>
     <h1>Welcome Admin</h1>
+    <MainPage/>
     {/* <div className="row">
       <div className="col">
         <div className="grid">
