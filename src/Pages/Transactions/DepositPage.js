@@ -38,25 +38,24 @@ const DepositPage = () => {
     }
     return (
         <div>
-             <h1>Deposit</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    Account No.:<input type="text" value={account.AccountID} readOnly />
-                </div> 
-                <div>
-                    Balance: <input type="text" value={account.Balance} readOnly/>
-                </div>
+            <h1>Deposit</h1>
+            <div>
+                Account No.:{account.AccountID}
+            </div> 
+            <div>
+                Balance:{account.Balance}
+            </div>
 
+            <form onSubmit={handleSubmit}>
                 <div>
                     Enter the amount to deposit: <input type="number" min="500" value={amount} onChange={handleAmount}  required/>
                 </div>
-               
                 <br/>
                 <div>
                     <button type="submit"> Deposit </button>
                 </div>
-               
             </form>
+            
         </div>
     );
 }

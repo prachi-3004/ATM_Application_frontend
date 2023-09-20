@@ -50,15 +50,14 @@ const TransferPage = () => {
     }
     return (
         <div>
-             <h1>Transfer Money</h1>
+            <h1>Transfer Money</h1>
+            <div>
+                Account No.:{senderAccount.AccountI}
+            </div> 
+            <div>
+                Balance:{senderAccount.Balance}
+            </div>
             <form onSubmit={handleSubmit}>
-                <div>
-                    Your Account No.:<input type="text" value={senderAccount.AccountID} readOnly />
-                </div> 
-                <div>
-                    Balance: <input type="text" value={senderAccount.Balance} readOnly/>
-                </div>
-                <br/>
                 <div>
                     Enter the recipient's account no.: <input type="text" value={recipientAccount.AccountID} onChange={handleRecipientAccount}   required/>
                 </div>
