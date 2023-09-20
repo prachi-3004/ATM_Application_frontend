@@ -27,6 +27,8 @@ const ChangePinPage = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
+            const res = {...account, newpassword};
+            console.log(res);
             axios
                 .post('https://localhost:7104/api/AtmUsers', res)//change
                 .then((response) => {

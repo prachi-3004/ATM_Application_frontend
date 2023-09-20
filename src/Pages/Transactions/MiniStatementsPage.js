@@ -30,9 +30,8 @@ const MiniStatementsPage = () => {
     return (
         <div>
             <h1> Transactions Statement</h1>
-            <div>
-                Account No.:{account.AccountID}
-            </div> 
+            <p>Account No.:{account.AccountID}</p> 
+            
             <table className = "mini statements table">
                 <thead>
                     <tr>

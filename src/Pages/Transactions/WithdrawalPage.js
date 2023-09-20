@@ -38,24 +38,18 @@ const WithdrawalPage = () => {
     }
     return (
         <div>
-             <h1>Withdrawal</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    Account No.:<input type="text" value={account.AccountID} readOnly />
-                </div> 
-                <div>
-                    Balance: <input type="text" value={account.Balance} readOnly/>
-                </div>
+            <h1>Withdrawal</h1>
+            <p>Account No.: {account.AccountID}</p>
+            <p>Balance: {account.Balance}</p>
 
+            <form onSubmit={handleSubmit}>
                 <div>
                     Enter the amount to withdraw: <input type="number" min="100" max={account.Balance} value={amount} onChange={handleAmount}  required/>
                 </div>
-               
                 <br/>
                 <div>
                     <button type="submit"> Withdraw </button>
                 </div>
-               
             </form>
         </div>
     );

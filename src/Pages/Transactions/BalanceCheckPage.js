@@ -1,21 +1,17 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
 import { AppContext } from '../../Context/AppContext';
+import { useNavigate } from 'react-router-dom';
 
 const BalanceCheckPage = () => {
 
     const [Error, setError] = useState('');
     const {account, setAccount}=useContext(AppContext);
-
+    const navigate = useNavigate();
 
     const handleRedirect = async (event) => {
         event.preventDefault();
         try {
-            axios
-                .post('https://localhost:7104/api/AtmUsers', res)//change
-                .then((response) => {
-                    console.log("redirect worked properly");
-                });
+            navigate('/transactions');
         }
         catch (error) {
             setError(error.Message);

@@ -9,7 +9,7 @@ const CurrencyExchangeComponent = () => {
   return (
     <div className="currency-exchange">
       <select name="" id = "">
-        <option value = "" 
+        <option value = ""></option>
       </select>
     </div>
   );
