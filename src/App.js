@@ -3,12 +3,13 @@ import AddCustomerPage from "./Pages/AddCustomerPage";
 import LoginPage from "./Pages/LoginPage";
 import GetCustomer from "./Pages/GetCustomer";
 import CreateAccountPage from "./Pages/CreateAccountPage";
+import GetAccountDetails from "./Pages/GetAccountDetails";
 import { createBrowserRouter } from "react-router-dom";
 import { AppProvider } from "../src/Context/AppContext";
 import { RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import UpdateCustomerPage from "./Pages/UpdateCustomerPage";
-import DeleteCustomerPage from "./Pages/DeleteCustomerPage";
+import GetspecAccount from "./Pages/GetspecAccount";
 import NavbarComponent from "./Components/NavbarComponent";
 import NavbarComponentCustomer from "./Components/NavbarComponentCustomer";
 const router = createBrowserRouter([
@@ -34,10 +35,26 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/createaccount",
+    path: "/createaccount/:id",
     element: (
       <ProtectedRoute>
         <CreateAccountPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/getaccountdetails/:id",
+    element: (
+      <ProtectedRoute>
+        <GetAccountDetails />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/getaccountspec/:id",
+    element: (
+      <ProtectedRoute>
+        <GetspecAccount />
       </ProtectedRoute>
     ),
   },
@@ -62,14 +79,6 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <GetCustomer />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/deletecustomer/:id",
-    element: (
-      <ProtectedRoute>
-        <DeleteCustomerPage />
       </ProtectedRoute>
     ),
   },

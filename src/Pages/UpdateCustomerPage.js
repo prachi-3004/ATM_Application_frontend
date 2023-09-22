@@ -23,7 +23,7 @@ const UpdateCustomerPage = () => {
   if (!user.token) navigate("/");
 
   const getcust = async () => {
-    res = await axios.get("https://localhost:44307/api/Customer/" + id, {
+    res = await axios.get("https://localhost:44307/api/Customer/Get/" + id, {
       headers,
     });
     setCustomer(res.data);
@@ -36,14 +36,15 @@ const UpdateCustomerPage = () => {
     event.preventDefault();
     //console.log(customer);
     const response = await axios.put(
-      "https://localhost:44307/api/Customer/" + id,
+      "https://localhost:44307/api/Customer/UpdateDetails/" + id,
       customer,
       { headers }
     );
     setCustomer(response.data);
     //console.log(response.data);
     console.log(customer);
-    navigate("/navigateadmin");
+    if (user.role != 0) navigate("/navigateadmin");
+    else navigate("/navigatecustomer");
   };
   return (
     <div>

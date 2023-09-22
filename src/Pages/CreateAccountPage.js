@@ -1,18 +1,24 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { AppContext } from "../Context/AppContext";
+import { useNavigate, useParams } from "react-router-dom";
 const CreateAccountPage = () => {
+  const navigate = useNavigate();
   const [accountType, setAccountType] = useState("Savings");
   const [cardNo, setCardNo] = useState("");
+  const { id } = useParams();
   const [pinNo, setPinNo] = useState("");
   const [balance, setBalance] = useState(100);
+  const [doc, setDoc] = useState(new Date().toISOString() + "");
   const [Error, setError] = useState("");
   const { user, setUser } = useContext(AppContext);
   const [token, setToken] = useState("");
-  //const[account,setAccount]=useContext(AppContext);
-
+  useEffect(() => {
+    setToken(user.token);
+  }, [user.token]);
+  if (!user.token) navigate("/");
   const handleAccountType = (event) => {
-    console.log(event.target.value);
+    //console.log(event.target.value);
     setAccountType(event.target.value);
   };
 
@@ -40,32 +46,35 @@ const CreateAccountPage = () => {
         return;
       } else {
         const res = {
-          accounttype: accountType,
-          cardno: cardNo,
-          pinno: pinNo,
+          customerId: parseInt(id),
+          type: accountType,
+          cardNumber: cardNo,
+          dateOfCreation: doc,
+          pin: pinNo,
           balance: balance,
         };
         console.log(res);
         setToken(user.token);
         const headers = { Authorization: `Bearer${user.token}` };
         console.log(headers);
-        /*axios
-                    .post('https://localhost:7104/api/AtmUsers', res,{headers})//change
-                    //.get('./data.json')
-                    .then((response) => {
-                        if (response.status >= 200 && response.status < 300) {
-                            console.log(response);
-                            alert(`Account created successfully`);
-                            setAccountType('');
-                            setCardNo('');
-                            setPinNo('');
-                            setBalance(100);
-                        }
-                        else {
-                            alert("Account creation failed");
-                        }
-                    });
-                    */
+        const response = await axios.post(
+          "https://localhost:44307/api/Account/AddAccount",
+          res,
+          { headers }
+        );
+
+        if (response.status >= 200 && response.status < 300) {
+          console.log(response);
+          alert(`Account created successfully`);
+          setAccountType("Savings");
+          setCardNo("");
+          setDoc("");
+          setPinNo("");
+          setBalance(100);
+          navigate("/getcustomer/" + id);
+        } else {
+          alert("Account creation failed");
+        }
       }
     } catch (error) {
       setError(error.Message);
@@ -84,7 +93,6 @@ const CreateAccountPage = () => {
             <option value="Salary">Salary</option>
             <option value="Current">Current</option>
             <option value="FD">Fixed Deposit</option>
-            <option value="RD">Recurring Deposit</option>
           </select>
         </div>
         <div>

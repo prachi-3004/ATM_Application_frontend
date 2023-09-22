@@ -1,24 +1,75 @@
-import React,{useState} from React;
-
-const GetAccountDetails = ()=>{
-  // [custId,setcustId]=useState(null);
-  const [account,setAccount]=useState(null);
-  return(
-<div>
-<h3>Account Details</h3>
-<div>
-    {account && <div> Account ID: {account?.ID} </div>}
-    {account && <div> Account Type: {account?.Type} </div>}
-    {account && <div> Date of Creation: {account?.DateOfCreation} </div>}
-    {account && <div> Card Number: {account?.CardNumber} </div>}
-    {account && <div> Balance: {account?.Balance} </div>}
-
-
-    </div>
-    <div>
-        {!account && <div>Unable to fetch account details</div>}
-    </div>
-</div>
+import React, { useState, useContext, useEffect } from "react";
+import { AppContext } from "../Context/AppContext";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { AccountTable } from "../Components/AccountTable";
+const GetAccountDetails = () => {
+  const { user, setUser } = useContext(AppContext);
+  const [token, setToken] = useState("");
+  const [customer, setcustomer] = useState("");
+  const { id } = useParams();
+  const navigate = useNavigate();
+  var res = {};
+  const [account, setAccount] = useState([]);
+  useEffect(() => {
+    setToken(user.token);
+  }, [user.token]);
+  if (!user.token) navigate("/");
+  const [hadAccs, sethadAccs] = useState(false);
+  const headers = { Authorization: `Bearer${user.token}` };
+  const getAcc = async () => {
+    res = await axios.get(
+      "https://localhost:44307/api/Account/GetAccountByCustomer/" + id,
+      {
+        headers,
+      }
     );
-}
+    console.log(res.data);
+    if (res.data.length > 0) {
+      setAccount(res.data);
+      sethadAccs(true);
+      //console.log(account);
+    }
+  };
+
+  useEffect(() => {
+    getAcc();
+  }, [id]);
+  const handleDelete = async (idx) => {
+    const headers = { Authorization: `Bearer${user.token}` };
+    console.log(headers);
+    await axios.delete("https://localhost:7104/api/deleteaccount/" + idx, {
+      headers,
+    });
+    console.log("User deleted successfully!");
+  };
+  const handleView = async (idx) => {
+    await axios
+      .get("https://localhost:44307/api/Account/GetAccountByID/" + idx, {
+        headers,
+      })
+      .then((response) => setAccount(response.data));
+    if (account != null) navigate("/getaccountspec/" + idx);
+  };
+  return (
+    <div>
+      {hadAccs && (
+        <AccountTable
+          rows={account}
+          deleteRow={handleDelete}
+          viewRow={handleView}
+        />
+      )}
+
+      {!hadAccs && (
+        <div>
+          You don't have any accounts
+          <button onClick={() => navigate("/createaccount/" + id)}>
+            Click here to create account
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
 export default GetAccountDetails;
