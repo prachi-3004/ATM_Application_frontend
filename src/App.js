@@ -1,9 +1,9 @@
-import './App.css';
-import AddCustomerPage from './Pages/AddCustomerPage';
-import LoginPage from './Pages/LoginPage';
-import GetCustomerById from './Pages/GetCustomerById';
-import CreateAccountPage from './Pages/CreateAccountPage';
-import { createBrowserRouter } from 'react-router-dom';
+import "./App.css";
+import AddCustomerPage from "./Pages/AddCustomerPage";
+import LoginPage from "./Pages/LoginPage";
+import GetCustomer from "./Pages/GetCustomer";
+import CreateAccountPage from "./Pages/CreateAccountPage";
+import { createBrowserRouter } from "react-router-dom";
 import { AppProvider } from "../src/Context/AppContext";
 import { RouterProvider } from 'react-router-dom';
 import ProtectedRoute from './Components/ProtectedRoute';
@@ -16,80 +16,115 @@ import WithdrawalPage from './Pages/Transactions/WithdrawalPage';
 import DepositPage from './Pages/Transactions/DepositPage';
 import TransferPage from './Pages/Transactions/TransferPage';
 import BalanceCheckPage from './Pages/Transactions/BalanceCheckPage';
+import MiniStatementsPage from "./Pages/Transactions/MiniStatementsPage";
+import ChangePinPage from "./Pages/ChangePinPage";
+
 const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage />,
   },
+
   {
     path: "/navigateadmin",
-    element: <NavbarComponent />,
+    element: (
+      <ProtectedRoute>
+        <NavbarComponent />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/navigatecustomer",
-    element:<NavbarComponentCustomer />,
+    element: (
+      <ProtectedRoute>
+        <NavbarComponentCustomer />
+      </ProtectedRoute>
+    ),
   },
-{
+  {
     path: "/createaccount",
-    element: <CreateAccountPage />,
+    element: (
+      <ProtectedRoute>
+        <CreateAccountPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/addcustomer",
-    element: <ProtectedRoute>
-      <AddCustomerPage />
-    </ProtectedRoute>
-  },
-  {
-    path: "/updatecustomer/",
-    element: <ProtectedRoute>
-      <UpdateCustomerPage />
-    </ProtectedRoute>
-  },
-  {
-    path: "/customer/getcustomer/",
-    element: <ProtectedRoute>
-      <GetCustomerById />
+    element: (
+      <ProtectedRoute>
+        <AddCustomerPage />
       </ProtectedRoute>
+    ),
   },
   {
-    path: "/deletecustomer/",
-    element: <ProtectedRoute>
-      <DeleteCustomerPage />
-    </ProtectedRoute>
+    path: "/updatecustomer/:id",
+    element: (
+      <ProtectedRoute>
+        <UpdateCustomerPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/getcustomer/:id",
+    element: (
+      <ProtectedRoute>
+        <GetCustomer />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/deletecustomer/:id",
+    element: (
+      <ProtectedRoute>
+        <DeleteCustomerPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/transactions",
     element: 
-    //<ProtectedRoute>
+    <ProtectedRoute>
       <TransactionsPage />
-    //</ProtectedRoute>
+    </ProtectedRoute>
   },
   {
-    path: "/transactions/withdrawal",
+    path: "/transactions/withdrawal/:id",
     element: 
-    //<ProtectedRoute>
+    <ProtectedRoute>
       <WithdrawalPage />
-    //</ProtectedRoute>
+    </ProtectedRoute>
   },
   {
-    path: "/transactions/deposit",
+    path: "/transactions/deposit/:id",
     element: <ProtectedRoute>
       <DepositPage />
     </ProtectedRoute>
   },
   {
-    path: "/transactions/transfer",
+    path: "/transactions/transfer/:id",
     element: <ProtectedRoute>
       <TransferPage />
     </ProtectedRoute>
   },
   {
-    path: "/transactions/balancecheck",
+    path: "/transactions/balancecheck/:id",
     element: <ProtectedRoute>
       <BalanceCheckPage />
     </ProtectedRoute>
   },
-
+  {
+    path: "/transactions/ministatements/:id",
+    element: <ProtectedRoute>
+      <MiniStatementsPage />
+    </ProtectedRoute>
+  },
+  {
+    path: "/transactions/changepin/:id",
+    element: <ProtectedRoute>
+      <ChangePinPage />
+    </ProtectedRoute>
+  },
   // {
   //   path: "/profile",
   //   element: <ProtectedRoute>
@@ -104,7 +139,6 @@ const App = () => {
       <RouterProvider router={router} />
     </AppProvider>
   );
-
-}
+};
 
 export default App;

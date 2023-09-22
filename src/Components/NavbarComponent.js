@@ -1,12 +1,18 @@
-import { hover } from '@testing-library/user-event/dist/hover';
-import React, {useContext} from 'react';
+import axios from 'axios';
+import React, {useContext,useState,useEffect} from 'react';
 import { NavLink, useNavigate } from "react-router-dom";
 import { AppContext } from '../Context/AppContext';
+import MainPage from '../Pages/MainPage';
 import "./NavbarComponent.css";
 const NavbarComponent = () => {
   //const navigate = useNavigate();
-  
+  //const [custCount,setcustCount]=useState(0);
   const {user,setUser}=useContext(AppContext);
+  // const getcustCount= async()=>{
+  //   await axios.get('').then((res)=>{setcustCount(res.data)});
+  // }
+  // useEffect(()=>{getcustCount()},[]);
+ 
   return (
     <div>
     <div className="navbar">
@@ -22,6 +28,16 @@ const NavbarComponent = () => {
       </div>
     </div>
     <h1>Welcome Admin</h1>
+    <MainPage/>
+    {/* <div className="row">
+      <div className="col">
+        <div className="grid">
+          <span className="heading">Customers Registered</span>
+          <br/>
+          <span className="value">{custCount}</span>
+        </div>
+      </div>
+    </div> */}
     </div>
   );
  }

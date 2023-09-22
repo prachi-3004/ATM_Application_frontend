@@ -14,6 +14,8 @@ const NavbarComponentCustomer = () => {
         <li className="nav-link"><NavLink to="/">Update Details</NavLink></li>
         <li className="nav-link"><NavLink to="/">Update Account details</NavLink></li>
         <li className="nav-link"><NavLink to="/">Get Account details</NavLink></li>
+        <li className="nav-link"><NavLink to="/transactions">Transactions</NavLink></li>
+
         <li className="nav-link"><NavLink to="/login" onClick={()=>setUser(null)}>Logout</NavLink></li>
        </ul>
 

@@ -1,21 +1,19 @@
-import { createContext,useState, useEffect } from "react";
-
+import { createContext, useState, useEffect } from "react";
 
 const AppContext = createContext(); //to create the context
-
-//children - 
+//children -
 const AppProvider = ({ children }) => {
-    
-    const[user,setUser]=useState(null);
+  const [user, setUser] = useState();
 
-    // useEffect(()=>{
-    //     console.log("useffect",user)
-    // },[user])
+  // useEffect(()=>{
+  //     console.log("useffect",user)
+  // },[user])
 
-
-    return <AppContext.Provider value={{user,setUser}}>
-        {children}
+  return (
+    <AppContext.Provider value={{ user, setUser }}>
+      {children}
     </AppContext.Provider>
-}
+  );
+};
 
-export {AppProvider,AppContext};
+export { AppProvider, AppContext };
