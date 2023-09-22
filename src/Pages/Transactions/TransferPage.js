@@ -1,41 +1,44 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
-import { AppContext } from "../../Context/AppContext";
+
 const TransferPage = () => {
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login")).token
   );
 
   const { id } = useParams();
-
   const navigate = useNavigate();
+
   var res = {};
 
   const headers = { Authorization: `Bearer${token}` };
 
-  const [recipientId, setRecipientId] = useState("");
+  const [recipientId, setRecipientId] = useState(null);
+
   const [recipientAccount, setRecipientAccount] = useState([]);
   const [senderAccount, setSenderAccount] = useState([]);
   const [senderBal, setSenderBal] = useState(0); //Sender's balance
   const [recipientBal, setRecipientBal] = useState(0); //Recipient's balance
   const [amount, setAmount] = useState(0);
   const [Error, setError] = useState("");
-
-  //console.log(id);
+  const [Curr, setCurr] = useState([]);
+  const [selcurr, setSelcurr] = useState("INR");
+  const [currRate, setCurrRate] = useState(0);
+  const [pin, setPin] = useState("");
 
   const handleAmount = (event) => {
     setAmount(event.target.value);
   };
-
-  //let recid=3002;
-
+  const handlePin = (event) => {
+    setPin(event.target.value);
+  };
   const handleRecipientId = (event) => {
     setRecipientId(event.target.value);
   };
 
   const getSenderAccount = async () => {
-    res = await axios.get(
+    const res = await axios.get(
       "https://localhost:44307/api/Account/GetAccountByID/" + id,
       {
         headers,
@@ -46,41 +49,72 @@ const TransferPage = () => {
   };
 
   const getRecipientAccount = async (recipientId) => {
-    var res1 = await axios.get(
-      "https://localhost:44307/api/Account/GetAccountByID/" + recipientId,
-      {
-        headers,
-      }
-    );
-    console.log(res1.data);
-    setRecipientAccount(res1.data);
+    if (recipientId != null) {
+      const res1 = await axios.get(
+        "https://localhost:44307/api/Account/GetAccountByID/" + recipientId,
+        {
+          headers,
+        }
+      );
+      console.log(res1.data);
+      setRecipientAccount(res1.data);
+    }
   };
 
   useEffect(() => {
     getSenderAccount();
   }, [id]);
 
-  // useEffect(() => {
-  //     getRecipientAccount();
-  //   }, [recipientId]);
+  const getCurr = async () => {
+    const res1 = await axios.get(
+      "https://localhost:44307/api/Currency/GetAll",
+      {
+        headers,
+      }
+    );
+    setCurr(res1.data);
+  };
+  useEffect(() => {
+    getCurr();
+  }, []);
+
+  const getCurrRate = async (selcurr) => {
+    if (selcurr != null) {
+      const res2 = await axios.get(
+        `https://localhost:44307/api/Currency/GetRate/${selcurr}`,
+        {
+          headers,
+        }
+      );
+      //console.log(res2);
+      console.log("Currency Rate got" + res2.data);
+      setCurrRate(res2.data);
+    }
+  };
+
+  useEffect(() => {
+    getCurrRate(selcurr);
+  }, [selcurr]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       getRecipientAccount(recipientId);
+      var amt = amount / currRate;
+      getRecipientAccount(recipientId);
       setSenderBal(senderAccount.balance);
-      setSenderBal(senderBal - amount);
-
-      setRecipientBal(recipientAccount.balance + amount);
+      setSenderBal(senderBal - amt);
+      setRecipientBal(recipientAccount.balance + amt);
 
       const request = {
         type: "Transfer",
-        amount: amount,
+        amount: parseInt(amt),
         senderId: id,
         recipientId: recipientId,
+        pin: pin,
       };
       console.log(request);
-      //console.log(recipient);
+
       axios
         .post("https://localhost:44307/api/Transaction", request)
         .then((response) => {
@@ -101,6 +135,18 @@ const TransferPage = () => {
       <p>Account No.:{senderAccount.id}</p>
       <p>Balance:{senderAccount.balance}</p>
       <form onSubmit={handleSubmit}>
+        <label>Select currency in which you want to transfer money:</label>
+        <select
+          name="Currency"
+          defaultValue="INR"
+          onChange={(e) => setSelcurr(e.target.value)}
+        >
+          {Curr.map((cur, index) => (
+            <option key={index} value={cur}>
+              {cur}
+            </option>
+          ))}
+        </select>
         <div>
           Enter the recipient's account no.:{" "}
           <input
@@ -114,7 +160,6 @@ const TransferPage = () => {
           Enter the amount to be transferred:{" "}
           <input
             type="number"
-            min="100"
             max={senderAccount.balance}
             value={amount}
             onChange={handleAmount}
@@ -122,6 +167,10 @@ const TransferPage = () => {
           />
         </div>
 
+        <div>
+          Enter PIN{" "}
+          <input type="password" value={pin} onChange={handlePin} required />
+        </div>
         <br />
         <div>
           <button type="submit"> Transfer </button>
