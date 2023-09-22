@@ -18,6 +18,7 @@ import TransferPage from "./Pages/Transactions/TransferPage";
 import DepositPage from "./Pages/Transactions/DepositPage";
 import MiniStatementsPage from "./Pages/Transactions/MiniStatementsPage";
 import ChangePinPage from "./Pages/ChangePinPage";
+import UpdateCredentials from "./Pages/UpdateCredentials";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -77,6 +78,14 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <UpdateCustomerPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/updatecredentials/:id",
+    element: (
+      <ProtectedRoute>
+        <UpdateCredentials />
       </ProtectedRoute>
     ),
   },

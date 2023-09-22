@@ -4,7 +4,9 @@ import { useNavigate, useParams } from "react-router";
 
 const MiniStatementsPage = () => {
   const [transactions, setTransactions] = useState([]);
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(
+    JSON.parse(window.localStorage.getItem("login")).token
+  );
   const [Error, setError] = useState("");
   const { id } = useParams();
   const navigate = useNavigate();

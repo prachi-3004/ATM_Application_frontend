@@ -1,10 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
-import { AppContext } from "../Context/AppContext";
+
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { AccountTable } from "../Components/AccountTable";
 const GetAccountDetails = () => {
-  const { user, setUser } = useContext(AppContext);
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login")).token
   );

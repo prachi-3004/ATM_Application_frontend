@@ -3,18 +3,16 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import { AppContext } from "../../Context/AppContext";
 const TransferPage = () => {
-  const { user, setUser } = useContext(AppContext);
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(
+    JSON.parse(window.localStorage.getItem("login")).token
+  );
+
   const { id } = useParams();
 
   const navigate = useNavigate();
   var res = {};
 
-  useEffect(() => {
-    setToken(user.token);
-  }, [user.token]);
-  if (user.token == null) navigate("/");
-  const headers = { Authorization: `Bearer${user.token}` };
+  const headers = { Authorization: `Bearer${token}` };
 
   const [recipientId, setRecipientId] = useState("");
   const [recipientAccount, setRecipientAccount] = useState([]);

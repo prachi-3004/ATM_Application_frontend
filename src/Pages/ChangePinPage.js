@@ -6,7 +6,9 @@ import { AppContext } from "../Context/AppContext";
 const ChangePinPage = () => {
   const { user, setUser } = useContext(AppContext);
   const [account, setAccount] = useState([]);
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(
+    JSON.parse(window.localStorage.getItem("login")).token
+  );
   const [Error, setError] = useState("");
   const { id } = useParams();
   const navigate = useNavigate();
