@@ -9,32 +9,29 @@ const DepositPage = () => {
   );
   const { id } = useParams();
   const navigate = useNavigate();
-  var res = {};
   const headers = { Authorization: `Bearer${token}` };
   const [balance, setBalance] = useState(0);
   const [amount, setAmount] = useState(0);
   const [Error, setError] = useState("");
   const [Curr, setCurr] = useState([]);
-  const [selcurr, setSelcurr] = useState("");
-  const [currRate, setCurrRate] = useState();
+  const [selcurr, setSelcurr] = useState("INR");
+  const [currRate, setCurrRate] = useState(0);
   const [pin, setPin] = useState("");
 
   const handleAmount = (event) => {
-    console.log(account);
     setAmount(event.target.value);
   };
   const handlePin = (event) => {
-    //console.log(account);
     setPin(event.target.value);
   };
+
   const getAccount = async () => {
-    res = await axios.get(
+    const res = await axios.get(
       "https://localhost:44307/api/Account/GetAccountByID/" + id,
       {
         headers,
       }
     );
-
     setAccount(res.data);
   };
 
@@ -43,65 +40,57 @@ const DepositPage = () => {
   }, [id]);
 
   const getCurr = async () => {
-    var res1 = await axios.get("https://localhost:44307/api/Currency/GetAll", {
-      headers,
-    });
-    console.log("Available Currencies" + res1.data);
+    const res1 = await axios.get(
+      "https://localhost:44307/api/Currency/GetAll",
+      {
+        headers,
+      }
+    );
     setCurr(res1.data);
   };
-
   useEffect(() => {
     getCurr();
   }, []);
 
-  const handleCurrencySelect = async (e) => {
-    console.log(e.target.value);
-    setSelcurr(e.target.value);
-  };
-
   const getCurrRate = async (selcurr) => {
-    //console.log(selcurr);
     if (selcurr != null) {
-      var res2 = await axios.get(
-        "https://localhost:44307/api/Currency/GetRate/" + selcurr,
+      const res2 = await axios.get(
+        `https://localhost:44307/api/Currency/GetRate/${selcurr}`,
         {
           headers,
         }
       );
-
-      console.log("Currency Rate" + res2.data);
+      //console.log(res2);
+      console.log("Currency Rate got" + res2.data);
       setCurrRate(res2.data);
     }
   };
 
   useEffect(() => {
-    getCurrRate();
+    getCurrRate(selcurr);
   }, [selcurr]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       setBalance(account.balance);
-      console.log(account.balance);
-      console.log(amount);
-      console.log(currRate);
-      console.log(amount / currRate);
-      console.log(balance + amount / currRate);
-      setBalance(balance + amount / currRate);
-
+      setBalance(account.balance + amount / currRate);
+      console.log(account.balance + amount / currRate);
+      var amt = amount / currRate;
       const request = {
         type: "Deposit",
-        amount: amount,
+        amount: parseInt(amt),
         RecipientId: id,
         pin: pin,
       };
       console.log(request);
+
       axios
         .post("https://localhost:44307/api/Transaction", request, { headers })
         .then((response) => {
           if (response.status >= 200 && response.status < 300) {
-            //console.log(response);
             alert("Deposit successful");
+            navigate("/getaccountspec/" + id);
           }
           if (response.status == 500) {
             alert("Deposit failed. Check the details entered");
@@ -125,16 +114,19 @@ const DepositPage = () => {
       <p>Balance: {account.balance}</p>
 
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Select currency in which you want to deposit money:</label>
-          <select name="Currencies" onChange={(e) => handleCurrencySelect(e)}>
-            {Curr.map((cur, index) => (
-              <option key={index} value={cur}>
-                {cur}
-              </option>
-            ))}
-          </select>
-        </div>
+        <label>Select currency in which you want to deposit money:</label>
+        <select
+          name="Currency"
+          defaultValue="INR"
+          onChange={(e) => setSelcurr(e.target.value)}
+        >
+          {Curr.map((cur, index) => (
+            <option key={index} value={cur}>
+              {cur}
+            </option>
+          ))}
+        </select>
+
         <div>
           Enter the amount to deposit:{" "}
           <input
