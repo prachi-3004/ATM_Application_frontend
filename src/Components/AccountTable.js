@@ -1,16 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import { BsFillTrashFill, BsBoxArrowUpRight } from "react-icons/bs";
-import { useNavigate, useParams } from "react-router-dom";
 import "./Table.css";
 import { AppContext } from "../Context/AppContext";
 export const AccountTable = ({ rows, deleteRow, viewRow }) => {
   const { user, setUser } = useContext(AppContext);
-  const [token, setToken] = useState("");
-  const navigate = useNavigate();
-  useEffect(() => {
-    setToken(user.token);
-  }, [user.token]);
-  if (!user.token) navigate("/");
   return (
     <div className="table-wrapper">
       <table className="table">
@@ -20,7 +13,7 @@ export const AccountTable = ({ rows, deleteRow, viewRow }) => {
             <th>Type</th>
             <th>Card Number</th>
             <th>Balance</th>
-            <th>Actions</th>
+            <th>View More</th>
           </tr>
         </thead>
         <tbody>
@@ -34,7 +27,7 @@ export const AccountTable = ({ rows, deleteRow, viewRow }) => {
 
                 <td className="fit">
                   <span className="actions">
-                    {user.role != 0 && (
+                    {user.role == 1 && (
                       <BsFillTrashFill
                         className="delete-btn"
                         onClick={() => deleteRow(row.id)}

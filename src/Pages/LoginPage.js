@@ -8,8 +8,9 @@ const LoginPage = () => {
   const [password, setpwd] = useState("");
   const [login, setLogin] = useState(false);
   const { user, setUser } = useContext(AppContext);
-  const [userType, setuserType] = useState("Customer");
+  const [userType, setuserType] = useState(0);
   const navigate = useNavigate();
+
   const handleUsername = (event) => {
     setUsername(event.target.value);
   };
@@ -24,44 +25,39 @@ const LoginPage = () => {
     };
     event.preventDefault();
     try {
-      //console.log(res);
       const response = await axios.post(
         "https://localhost:44307/api/Authorization",
         res
       );
       if (response.status >= 200 && response.status < 300) {
-        console.log(response.data);
         setLogin(true);
         setUser(response.data);
-
-        if (res.role == "Employee") {
+        window.localStorage.setItem("login", JSON.stringify(response.data));
+        if (res.role == 1) {
           navigate("/navigateadmin");
-        } else if (res.role == "Customer") {
+        } else if (res.role == 0) {
           navigate("/navigatecustomer");
         } else {
           alert("Invalid login credentials");
         }
       }
     } catch (error) {
+      alert("Login failed: " + error.message);
       console.log(error);
     }
   };
   return (
     <div>
       <h1>Login to ATM Banking</h1>
-      <form
-        style={{ align: "center" }}
-        className="loginform"
-        onSubmit={handleSubmit}
-      >
+      <form className="loginform" onSubmit={handleSubmit}>
         <div>
           Login as:
           <label>
             <input
               type="radio"
               value="Customer"
-              checked={userType === "Customer"}
-              onChange={() => setuserType("Customer")}
+              checked={userType === 0}
+              onChange={() => setuserType(0)}
             />
             Customer
           </label>
@@ -69,8 +65,8 @@ const LoginPage = () => {
             <input
               type="radio"
               value="Employee"
-              checked={userType === "Employee"}
-              onChange={() => setuserType("Employee")}
+              checked={userType === 1}
+              onChange={() => setuserType(1)}
             />
             Admin
           </label>

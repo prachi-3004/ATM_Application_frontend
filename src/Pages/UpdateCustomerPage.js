@@ -6,10 +6,12 @@ import { useNavigate, useParams } from "react-router-dom";
 const UpdateCustomerPage = () => {
   const [customer, setCustomer] = useState({});
   const { user, setUser } = useContext(AppContext);
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(
+    JSON.parse(window.localStorage.getItem("login")).token
+  );
   const { id } = useParams();
   const navigate = useNavigate();
-  const headers = { Authorization: `Bearer${user.token}` };
+  const headers = { Authorization: `Bearer${token}` };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,11 +19,6 @@ const UpdateCustomerPage = () => {
   };
 
   var res = {};
-  useEffect(() => {
-    setToken(user.token);
-  }, [user.token]);
-  if (!user.token) navigate("/");
-
   const getcust = async () => {
     res = await axios.get("https://localhost:44307/api/Customer/Get/" + id, {
       headers,
@@ -34,15 +31,15 @@ const UpdateCustomerPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    //console.log(customer);
+
     const response = await axios.put(
       "https://localhost:44307/api/Customer/UpdateDetails/" + id,
       customer,
       { headers }
     );
     setCustomer(response.data);
-    //console.log(response.data);
-    console.log(customer);
+
+    console.log("Updated Customer details:" + response.data);
     if (user.role != 0) navigate("/navigateadmin");
     else navigate("/navigatecustomer");
   };

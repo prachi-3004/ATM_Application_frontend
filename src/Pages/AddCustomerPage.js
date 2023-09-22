@@ -13,7 +13,9 @@ const AddCustomerPage = () => {
   const [password, setPassword] = useState("");
   const [Error, setError] = useState("");
   const { user, setUser } = useContext(AppContext);
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(
+    JSON.parse(window.localStorage.getItem("login")).token
+  );
   const navigate = useNavigate();
   const handleName = (event) => {
     setName(event.target.value);
@@ -72,8 +74,6 @@ const AddCustomerPage = () => {
         alert("Enter a valid email address");
         return;
       } else {
-        //console.log("User at addCustomer", user);
-        // navigate('/');
         const res = {
           name: name,
           userName: username,

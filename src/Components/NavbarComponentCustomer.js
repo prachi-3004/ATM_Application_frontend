@@ -4,25 +4,29 @@ import { AppContext } from "../Context/AppContext";
 import axios from "axios";
 import "./NavbarComponent.css";
 const NavbarComponentCustomer = () => {
-  const [Token, setToken] = useState("");
+  const [token, setToken] = useState(
+    JSON.parse(window.localStorage.getItem("login")).token
+  );
   const { user, setUser } = useContext(AppContext);
   const navigate = useNavigate("");
   var res = {};
-  useEffect(() => {
-    setToken(user.token);
-  }, [user.token]);
-  if (!user.token) navigate("/");
+
   const [customer, setCustomer] = useState(null);
-  const headers = { Authorization: `Bearer${user.token}` };
-  let id = 102;
+  const headers = { Authorization: `Bearer${token}` };
+  const id = JSON.parse(window.localStorage.getItem("login")).user_Id;
+  console.log(id);
+  const handleLogout = () => {
+    setUser(null);
+    window.localStorage.removeItem("login");
+  };
   const getcust = async () => {
     res = await axios.get("https://localhost:44307/api/Customer/Get/" + id, {
       headers,
     });
-    console.log(res.data);
+    console.log("Get Customer Details" + res.data);
     setCustomer(res.data);
   };
-  console.log(customer);
+
   useEffect(() => {
     getcust();
   }, []);
@@ -31,15 +35,16 @@ const NavbarComponentCustomer = () => {
       <div className="navbar">
         <div className="navbar-contents">
           <ul>
-            {/* <li className="nav-link"><NavLink to="/">Update Details</NavLink></li>
-        <li className="nav-link"><NavLink to="/">Update Account details</NavLink></li> */}
             <li className="nav-link">
               <NavLink to={`/getaccountdetails/${id}`}>
                 Get Account details
               </NavLink>
+              <NavLink to={`/updatecredentials/${id}`}>
+                Update Credentials
+              </NavLink>
             </li>
             <li className="nav-link">
-              <NavLink to="/login" onClick={() => setUser(null)}>
+              <NavLink to="/login" onClick={handleLogout}>
                 Logout
               </NavLink>
             </li>

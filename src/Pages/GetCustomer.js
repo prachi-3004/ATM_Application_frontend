@@ -1,29 +1,26 @@
 import React, { useState, useContext, useEffect } from "react";
-import { AppContext } from "../Context/AppContext";
+
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 const GetCustomer = () => {
-  const { user, setUser } = useContext(AppContext);
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(
+    JSON.parse(window.localStorage.getItem("login")).token
+  );
   const { id } = useParams();
   const navigate = useNavigate();
   var res = {};
-  const [account, setAccount] = useState([]);
-  useEffect(() => {
-    setToken(user.token);
-  }, [user.token]);
-  if (!user.token) navigate("/");
+
   const [customer, setCustomer] = useState({});
-  const headers = { Authorization: `Bearer${user.token}` };
+  const headers = { Authorization: `Bearer${token}` };
 
   const getcust = async () => {
     res = await axios.get("https://localhost:44307/api/Customer/Get/" + id, {
       headers,
     });
-    console.log(res.data);
+    //console.log(res.data);
     setCustomer(res.data);
   };
-  console.log(customer);
+
   useEffect(() => {
     getcust();
   }, [id]);

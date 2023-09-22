@@ -12,13 +12,11 @@ const CreateAccountPage = () => {
   const [doc, setDoc] = useState(new Date().toISOString() + "");
   const [Error, setError] = useState("");
   const { user, setUser } = useContext(AppContext);
-  const [token, setToken] = useState("");
-  useEffect(() => {
-    setToken(user.token);
-  }, [user.token]);
-  if (!user.token) navigate("/");
+  const [token, setToken] = useState(
+    JSON.parse(window.localStorage.getItem("login")).token
+  );
+
   const handleAccountType = (event) => {
-    //console.log(event.target.value);
     setAccountType(event.target.value);
   };
 
@@ -55,8 +53,8 @@ const CreateAccountPage = () => {
         };
         console.log(res);
         setToken(user.token);
-        const headers = { Authorization: `Bearer${user.token}` };
-        console.log(headers);
+        const headers = { Authorization: `Bearer${token}` };
+        //console.log(headers);
         const response = await axios.post(
           "https://localhost:44307/api/Account/AddAccount",
           res,

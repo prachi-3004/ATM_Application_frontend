@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useContext, useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AppContext } from "../Context/AppContext";
@@ -7,11 +6,13 @@ import "./NavbarComponent.css";
 const NavbarComponent = () => {
   const navigate = useNavigate();
   const { user, setUser } = useContext(AppContext);
-  const [token, setToken] = useState("");
-  useEffect(() => {
-    setToken(user.token);
-  }, [user.token]);
-  if (!user.token) navigate("/");
+  const [token, setToken] = useState(
+    JSON.parse(window.localStorage.getItem("login")).token
+  );
+  const handleLogout = () => {
+    setUser(null);
+    window.localStorage.removeItem("login");
+  };
 
   return (
     <div>
@@ -21,13 +22,9 @@ const NavbarComponent = () => {
             <li className="nav-link">
               <NavLink to="/addcustomer">Add Customer</NavLink>
             </li>
-            {/* <li className="nav-link">
-              <NavLink to="/customer/getcustomer">Get Customerdetails</NavLink>
-            </li>
-            <li className="nav-link"><NavLink to="/updatecustomer">Update Customer</NavLink></li>
-        <li className="nav-link"><NavLink to="/deletecustomer/">Delete Customer</NavLink></li> */}
+
             <li className="nav-link">
-              <NavLink to="/login" onClick={() => setUser(null)}>
+              <NavLink to="/login" onClick={handleLogout}>
                 Logout
               </NavLink>
             </li>
