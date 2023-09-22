@@ -13,7 +13,7 @@ export const AccountTable = ({ rows, deleteRow, viewRow }) => {
             <th>Type</th>
             <th>Card Number</th>
             <th>Balance</th>
-            <th>View More</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>

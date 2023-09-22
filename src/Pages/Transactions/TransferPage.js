@@ -121,6 +121,8 @@ const TransferPage = () => {
           if (response.status >= 200 && response.status < 300) {
             console.log(response);
             alert("Transfer successful");
+
+            navigate("/getaccountspec/" + id);
           } else {
             alert("Transfer failed");
           }

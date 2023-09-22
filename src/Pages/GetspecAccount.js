@@ -9,6 +9,9 @@ const GetspecAccount = () => {
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login")).token
   );
+  const [role, setRole] = useState(
+    JSON.parse(window.localStorage.getItem("login")).role
+  );
   const headers = { Authorization: `Bearer${token}` };
 
   const getAcc = async () => {
@@ -59,54 +62,56 @@ const GetspecAccount = () => {
         <div>{!account && <div>Unable to fetch account details</div>}</div>
       </div>
 
-      <div>
-        <h3>Please choose the type of transaction:</h3>
+      {role == 0 && (
+        <div>
+          <h3>Please choose the type of transaction:</h3>
 
-        <div>
-          <button type="submit" value="Withdrawal" onClick={handleWithdrawal}>
-            {" "}
-            Withdrawal{" "}
-          </button>
+          <div>
+            <button type="submit" value="Withdrawal" onClick={handleWithdrawal}>
+              {" "}
+              Withdrawal{" "}
+            </button>
+          </div>
+          <div>
+            <button type="submit" value="Deposit" onClick={handleDeposit}>
+              {" "}
+              Deposit{" "}
+            </button>
+          </div>
+          <div>
+            <button type="submit" value="Transfer" onClick={handleTransfer}>
+              {" "}
+              Transfer{" "}
+            </button>
+          </div>
+          <div>
+            <button
+              type="submit"
+              value="BalanceCheck"
+              onClick={handleBalanceCheck}
+            >
+              {" "}
+              Balance Check{" "}
+            </button>
+          </div>
+          <div>
+            <button
+              type="submit"
+              value="MiniStatements"
+              onClick={handleMiniStatements}
+            >
+              {" "}
+              Get Transaction History
+            </button>
+          </div>
+          <div>
+            <button type="submit" value="ChangePin" onClick={handleChangePin}>
+              {" "}
+              Change Pin
+            </button>
+          </div>
         </div>
-        <div>
-          <button type="submit" value="Deposit" onClick={handleDeposit}>
-            {" "}
-            Deposit{" "}
-          </button>
-        </div>
-        <div>
-          <button type="submit" value="Transfer" onClick={handleTransfer}>
-            {" "}
-            Transfer{" "}
-          </button>
-        </div>
-        <div>
-          <button
-            type="submit"
-            value="BalanceCheck"
-            onClick={handleBalanceCheck}
-          >
-            {" "}
-            Balance Check{" "}
-          </button>
-        </div>
-        <div>
-          <button
-            type="submit"
-            value="MiniStatements"
-            onClick={handleMiniStatements}
-          >
-            {" "}
-            Get Transaction History
-          </button>
-        </div>
-        <div>
-          <button type="submit" value="ChangePin" onClick={handleChangePin}>
-            {" "}
-            Change Pin
-          </button>
-        </div>
-      </div>
+      )}
     </div>
   );
 };
