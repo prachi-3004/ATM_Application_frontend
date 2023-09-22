@@ -12,6 +12,12 @@ import UpdateCustomerPage from "./Pages/UpdateCustomerPage";
 import GetspecAccount from "./Pages/GetspecAccount";
 import NavbarComponent from "./Components/NavbarComponent";
 import NavbarComponentCustomer from "./Components/NavbarComponentCustomer";
+import BalanceCheckPage from "./Pages/Transactions/BalanceCheckPage";
+import WithdrawalPage from "./Pages/Transactions/WithdrawalPage";
+import TransferPage from "./Pages/Transactions/TransferPage";
+import DepositPage from "./Pages/Transactions/DepositPage";
+import MiniStatementsPage from "./Pages/Transactions/MiniStatementsPage";
+import ChangePinPage from "./Pages/ChangePinPage";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -79,6 +85,54 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <GetCustomer />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/transactions/withdrawal/:id",
+    element: (
+      <ProtectedRoute>
+        <WithdrawalPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/transactions/deposit/:id",
+    element: (
+      <ProtectedRoute>
+        <DepositPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/transactions/transfer/:id",
+    element: (
+      <ProtectedRoute>
+        <TransferPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/transactions/balancecheck/:id",
+    element: (
+      <ProtectedRoute>
+        <BalanceCheckPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/transactions/ministatements/:id",
+    element: (
+      <ProtectedRoute>
+        <MiniStatementsPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/transactions/changepin/:id",
+    element: (
+      <ProtectedRoute>
+        <ChangePinPage />
       </ProtectedRoute>
     ),
   },

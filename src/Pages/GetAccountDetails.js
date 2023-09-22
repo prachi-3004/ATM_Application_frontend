@@ -5,18 +5,17 @@ import axios from "axios";
 import { AccountTable } from "../Components/AccountTable";
 const GetAccountDetails = () => {
   const { user, setUser } = useContext(AppContext);
-  const [token, setToken] = useState("");
-  const [customer, setcustomer] = useState("");
+  const [token, setToken] = useState(
+    JSON.parse(window.localStorage.getItem("login")).token
+  );
+
   const { id } = useParams();
   const navigate = useNavigate();
   var res = {};
   const [account, setAccount] = useState([]);
-  useEffect(() => {
-    setToken(user.token);
-  }, [user.token]);
-  if (!user.token) navigate("/");
+
   const [hadAccs, sethadAccs] = useState(false);
-  const headers = { Authorization: `Bearer${user.token}` };
+  const headers = { Authorization: `Bearer${token}` };
   const getAcc = async () => {
     res = await axios.get(
       "https://localhost:44307/api/Account/GetAccountByCustomer/" + id,
@@ -24,24 +23,25 @@ const GetAccountDetails = () => {
         headers,
       }
     );
-    console.log(res.data);
+    console.log("Got Account Details:" + res.data);
     if (res.data.length > 0) {
       setAccount(res.data);
       sethadAccs(true);
-      //console.log(account);
     }
   };
 
   useEffect(() => {
     getAcc();
   }, [id]);
+
   const handleDelete = async (idx) => {
-    const headers = { Authorization: `Bearer${user.token}` };
-    console.log(headers);
+    const headers = { Authorization: `Bearer${token}` };
+    //console.log(headers);
     await axios.delete("https://localhost:7104/api/deleteaccount/" + idx, {
       headers,
     });
     console.log("User deleted successfully!");
+    alert("User deleted successfully!");
   };
   const handleView = async (idx) => {
     await axios
@@ -50,6 +50,11 @@ const GetAccountDetails = () => {
       })
       .then((response) => setAccount(response.data));
     if (account != null) navigate("/getaccountspec/" + idx);
+    else {
+      alert("Couldn't fetch account details");
+      console.log("Couldn't fetch account details");
+      navigate("/login");
+    }
   };
   return (
     <div>
