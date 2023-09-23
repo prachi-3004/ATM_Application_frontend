@@ -43,8 +43,12 @@ const ChangePinPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      if (newpassword != confirmpassword) {
-        alert("Confirm Password does not match New Password. Try again.");
+      if (newpassword !== confirmpassword) {
+        toast.error("Both passwords doesnt match");
+        setNewPassword("");
+        setConfirmPassword("");
+      } else if (newpassword.length !== 4 || confirmpassword.length !== 4) {
+        toast.error("Password must be 4 characters long");
         setNewPassword("");
         setConfirmPassword("");
       } else {
@@ -69,6 +73,7 @@ const ChangePinPage = () => {
       }
     } catch (error) {
       setError(error.Message);
+      toast.error(error.Message);
     }
   };
   return (
@@ -81,6 +86,7 @@ const ChangePinPage = () => {
           <input
             type="password"
             value={newpassword}
+            placeholder="Enter your new password"
             onChange={handleNewPassword}
             required
           />
@@ -90,13 +96,14 @@ const ChangePinPage = () => {
           <input
             type="password"
             value={confirmpassword}
+            placeholder="Enter password again"
             onChange={handleConfirmPassword}
             required
           />
         </div>
         <br />
         <div>
-          <button type="submit"> OK </button>
+          <button type="submit"> Change </button>
         </div>
       </form>
       <br />

@@ -63,43 +63,52 @@ const WithdrawalPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      var amt = amount / currRate;
-      setBalance(account.balance);
-      if (account.balance - 100 > amt) {
-        setBalance(account.balance - amt);
-        //console.log(account.balance - amt);
+    if (amount < 0 || amount == null || !/^\d+$/.test(amount)) {
+      setError("Invalid Amount");
+      toast.error("Invalid Amount");
+      setPin("");
+      setAmount(0);
+    } else {
+      try {
+        if (amount > 0 && amount != NaN) {
+          var amt = amount / currRate;
+          setBalance(account.balance);
+          if (account.balance - 100 > amt) {
+            setBalance(account.balance - amt);
+            //console.log(account.balance - amt);
 
-        const request = {
-          type: "Withdrawal",
-          amount: parseInt(amt),
-          senderId: id,
-          pin: pin,
-        };
-        console.log(request);
-        axios
-          .post(transaction, request)
-          .then((response) => {
-            if (response.status >= 200 && response.status < 300) {
-              //console.log(response);
-              toast.success("Withdraw successful");
-              navigate("/getaccountspec/" + id);
-            }
-          })
-          .catch((error) => {
-            if (error.response && error.response.status === 500) {
-              toast.error(error.response.data);
-              setPin("");
-            } else {
-              toast.error("Withdrawal failed. Check the details entered");
-            }
-          });
-      } else {
-        toast.error("Insufficient balance");
+            const request = {
+              type: "Withdrawal",
+              amount: parseInt(amt),
+              senderId: id,
+              pin: pin,
+            };
+            console.log(request);
+            axios
+              .post(transaction, request)
+              .then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                  //console.log(response);
+                  toast.success("Withdraw successful");
+                  navigate("/getaccountspec/" + id);
+                }
+              })
+              .catch((error) => {
+                if (error.response && error.response.status === 500) {
+                  toast.error(error.response.data + " Please check your pin");
+                  setPin("");
+                } else {
+                  toast.error("Withdrawal failed. Check the details entered");
+                }
+              });
+          } else {
+            toast.error("Insufficient balance");
+          }
+        }
+      } catch (error) {
+        toast.error("Withdrawal failed" + error.Message);
+        setError(error.Message);
       }
-    } catch (error) {
-      toast.error("Withdrawal failed" + error.Message);
-      setError(error.Message);
     }
   };
   return (
@@ -133,7 +142,13 @@ const WithdrawalPage = () => {
         </div>
         <div>
           Enter PIN{" "}
-          <input type="password" value={pin} onChange={handlePin} required />
+          <input
+            type="password"
+            value={pin}
+            placeholder="Enter ATM Pin"
+            onChange={handlePin}
+            required
+          />
         </div>
         <br />
         <div>
