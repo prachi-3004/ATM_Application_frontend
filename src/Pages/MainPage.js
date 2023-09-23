@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Table } from "../Components/Table";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getcusts } from "../Routes";
 const MainPage = () => {
   const navigate = useNavigate();
   const [rows, setRows] = useState([]);
@@ -13,7 +14,7 @@ const MainPage = () => {
     JSON.parse(window.localStorage.getItem("login")).token
   );
   const headers = { Authorization: `Bearer${token}` };
-  console.log(headers);
+  //console.log(headers);
   const handleDeleteRow = async (idx) => {
     await axios.delete("" + idx, {
       headers,
@@ -36,9 +37,7 @@ const MainPage = () => {
     navigate(`/getcustomer/${idx}`);
   };
   useEffect(() => {
-    axios
-      .get("https://localhost:44307/api/Customer/GetAll")
-      .then((res) => setRows(res.data));
+    axios.get(getcusts).then((res) => setRows(res.data));
   }, []);
 
   return (

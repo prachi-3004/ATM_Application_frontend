@@ -5,6 +5,7 @@ import axios from "axios";
 import "./NavbarComponent.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getcustomer } from "../Routes";
 const NavbarComponentCustomer = () => {
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login")).token
@@ -16,17 +17,17 @@ const NavbarComponentCustomer = () => {
   const [customer, setCustomer] = useState(null);
   const headers = { Authorization: `Bearer${token}` };
   const id = JSON.parse(window.localStorage.getItem("login")).user_Id;
-  console.log(id);
+  //console.log(id);
   const handleLogout = () => {
     setUser(null);
-    toast.success(`User ${user.name} logged out`);
+    toast.success(`User ${customer.name} logged out`);
     window.localStorage.removeItem("login");
   };
   const getcust = async () => {
-    res = await axios.get("https://localhost:44307/api/Customer/Get/" + id, {
+    res = await axios.get(getcustomer + id, {
       headers,
     });
-    console.log("Get Customer Details" + res.data);
+    //console.log("Get Customer Details" + res.data);
     setCustomer(res.data);
   };
 

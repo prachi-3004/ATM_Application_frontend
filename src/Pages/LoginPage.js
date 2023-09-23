@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./LoginPage.css";
+import { authorize } from "../Routes";
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setpwd] = useState("");
@@ -27,10 +28,9 @@ const LoginPage = () => {
     };
     event.preventDefault();
     try {
-      const response = await axios.post(
-        "https://localhost:44307/api/Authorization",
-        res
-      );
+      console.log(authorize);
+      console.log(res);
+      const response = await axios.post(authorize, res);
       if (response.status >= 200 && response.status < 300) {
         setLogin(true);
         setUser(response.data);

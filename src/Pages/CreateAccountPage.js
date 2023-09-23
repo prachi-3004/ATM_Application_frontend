@@ -3,6 +3,7 @@ import axios from "axios";
 import { AppContext } from "../Context/AppContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { addacc } from "../Routes";
 import "react-toastify/dist/ReactToastify.css";
 const CreateAccountPage = () => {
   const navigate = useNavigate();
@@ -57,11 +58,7 @@ const CreateAccountPage = () => {
         setToken(user.token);
         const headers = { Authorization: `Bearer${token}` };
         //console.log(headers);
-        const response = await axios.post(
-          "https://localhost:44307/api/Account/AddAccount",
-          res,
-          { headers }
-        );
+        const response = await axios.post(addacc, res, { headers });
 
         if (response.status >= 200 && response.status < 300) {
           console.log(response);

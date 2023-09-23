@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getcustomer, updatecredentials } from "../Routes";
 const UpdateCredentials = () => {
   const [customer, setCustomer] = useState("");
   const navigate = useNavigate();
@@ -17,12 +18,9 @@ const UpdateCredentials = () => {
     setCustomer((prev) => ({ ...prev, [name]: value }));
   };
   const getcust = async () => {
-    const res = await axios.get(
-      "https://localhost:44307/api/Customer/Get/" + id,
-      {
-        headers,
-      }
-    );
+    const res = await axios.get(getcustomer + id, {
+      headers,
+    });
     //console.log(res.data);
     setCustomer(res.data);
   };
@@ -37,11 +35,7 @@ const UpdateCredentials = () => {
       password: customer.password,
       role: 0,
     };
-    const response = await axios.put(
-      "https://localhost:44307/api/Customer/UpdateCredentials/" + id,
-      res,
-      { headers }
-    );
+    const response = await axios.put(updatecredentials + id, res, { headers });
     //setCustomer(response.data);
 
     console.log("Updated Customer details:" + response.data);

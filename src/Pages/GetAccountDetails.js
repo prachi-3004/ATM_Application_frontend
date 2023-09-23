@@ -5,6 +5,7 @@ import axios from "axios";
 import { AccountTable } from "../Components/AccountTable";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getaccbycustid, getaccbyid } from "../Routes";
 const GetAccountDetails = () => {
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login")).token
@@ -18,13 +19,10 @@ const GetAccountDetails = () => {
   const [hadAccs, sethadAccs] = useState(false);
   const headers = { Authorization: `Bearer${token}` };
   const getAcc = async () => {
-    res = await axios.get(
-      "https://localhost:44307/api/Account/GetAccountByCustomer/" + id,
-      {
-        headers,
-      }
-    );
-    console.log("Got Account Details:" + res.data);
+    res = await axios.get(getaccbycustid + id, {
+      headers,
+    });
+    //console.log("Got Account Details:" + res.data);
     if (res.data.length > 0) {
       setAccount(res.data);
       sethadAccs(true);
@@ -38,7 +36,7 @@ const GetAccountDetails = () => {
   const handleDelete = async (idx) => {
     const headers = { Authorization: `Bearer${token}` };
     //console.log(headers);
-    await axios.delete("https://localhost:7104/api/deleteaccount/" + idx, {
+    await axios.delete("" + idx, {
       headers,
     });
     console.log("User deleted successfully!");
@@ -46,7 +44,7 @@ const GetAccountDetails = () => {
   };
   const handleView = async (idx) => {
     await axios
-      .get("https://localhost:44307/api/Account/GetAccountByID/" + idx, {
+      .get(getaccbyid + idx, {
         headers,
       })
       .then((response) => setAccount(response.data));

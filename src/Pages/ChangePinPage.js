@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getaccbyid } from "../Routes";
 const ChangePinPage = () => {
   const [account, setAccount] = useState([]);
   const [token, setToken] = useState(
@@ -18,22 +19,19 @@ const ChangePinPage = () => {
   const [confirmpassword, setConfirmPassword] = useState("");
 
   const handleNewPassword = (event) => {
-    console.log(event.target.value);
+    //console.log(event.target.value);
     setNewPassword(event.target.value);
   };
 
   const handleConfirmPassword = (event) => {
-    console.log(event.target.value);
+    //console.log(event.target.value);
     setConfirmPassword(event.target.value);
   };
 
   const getAccount = async () => {
-    const res = await axios.get(
-      "https://localhost:44307/api/Account/GetAccountByID/" + id,
-      {
-        headers,
-      }
-    );
+    const res = await axios.get(getaccbyid + id, {
+      headers,
+    });
     //console.log("resdata" + res.data);
     setAccount(res.data);
   };

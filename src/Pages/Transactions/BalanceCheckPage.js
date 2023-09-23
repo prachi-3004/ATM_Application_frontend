@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getaccbyid } from "../../Routes";
 const BalanceCheckPage = () => {
   const [account, setAccount] = useState([]);
   const [token, setToken] = useState(
@@ -16,15 +17,16 @@ const BalanceCheckPage = () => {
 
   const getAccount = async () => {
     if (id != null) {
-      const res = await axios.get(
-        "https://localhost:44307/api/Account/GetAccountByID/" + id,
-        {
-          headers,
-        }
-      );
+      const res = await axios.get(getaccbyid + id, {
+        headers,
+      });
       //console.log("resdata" + res.data);
-      setAccount(res.data);
-      toast.success("Balance fetched successfully");
+      if (res.data) {
+        setAccount(res.data);
+        //toast.success("Balance fetched successfully");
+      } else {
+        toast.error("Something went wrong");
+      }
     }
   };
 

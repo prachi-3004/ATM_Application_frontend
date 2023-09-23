@@ -4,6 +4,7 @@ import validator from "validator";
 import { AppContext } from "../Context/AppContext";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { addcust } from "../Routes";
 import "react-toastify/dist/ReactToastify.css";
 const AddCustomerPage = () => {
   const [name, setName] = useState("");
@@ -91,7 +92,7 @@ const AddCustomerPage = () => {
         console.log(headers);
         console.log(res);
         axios
-          .post("https://localhost:44307/api/Customer/Add", res, {
+          .post(addcust, res, {
             headers,
           })
           //.get('./data.json')

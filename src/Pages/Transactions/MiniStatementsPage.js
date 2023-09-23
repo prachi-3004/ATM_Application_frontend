@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { gettransactionhistory } from "../../Routes";
 const MiniStatementsPage = () => {
   const [transactions, setTransactions] = useState([]);
   const [token, setToken] = useState(
@@ -14,14 +15,11 @@ const MiniStatementsPage = () => {
   const headers = { Authorization: `Bearer${token}` };
 
   const getTransactions = async () => {
-    const res = await axios.get(
-      "https://localhost:44307/api/Transaction?id=" + id,
-      {
-        headers,
-      }
-    );
+    const res = await axios.get(gettransactionhistory + id, {
+      headers,
+    });
     console.log("Transactions " + res.data);
-    toast.success("Fetched transaction successfully");
+    //toast.success("Fetched transaction successfully");
     setTransactions(res.data);
   };
 

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getaccbyid, getallcurr, getcurrrate, transaction } from "../../Routes";
 const TransferPage = () => {
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login")).token
@@ -39,24 +40,18 @@ const TransferPage = () => {
   };
 
   const getSenderAccount = async () => {
-    const res = await axios.get(
-      "https://localhost:44307/api/Account/GetAccountByID/" + id,
-      {
-        headers,
-      }
-    );
+    const res = await axios.get(getaccbyid + id, {
+      headers,
+    });
     console.log(res.data);
     setSenderAccount(res.data);
   };
 
   const getRecipientAccount = async (recipientId) => {
     if (recipientId != null) {
-      const res1 = await axios.get(
-        "https://localhost:44307/api/Account/GetAccountByID/" + recipientId,
-        {
-          headers,
-        }
-      );
+      const res1 = await axios.get(getaccbyid + recipientId, {
+        headers,
+      });
       console.log(res1.data);
       setRecipientAccount(res1.data);
     }
@@ -67,12 +62,9 @@ const TransferPage = () => {
   }, [id]);
 
   const getCurr = async () => {
-    const res1 = await axios.get(
-      "https://localhost:44307/api/Currency/GetAll",
-      {
-        headers,
-      }
-    );
+    const res1 = await axios.get(getallcurr, {
+      headers,
+    });
     setCurr(res1.data);
   };
   useEffect(() => {
@@ -81,12 +73,9 @@ const TransferPage = () => {
 
   const getCurrRate = async (selcurr) => {
     if (selcurr != null) {
-      const res2 = await axios.get(
-        `https://localhost:44307/api/Currency/GetRate/${selcurr}`,
-        {
-          headers,
-        }
-      );
+      const res2 = await axios.get(getcurrrate + selcurr, {
+        headers,
+      });
       //console.log(res2);
       console.log("Currency Rate got" + res2.data);
       setCurrRate(res2.data);
@@ -103,8 +92,9 @@ const TransferPage = () => {
       getRecipientAccount(recipientId);
       var amt = amount / currRate;
       setSenderBal(senderAccount.balance);
-      setSenderBal(senderBal - amt);
-      if (senderBal - 100 > amt) {
+
+      if (senderAccount.balance - 100 > amt) {
+        setSenderBal(senderBal - amt);
         setRecipientBal(recipientAccount.balance + amt);
 
         const request = {
@@ -116,18 +106,17 @@ const TransferPage = () => {
         };
         console.log(request);
 
-        axios
-          .post("https://localhost:44307/api/Transaction", request)
-          .then((response) => {
-            if (response.status >= 200 && response.status < 300) {
-              console.log(response);
-              toast.success("Transfer successful");
+        axios.post(transaction, request).then((response) => {
+          if (response.status >= 200 && response.status < 300) {
+            console.log(response);
+            toast.success("Transfer successful");
 
-              navigate("/getaccountspec/" + id);
-            } else {
-              toast.error("Transfer failed");
-            }
-          });
+            navigate("/getaccountspec/" + id);
+          }
+          if (response.data === 0) {
+            toast.error("Transfer failed");
+          }
+        });
       } else {
         toast.error("Insufficient balance");
       }

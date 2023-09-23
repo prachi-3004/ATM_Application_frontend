@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-
+import { getcustomer } from "../Routes";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 const GetCustomer = () => {
@@ -14,7 +14,7 @@ const GetCustomer = () => {
   const headers = { Authorization: `Bearer${token}` };
 
   const getcust = async () => {
-    res = await axios.get("https://localhost:44307/api/Customer/Get/" + id, {
+    res = await axios.get(getcustomer + id, {
       headers,
     });
     //console.log(res.data);

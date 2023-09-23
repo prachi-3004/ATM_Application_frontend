@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getaccbyid, getallcurr, getcurrrate, transaction } from "../../Routes";
 const DepositPage = () => {
   const [account, setAccount] = useState([]);
   const [token, setToken] = useState(
@@ -27,12 +28,9 @@ const DepositPage = () => {
   };
 
   const getAccount = async () => {
-    const res = await axios.get(
-      "https://localhost:44307/api/Account/GetAccountByID/" + id,
-      {
-        headers,
-      }
-    );
+    const res = await axios.get(getaccbyid + id, {
+      headers,
+    });
     setAccount(res.data);
   };
 
@@ -41,12 +39,9 @@ const DepositPage = () => {
   }, [id]);
 
   const getCurr = async () => {
-    const res1 = await axios.get(
-      "https://localhost:44307/api/Currency/GetAll",
-      {
-        headers,
-      }
-    );
+    const res1 = await axios.get(getallcurr, {
+      headers,
+    });
     setCurr(res1.data);
   };
   useEffect(() => {
@@ -55,12 +50,9 @@ const DepositPage = () => {
 
   const getCurrRate = async (selcurr) => {
     if (selcurr != null) {
-      const res2 = await axios.get(
-        `https://localhost:44307/api/Currency/GetRate/${selcurr}`,
-        {
-          headers,
-        }
-      );
+      const res2 = await axios.get(getcurrrate + selcurr, {
+        headers,
+      });
       //console.log(res2);
       console.log("Currency Rate got" + res2.data);
       setCurrRate(res2.data);
@@ -86,20 +78,19 @@ const DepositPage = () => {
       };
       console.log(request);
 
-      axios
-        .post("https://localhost:44307/api/Transaction", request, { headers })
-        .then((response) => {
-          if (response.status >= 200 && response.status < 300) {
-            toast.success("Deposit successful");
-            navigate("/getaccountspec/" + id);
-          }
-          if (response.status == 500) {
-            toast.error("Deposit failed. Check the details entered");
-            setPin("");
-            setAmount(0);
-            setSelcurr("");
-          }
-        });
+      axios.post(transaction, request, { headers }).then((response) => {
+        console.log(response);
+        if (response.status >= 200 && response.status < 300) {
+          toast.success("Deposit successful");
+          navigate("/getaccountspec/" + id);
+        }
+        if (response.data === 0) {
+          toast.error("Deposit failed. Check the details entered");
+          setPin("");
+          setAmount(0);
+          setSelcurr("");
+        }
+      });
     } catch (error) {
       toast.error("Deposit failed. Check the details entered");
       setPin("");

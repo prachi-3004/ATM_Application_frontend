@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { getaccbyid } from "../Routes";
 
 const GetspecAccount = () => {
   const [account, setAccount] = useState({});
@@ -15,12 +16,9 @@ const GetspecAccount = () => {
   const headers = { Authorization: `Bearer${token}` };
 
   const getAcc = async () => {
-    const res = await axios.get(
-      "https://localhost:44307/api/Account/GetAccountByID/" + id,
-      {
-        headers,
-      }
-    );
+    const res = await axios.get(getaccbyid + id, {
+      headers,
+    });
 
     setAccount(res.data);
   };

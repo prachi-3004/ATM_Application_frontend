@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
+import { getaccbyid, transaction, getallcurr, getcurrrate } from "../../Routes";
 import "react-toastify/dist/ReactToastify.css";
 const WithdrawalPage = () => {
   const [account, setAccount] = useState([]);
@@ -26,12 +27,9 @@ const WithdrawalPage = () => {
     setPin(event.target.value);
   };
   const getAccount = async () => {
-    const res = await axios.get(
-      "https://localhost:44307/api/Account/GetAccountByID/" + id,
-      {
-        headers,
-      }
-    );
+    const res = await axios.get(getaccbyid + id, {
+      headers,
+    });
     setAccount(res.data);
   };
 
@@ -40,12 +38,9 @@ const WithdrawalPage = () => {
   }, [id]);
 
   const getCurr = async () => {
-    const res1 = await axios.get(
-      "https://localhost:44307/api/Currency/GetAll",
-      {
-        headers,
-      }
-    );
+    const res1 = await axios.get(getallcurr, {
+      headers,
+    });
     setCurr(res1.data);
   };
   useEffect(() => {
@@ -53,12 +48,9 @@ const WithdrawalPage = () => {
   }, []);
   const getCurrRate = async (selcurr) => {
     if (selcurr != null) {
-      const res2 = await axios.get(
-        `https://localhost:44307/api/Currency/GetRate/${selcurr}`,
-        {
-          headers,
-        }
-      );
+      const res2 = await axios.get(getcurrrate + selcurr, {
+        headers,
+      });
       //console.log(res2);
       console.log("Currency Rate got" + res2.data);
       setCurrRate(res2.data);
@@ -76,7 +68,7 @@ const WithdrawalPage = () => {
       setBalance(account.balance);
       if (account.balance - 100 > amt) {
         setBalance(account.balance - amt);
-        console.log(account.balance - amt);
+        //console.log(account.balance - amt);
 
         const request = {
           type: "Withdrawal",
@@ -85,22 +77,21 @@ const WithdrawalPage = () => {
           pin: pin,
         };
         console.log(request);
-        axios
-          .post("https://localhost:44307/api/Transaction", request)
-          .then((response) => {
-            if (response.status >= 200 && response.status < 300) {
-              //console.log(response);
-              toast.success("Withdraw successful");
-              navigate("/getaccountspec/" + id);
-            } else {
-              toast.error("Withdrawal failed");
-            }
-          });
+        axios.post(transaction, request).then((response) => {
+          if (response.status >= 200 && response.status < 300) {
+            //console.log(response);
+            toast.success("Withdraw successful");
+            navigate("/getaccountspec/" + id);
+          }
+          if (response.data === 0) {
+            toast.error("Withdrawal failed");
+          }
+        });
       } else {
         toast.error("Insufficient balance");
       }
     } catch (error) {
-      toast.error("Withdrawal failed");
+      toast.error("Withdrawal failed" + error.Message);
       setError(error.Message);
     }
   };

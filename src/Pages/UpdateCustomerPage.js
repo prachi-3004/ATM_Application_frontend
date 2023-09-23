@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getcustomer, updatedetails } from "../Routes";
 const UpdateCustomerPage = () => {
   const [customer, setCustomer] = useState({});
   const { user, setUser } = useContext(AppContext);
@@ -21,7 +22,7 @@ const UpdateCustomerPage = () => {
 
   var res = {};
   const getcust = async () => {
-    res = await axios.get("https://localhost:44307/api/Customer/Get/" + id, {
+    res = await axios.get(getcustomer + id, {
       headers,
     });
     setCustomer(res.data);
@@ -33,11 +34,7 @@ const UpdateCustomerPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const response = await axios.put(
-      "https://localhost:44307/api/Customer/UpdateDetails/" + id,
-      customer,
-      { headers }
-    );
+    const response = await axios.put(updatedetails + id, customer, { headers });
     setCustomer(response.data);
     toast.success("Updated details successfully");
     console.log("Updated Customer details:" + response.data);
