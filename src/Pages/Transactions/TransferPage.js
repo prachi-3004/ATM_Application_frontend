@@ -106,17 +106,24 @@ const TransferPage = () => {
         };
         console.log(request);
 
-        axios.post(transaction, request).then((response) => {
-          if (response.status >= 200 && response.status < 300) {
-            console.log(response);
-            toast.success("Transfer successful");
+        axios
+          .post(transaction, request)
+          .then((response) => {
+            if (response.status >= 200 && response.status < 300) {
+              //console.log(response);
+              toast.success("Transfer successful");
 
-            navigate("/getaccountspec/" + id);
-          }
-          if (response.data === 0) {
-            toast.error("Transfer failed");
-          }
-        });
+              navigate("/getaccountspec/" + id);
+            }
+          })
+          .catch((error) => {
+            if (error.response && error.response.status === 500) {
+              toast.error(error.response.data);
+              setPin("");
+            } else {
+              toast.error("Transfer failed. Check the details entered");
+            }
+          });
       } else {
         toast.error("Insufficient balance");
       }

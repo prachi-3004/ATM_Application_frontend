@@ -78,28 +78,25 @@ const DepositPage = () => {
       };
       console.log(request);
 
-      axios.post(transaction, request, { headers }).then((response) => {
-        console.log(response);
-        if (response.status >= 200 && response.status < 300) {
-          toast.success("Deposit successful");
-          navigate("/getaccountspec/" + id);
-        }
-        if (response.data === 0) {
-          toast.error("Deposit failed. Check the details entered");
-          setPin("");
-          setAmount(0);
-          setSelcurr("");
-        }
-      });
+      axios
+        .post(transaction, request, { headers })
+        .then((response) => {
+          if (response.status >= 200 && response.status < 300) {
+            toast.success("Deposit successful");
+            navigate("/getaccountspec/" + id);
+          }
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 500) {
+            toast.error(error.response.data);
+            setPin("");
+          } else {
+            toast.error("Deposit failed. Check the details entered");
+          }
+        });
     } catch (error) {
-      if (error.response.status === 500) {
-        toast.error(error.response.data);
-      } else {
-        toast.error("Deposit failed. Check the details entered");
-      }
-      setPin("");
-      setAmount(0);
-      setSelcurr("");
+      console.log(error.Message);
+      toast.error("Deposit failed. Check the details entered");
       setError(error.Message);
     }
   };
