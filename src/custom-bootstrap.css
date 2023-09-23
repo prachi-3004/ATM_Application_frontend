@@ -1,0 +1,20 @@
+/* Override Bootstrap variables */
+/* Override Bootstrap variables */
+:root {
+    --primary: #20B2AA; /* Custom primary color */
+    --body-bg: #333333; /* Custom background color */
+  }
+  
+  /* Import Bootstrap to make the changes */
+  @import 'bootstrap/dist/css/bootstrap.min.css';
+  
+  /* custom-styles.css */
+.btn-purple {
+    background-color: #20B2AA;
+    color: white; /* Set text color to contrast with the background */
+  }
+
+  
+  /* Import Bootstrap to make the changes */
+  @import 'bootstrap/dist/css/bootstrap.min.css';
+  

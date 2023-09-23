@@ -1,111 +1,114 @@
-import React, { useState, useContext, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate, useParams } from 'react-router';
-import { AppContext } from '../Context/AppContext';
-
+import React, { useState, useContext, useEffect } from "react";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { getaccbyid } from "../Routes";
 const ChangePinPage = () => {
+  const [account, setAccount] = useState([]);
+  const [token, setToken] = useState(
+    JSON.parse(window.localStorage.getItem("login")).token
+  );
+  const [Error, setError] = useState("");
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-    const { user, setUser } = useContext(AppContext);
-    const [account, setAccount]=useState([]);
-    const [token, setToken] = useState('');
-    const [Error, setError] = useState('');
-    const { id } = useParams();
-    const navigate = useNavigate();
-    var res={};
+  const headers = { Authorization: `Bearer${token}` };
 
-    useEffect(() => {
-        setToken(user.token);
-    }, [user.token]
-    );
-    if(user.token == null) navigate('/');
-    const headers = { Authorization: `Bearer${user.token}` };
+  const [newpassword, setNewPassword] = useState("");
+  const [confirmpassword, setConfirmPassword] = useState("");
 
-    const [oldpassword, setOldPassword] = useState('');
-    const [newpassword, setNewPassword] = useState('');
-    const [confirmpassword, setConfirmPassword] = useState('');
+  const handleNewPassword = (event) => {
+    //console.log(event.target.value);
+    setNewPassword(event.target.value);
+  };
 
-    const handleOldPassword = (event) => {
-        console.log(event.target.value);
-        setOldPassword(event.target.value);
-    }
+  const handleConfirmPassword = (event) => {
+    //console.log(event.target.value);
+    setConfirmPassword(event.target.value);
+  };
 
-    const handleNewPassword = (event) => {
-        console.log(event.target.value);
-        setNewPassword(event.target.value);
-    }
+  const getAccount = async () => {
+    const res = await axios.get(getaccbyid + id, {
+      headers,
+    });
+    //console.log("resdata" + res.data);
+    setAccount(res.data);
+  };
 
-    const handleConfirmPassword = (event) => {
-        console.log(event.target.value);
-        setConfirmPassword(event.target.value);
-    }
-    
-    const getAccount = async() => {
-        res = await axios.get("https://localhost:44307/api/Account/GetAccountByID/"+id, {
-            headers,
-        });
-        console.log("resdata"+res.data);
-        setAccount(res.data);
-    };
+  useEffect(() => {
+    getAccount();
+  }, [id]);
 
-    useEffect(() => {
-        getAccount();
-      }, [id]);
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        try {
-            if(newpassword != confirmpassword)
-            {
-                alert('Confirm Password does not match New Password. Try again.');
-                setNewPassword('');
-                setConfirmPassword('');
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      if (newpassword != confirmpassword) {
+        alert("Confirm Password does not match New Password. Try again.");
+        setNewPassword("");
+        setConfirmPassword("");
+      } else {
+        const request = {
+          id: id,
+          newPin: newpassword,
+        };
+        console.log(request);
+        await axios
+          .put(
+            `https://localhost:44307/api/Account/ChangePin/${id}?newPin=${newpassword}`,
+            headers
+          )
+          .then((response) => {
+            if (response.status >= 200 && response.status < 300) {
+              console.log(response);
+              toast.success("Pin change successful!");
+            } else {
+              toast.error("Pin change failed");
             }
-            else
-            {
-                const request = {
-                    "id":id,
-                    "newPin":newpassword
-                }
-                console.log(request);
-                await axios
-                    .put(`https://localhost:44307/api/Account/ChangePin/${id}?newPin=${newpassword}`, headers)//change
-                    .then((response) => {
-                        if (response.status >= 200 && response.status < 300) {
-                            console.log(response);
-                            alert('Pin change successful!')
-                        }
-                        else {
-                            alert("Pin change failed");
-                        }
-                    });
-            }
-        }
-        catch (error) {
-            setError(error.Message);
-        }
+          });
+      }
+    } catch (error) {
+      setError(error.Message);
     }
-    return (
+  };
+  return (
+    <div>
+      <ToastContainer />
+      <h1>Change your ATM pin</h1>
+      <form onSubmit={handleSubmit}>
         <div>
-             <h1>Change your ATM pin</h1>
-            <form onSubmit={handleSubmit}>
-
-                <div>
-                    Enter current password: <input type="password" value={oldpassword} onChange={handleOldPassword}  required/>
-                </div>
-                <div>
-                    Enter new password: <input type="password" value={newpassword} onChange={handleNewPassword}  required/>
-                </div>
-                <div>
-                    Confirm your new password: <input type="password" value={confirmpassword} onChange={handleConfirmPassword}  required/>
-                </div>
-                <br/>
-                <div>
-                    <button type="submit"> OK </button>
-                </div>
-               
-            </form>
+          Enter new password:{" "}
+          <input
+            type="password"
+            value={newpassword}
+            onChange={handleNewPassword}
+            required
+          />
         </div>
-    );
-}
+        <div>
+          Confirm your new password:{" "}
+          <input
+            type="password"
+            value={confirmpassword}
+            onChange={handleConfirmPassword}
+            required
+          />
+        </div>
+        <br />
+        <div>
+          <button type="submit"> OK </button>
+        </div>
+      </form>
+      <br />
+      <buton
+        type="submit"
+        onClick={() => navigate(-1)}
+        style={{ color: "blue", border: "10px" }}
+      >
+        Go Back
+      </buton>
+    </div>
+  );
+};
 
 export default ChangePinPage;

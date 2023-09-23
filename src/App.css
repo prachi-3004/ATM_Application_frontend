@@ -1,10 +1,18 @@
-.App {
-  text-align: center;
-  display: flex;
-  min-height: 100vh;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  background-image: linear-gradient(79deg, #7439db, #C66FBC 48%, #F7944D);
+/* src/App.css */
+
+/* Custom background color for the entire app */
+.custom-app-background {
+  background-color: #333333; /* Dark grey background color */
+  color: #fff; /* White text color for contrast */
 }
 
+/* App.css or your custom CSS file */
+.button-style {
+  background-color: #20B2AA;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+/* You can add more styles as needed */

@@ -2,25 +2,25 @@ import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Table } from "../Components/Table";
-import { AppContext } from "../Context/AppContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { getcusts } from "../Routes";
 const MainPage = () => {
   const navigate = useNavigate();
   const [rows, setRows] = useState([]);
   const [rowToEdit, setRowToEdit] = useState(null);
   const [rowToView, setRowToView] = useState(null);
-  const [token, setToken] = useState("");
-  const { user, setUser } = useContext(AppContext);
-  useEffect(() => {
-    setToken(user.token);
-  }, [user.token]);
-  if (!user.token) navigate("/");
+  const [token, setToken] = useState(
+    JSON.parse(window.localStorage.getItem("login")).token
+  );
+  const headers = { Authorization: `Bearer${token}` };
+  //console.log(headers);
   const handleDeleteRow = async (idx) => {
-    const headers = { Authorization: `Bearer${user.token}` };
-    console.log(headers);
-    await axios.delete("https://localhost:7104/api/deletecustomer/" + idx, {
+    await axios.delete("" + idx, {
       headers,
     });
     console.log("User deleted successfully!");
+    toast.success("User deleted successfully!");
   };
 
   const handleAdd = () => {
@@ -37,15 +37,12 @@ const MainPage = () => {
     navigate(`/getcustomer/${idx}`);
   };
   useEffect(() => {
-    axios
-      .get("https://localhost:44307/api/Customer/GetAll")
-      .then((res) => setRows(res.data));
+    axios.get(getcusts).then((res) => setRows(res.data));
   }, []);
+
   return (
     <div>
-      <button className="btn" onClick={handleAdd}>
-        Add Customer
-      </button>
+      <ToastContainer />
       <Table
         rows={rows}
         deleteRow={handleDeleteRow}

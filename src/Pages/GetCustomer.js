@@ -1,68 +1,59 @@
 import React, { useState, useContext, useEffect } from "react";
-import { AppContext } from "../Context/AppContext";
+import { getcustomer } from "../Routes";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 const GetCustomer = () => {
-  const { user, setUser } = useContext(AppContext);
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(
+    JSON.parse(window.localStorage.getItem("login")).token
+  );
   const { id } = useParams();
   const navigate = useNavigate();
   var res = {};
-  const [account, setAccount] = useState([]);
-  useEffect(() => {
-    setToken(user.token);
-  }, [user.token]);
-  if (!user.token) navigate("/");
+
   const [customer, setCustomer] = useState({});
-  const headers = { Authorization: `Bearer${user.token}` };
-  const [hadAcc, sethadAcc] = useState(false);
+  const headers = { Authorization: `Bearer${token}` };
+
   const getcust = async () => {
-    res = await axios.get("https://localhost:44307/api/Customer/" + id, {
+    res = await axios.get(getcustomer + id, {
       headers,
     });
-    console.log(res.data);
+    //console.log(res.data);
     setCustomer(res.data);
   };
-  console.log(customer);
+
   useEffect(() => {
     getcust();
   }, [id]);
   const handleaddAccount = async () => {
-    sethadAcc(true);
-    navigate("/createaccount");
+    navigate("/createaccount/" + id);
   };
   const handleGetAccount = async () => {
-    await axios
-      .get("", { headers })
-      .then((response) => setAccount(response.data));
-    navigate("/getaccountdetails");
+    navigate("/getaccountdetails/" + id);
   };
-  const handleDelete = async () => {
-    if (hadAcc) {
-      await axios
-        .delete("https://localhost:44307/api/Customer/" + id, {
-          headers,
-        })
-        .then((res) => {
-          console.log(res);
-          navigate("/");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      alert("account deleted");
-      sethadAcc(false);
-    } else {
-      alert("couldnot delete account");
-    }
-  };
+  // const handleDelete = async () => {
+  //   if (hadAcc) {
+  //     await axios
+  //       .delete("" + customer.id, {
+  //         headers,
+  //       })
+  //       .then((res) => {
+  //         console.log(res);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //     alert("account deleted");
+  //     sethadAcc(false);
+  //     navigate("/navigateadmin");
+  //   } else {
+  //     alert("couldnot delete account");
+  //   }
+  // };
   return (
     <div>
-      {!hadAcc && <button onClick={handleaddAccount}>Add Account</button>}
-      {hadAcc && (
-        <button onClick={handleGetAccount}>Get Account Details</button>
-      )}
-      {hadAcc && <button onClick={handleDelete}>Delete account</button>}
+      <button onClick={handleaddAccount}>Add Account</button>
+      <button onClick={handleGetAccount}>Get Accounts details</button>
+      {/* <button onClick={handleDelete}>Delete account</button>} */}
       {customer && <h1>Customer Details</h1>}
 
       {customer?.id && <div> Customer ID: {customer?.id} </div>}
@@ -74,6 +65,15 @@ const GetCustomer = () => {
       {customer?.city && <div> Customer City: {customer?.city} </div>}
       {customer?.email && <div> Email ID: {customer?.email} </div>}
       {customer?.contact && <div> Contact Number: {customer?.contact} </div>}
+
+      <br />
+      <buton
+        type="submit"
+        onClick={() => navigate(-1)}
+        style={{ color: "blue", border: "10px" }}
+      >
+        Go Back
+      </buton>
     </div>
   );
 };

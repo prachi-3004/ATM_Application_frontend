@@ -3,22 +3,23 @@ import AddCustomerPage from "./Pages/AddCustomerPage";
 import LoginPage from "./Pages/LoginPage";
 import GetCustomer from "./Pages/GetCustomer";
 import CreateAccountPage from "./Pages/CreateAccountPage";
+import GetAllAccounts from "./Pages/GetAllAccounts";
+import GetAccountDetails from "./Pages/GetAccountDetails";
 import { createBrowserRouter } from "react-router-dom";
 import { AppProvider } from "../src/Context/AppContext";
-import { RouterProvider } from 'react-router-dom';
-import ProtectedRoute from './Components/ProtectedRoute';
-import TransactionsPage from './Pages/TransactionsPage';
-import UpdateCustomerPage from './Pages/UpdateCustomerPage';
-import DeleteCustomerPage from './Pages/DeleteCustomerPage';
-import NavbarComponent from './Components/NavbarComponent';
-import NavbarComponentCustomer from './Components/NavbarComponentCustomer';
-import WithdrawalPage from './Pages/Transactions/WithdrawalPage';
-import DepositPage from './Pages/Transactions/DepositPage';
-import TransferPage from './Pages/Transactions/TransferPage';
-import BalanceCheckPage from './Pages/Transactions/BalanceCheckPage';
+import { RouterProvider } from "react-router-dom";
+import ProtectedRoute from "./Components/ProtectedRoute";
+import UpdateCustomerPage from "./Pages/UpdateCustomerPage";
+import GetspecAccount from "./Pages/GetspecAccount";
+import NavbarComponent from "./Components/NavbarComponent";
+import NavbarComponentCustomer from "./Components/NavbarComponentCustomer";
+import BalanceCheckPage from "./Pages/Transactions/BalanceCheckPage";
+import WithdrawalPage from "./Pages/Transactions/WithdrawalPage";
+import TransferPage from "./Pages/Transactions/TransferPage";
+import DepositPage from "./Pages/Transactions/DepositPage";
 import MiniStatementsPage from "./Pages/Transactions/MiniStatementsPage";
 import ChangePinPage from "./Pages/ChangePinPage";
-
+import UpdateCredentials from "./Pages/UpdateCredentials";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -42,10 +43,34 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/createaccount",
+    path: "/createaccount/:id",
     element: (
       <ProtectedRoute>
         <CreateAccountPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/getallaccounts",
+    element: (
+      <ProtectedRoute>
+        <GetAllAccounts />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/getaccountdetails/:id",
+    element: (
+      <ProtectedRoute>
+        <GetAccountDetails />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/getaccountspec/:id",
+    element: (
+      <ProtectedRoute>
+        <GetspecAccount />
       </ProtectedRoute>
     ),
   },
@@ -66,6 +91,14 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: "/updatecredentials/:id",
+    element: (
+      <ProtectedRoute>
+        <UpdateCredentials />
+      </ProtectedRoute>
+    ),
+  },
+  {
     path: "/getcustomer/:id",
     element: (
       <ProtectedRoute>
@@ -74,63 +107,53 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/deletecustomer/:id",
+    path: "/transactions/withdrawal/:id",
     element: (
       <ProtectedRoute>
-        <DeleteCustomerPage />
+        <WithdrawalPage />
       </ProtectedRoute>
     ),
   },
   {
-    path: "/transactions",
-    element: 
-    <ProtectedRoute>
-      <TransactionsPage />
-    </ProtectedRoute>
-  },
-  {
-    path: "/transactions/withdrawal/:id",
-    element: 
-    <ProtectedRoute>
-      <WithdrawalPage />
-    </ProtectedRoute>
-  },
-  {
     path: "/transactions/deposit/:id",
-    element: <ProtectedRoute>
-      <DepositPage />
-    </ProtectedRoute>
+    element: (
+      <ProtectedRoute>
+        <DepositPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/transactions/transfer/:id",
-    element: <ProtectedRoute>
-      <TransferPage />
-    </ProtectedRoute>
+    element: (
+      <ProtectedRoute>
+        <TransferPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/transactions/balancecheck/:id",
-    element: <ProtectedRoute>
-      <BalanceCheckPage />
-    </ProtectedRoute>
+    element: (
+      <ProtectedRoute>
+        <BalanceCheckPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/transactions/ministatements/:id",
-    element: <ProtectedRoute>
-      <MiniStatementsPage />
-    </ProtectedRoute>
+    element: (
+      <ProtectedRoute>
+        <MiniStatementsPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/transactions/changepin/:id",
-    element: <ProtectedRoute>
-      <ChangePinPage />
-    </ProtectedRoute>
+    element: (
+      <ProtectedRoute>
+        <ChangePinPage />
+      </ProtectedRoute>
+    ),
   },
-  // {
-  //   path: "/profile",
-  //   element: <ProtectedRoute>
-  //     <ProfilePage />
-  //   </ProtectedRoute>,
-  // },
 ]);
 
 const App = () => {

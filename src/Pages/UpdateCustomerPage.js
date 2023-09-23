@@ -2,14 +2,18 @@ import React, { useState, useContext, useEffect } from "react";
 import { AppContext } from "../Context/AppContext";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { getcustomer, updatedetails } from "../Routes";
 const UpdateCustomerPage = () => {
   const [customer, setCustomer] = useState({});
   const { user, setUser } = useContext(AppContext);
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(
+    JSON.parse(window.localStorage.getItem("login")).token
+  );
   const { id } = useParams();
   const navigate = useNavigate();
-  const headers = { Authorization: `Bearer${user.token}` };
+  const headers = { Authorization: `Bearer${token}` };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,13 +21,8 @@ const UpdateCustomerPage = () => {
   };
 
   var res = {};
-  useEffect(() => {
-    setToken(user.token);
-  }, [user.token]);
-  if (!user.token) navigate("/");
-
   const getcust = async () => {
-    res = await axios.get("https://localhost:44307/api/Customer/" + id, {
+    res = await axios.get(getcustomer + id, {
       headers,
     });
     setCustomer(res.data);
@@ -34,19 +33,17 @@ const UpdateCustomerPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    //console.log(customer);
-    const response = await axios.put(
-      "https://localhost:44307/api/Customer/" + id,
-      customer,
-      { headers }
-    );
+
+    const response = await axios.put(updatedetails + id, customer, { headers });
     setCustomer(response.data);
-    //console.log(response.data);
-    console.log(customer);
-    navigate("/navigateadmin");
+    toast.success("Updated details successfully");
+    // console.log("Updated Customer details:" + response.data);
+    if (user.role != 0) navigate("/navigateadmin");
+    else navigate("/navigatecustomer");
   };
   return (
     <div>
+      <ToastContainer />
       <h4>Update Customer details</h4>
       <form onSubmit={handleSubmit}>
         {customer && (

@@ -1,46 +1,40 @@
 import React, { useState, useContext, useEffect } from "react";
-
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { AccountTable } from "../Components/AccountTable";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getaccbycustid, getaccbyid } from "../Routes";
-const GetAccountDetails = () => {
+import { getallacc, getaccbyid } from "../Routes";
+const GetAllAccounts = () => {
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login")).token
   );
 
-  const { id } = useParams();
   const navigate = useNavigate();
   var res = {};
   const [account, setAccount] = useState([]);
-
-  const [hadAccs, sethadAccs] = useState(false);
   const headers = { Authorization: `Bearer${token}` };
-  const getAcc = async () => {
-    res = await axios.get(getaccbycustid + id, {
+  const getAccs = async () => {
+    res = await axios.get(getallacc, {
       headers,
     });
     //console.log("Got Account Details:" + res.data);
     if (res.data.length > 0) {
       setAccount(res.data);
-      sethadAccs(true);
     }
   };
 
   useEffect(() => {
-    getAcc();
-  }, [id]);
+    getAccs();
+  }, []);
 
   const handleDelete = async (idx) => {
-    const headers = { Authorization: `Bearer${token}` };
     //console.log(headers);
     await axios.delete("" + idx, {
       headers,
     });
-    console.log("User deleted successfully!");
-    toast.success("User deleted successfully!");
+    console.log("Account deleted successfully!");
+    toast.success("Account deleted successfully!");
   };
   const handleView = async (idx) => {
     await axios
@@ -52,29 +46,17 @@ const GetAccountDetails = () => {
     else {
       toast.error("Couldn't fetch account details");
       console.log("Couldn't fetch account details");
-      navigate("/login");
+      navigate("/navigateadmin");
     }
   };
   return (
     <div>
       <ToastContainer />
-      {hadAccs && (
-        <AccountTable
-          rows={account}
-          deleteRow={handleDelete}
-          viewRow={handleView}
-        />
-      )}
-
-      {!hadAccs && (
-        <div>
-          You don't have any accounts
-          <button onClick={() => navigate("/createaccount/" + id)}>
-            Click here to create account
-          </button>
-        </div>
-      )}
-      <br />
+      <AccountTable
+        rows={account}
+        deleteRow={handleDelete}
+        viewRow={handleView}
+      />
       <buton
         type="submit"
         onClick={() => navigate(-1)}
@@ -85,4 +67,4 @@ const GetAccountDetails = () => {
     </div>
   );
 };
-export default GetAccountDetails;
+export default GetAllAccounts;

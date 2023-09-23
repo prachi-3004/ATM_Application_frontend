@@ -1,58 +1,56 @@
-import React, { useState, useContext, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate, useParams } from 'react-router';
-import { AppContext } from '../../Context/AppContext';
-
+import React, { useState, useContext, useEffect } from "react";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { getaccbyid } from "../../Routes";
 const BalanceCheckPage = () => {
+  const [account, setAccount] = useState([]);
+  const [token, setToken] = useState(
+    JSON.parse(window.localStorage.getItem("login")).token
+  );
+  const [Error, setError] = useState("");
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-    const { user, setUser } = useContext(AppContext);
-    const [account, setAccount]=useState([]);
-    const [token, setToken] = useState('');
-    const [Error, setError] = useState('');
-    const { id } = useParams();
-    //let id=3002;
-    const navigate = useNavigate();
-    var res={};
+  const headers = { Authorization: `Bearer${token}` };
 
-    useEffect(() => {
-        setToken(user.token);
-    }, [user.token]
-    );
-    if(user.token == null) navigate('/');
-    const headers = { Authorization: `Bearer${user.token}` };
-
-    const getAccount = async() => {
-        res = await axios.get("https://localhost:44307/api/Account/GetAccountByID/"+id, {
-            headers,
-        });
-        console.log("resdata"+res.data);
+  const getAccount = async () => {
+    if (id != null) {
+      const res = await axios.get(getaccbyid + id, {
+        headers,
+      });
+      //console.log("resdata" + res.data);
+      if (res.data) {
         setAccount(res.data);
-    };
-
-    useEffect(() => {
-        getAccount();
-      }, [id]);
-      
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        try {
-            navigate('/transactions');
-        }
-        catch (error) {
-            setError(error.Message);
-        }
+        //toast.success("Balance fetched successfully");
+      } else {
+        toast.error("Something went wrong");
+      }
     }
-    return (
-        <div>
-            <h1>Balance Inquiry</h1>
-            <p>Account No.:{account.id}</p>
-            <p>Balance:{account.balance}</p>
-            <br/>
-            <div>
-                <button type="submit" onClick={handleSubmit}> Go back </button>
-            </div>
-        </div>
-    );
-}
+  };
+
+  useEffect(() => {
+    getAccount();
+  }, [id]);
+
+  return (
+    <div>
+      <ToastContainer />
+
+      <h1>Balance Inquiry</h1>
+      <p>Account No.:{account.id}</p>
+      <p>Balance:{account.balance}</p>
+      <br />
+      <buton
+        type="submit"
+        onClick={() => navigate(-1)}
+        style={{ color: "blue", border: "10px" }}
+      >
+        Go Back
+      </buton>
+    </div>
+  );
+};
 
 export default BalanceCheckPage;
