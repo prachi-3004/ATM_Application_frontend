@@ -2,7 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Table } from "../Components/Table";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const MainPage = () => {
   const navigate = useNavigate();
   const [rows, setRows] = useState([]);
@@ -18,7 +19,7 @@ const MainPage = () => {
       headers,
     });
     console.log("User deleted successfully!");
-    alert("User deleted successfully!");
+    toast.success("User deleted successfully!");
   };
 
   const handleAdd = () => {
@@ -42,6 +43,7 @@ const MainPage = () => {
 
   return (
     <div>
+      <ToastContainer />
       <Table
         rows={rows}
         deleteRow={handleDeleteRow}

@@ -3,6 +3,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { AppContext } from "../Context/AppContext";
 import axios from "axios";
 import "./NavbarComponent.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const NavbarComponentCustomer = () => {
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login")).token
@@ -17,6 +19,7 @@ const NavbarComponentCustomer = () => {
   console.log(id);
   const handleLogout = () => {
     setUser(null);
+    toast.success(`User ${user.name} logged out`);
     window.localStorage.removeItem("login");
   };
   const getcust = async () => {

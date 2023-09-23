@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const UpdateCredentials = () => {
   const [customer, setCustomer] = useState("");
   const navigate = useNavigate();
@@ -43,11 +45,12 @@ const UpdateCredentials = () => {
     //setCustomer(response.data);
 
     console.log("Updated Customer details:" + response.data);
-    alert("updated successfully");
+    toast.success("updated successfully");
     navigate("/navigatecustomer");
   };
   return (
     <div>
+      <ToastContainer />
       <h4>Update Customer Credentials</h4>
       <form onSubmit={handleSubmit}>
         <div>

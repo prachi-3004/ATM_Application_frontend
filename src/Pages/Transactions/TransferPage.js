@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const TransferPage = () => {
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login")).token
@@ -101,38 +102,43 @@ const TransferPage = () => {
     try {
       getRecipientAccount(recipientId);
       var amt = amount / currRate;
-      getRecipientAccount(recipientId);
       setSenderBal(senderAccount.balance);
       setSenderBal(senderBal - amt);
-      setRecipientBal(recipientAccount.balance + amt);
+      if (senderBal - 100 > amt) {
+        setRecipientBal(recipientAccount.balance + amt);
 
-      const request = {
-        type: "Transfer",
-        amount: parseInt(amt),
-        senderId: id,
-        recipientId: recipientId,
-        pin: pin,
-      };
-      console.log(request);
+        const request = {
+          type: "Transfer",
+          amount: parseInt(amt),
+          senderId: id,
+          recipientId: recipientId,
+          pin: pin,
+        };
+        console.log(request);
 
-      axios
-        .post("https://localhost:44307/api/Transaction", request)
-        .then((response) => {
-          if (response.status >= 200 && response.status < 300) {
-            console.log(response);
-            alert("Transfer successful");
+        axios
+          .post("https://localhost:44307/api/Transaction", request)
+          .then((response) => {
+            if (response.status >= 200 && response.status < 300) {
+              console.log(response);
+              toast.success("Transfer successful");
 
-            navigate("/getaccountspec/" + id);
-          } else {
-            alert("Transfer failed");
-          }
-        });
+              navigate("/getaccountspec/" + id);
+            } else {
+              toast.error("Transfer failed");
+            }
+          });
+      } else {
+        toast.error("Insufficient balance");
+      }
     } catch (error) {
+      toast.error("Transfer failed" + error.Message);
       setError(error.Message);
     }
   };
   return (
     <div>
+      <ToastContainer />
       <h1>Transfer Money</h1>
       <p>Account No.:{senderAccount.id}</p>
       <p>Balance:{senderAccount.balance}</p>

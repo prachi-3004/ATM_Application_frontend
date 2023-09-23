@@ -3,6 +3,8 @@ import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { AccountTable } from "../Components/AccountTable";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const GetAccountDetails = () => {
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login")).token
@@ -40,7 +42,7 @@ const GetAccountDetails = () => {
       headers,
     });
     console.log("User deleted successfully!");
-    alert("User deleted successfully!");
+    toast.success("User deleted successfully!");
   };
   const handleView = async (idx) => {
     await axios
@@ -50,13 +52,14 @@ const GetAccountDetails = () => {
       .then((response) => setAccount(response.data));
     if (account != null) navigate("/getaccountspec/" + idx);
     else {
-      alert("Couldn't fetch account details");
+      toast.error("Couldn't fetch account details");
       console.log("Couldn't fetch account details");
       navigate("/login");
     }
   };
   return (
     <div>
+      <ToastContainer />
       {hadAccs && (
         <AccountTable
           rows={account}

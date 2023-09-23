@@ -3,6 +3,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { AppContext } from "../Context/AppContext";
 import MainPage from "../Pages/MainPage";
 import "./NavbarComponent.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const NavbarComponent = () => {
   const navigate = useNavigate();
   const { user, setUser } = useContext(AppContext);
@@ -11,11 +13,13 @@ const NavbarComponent = () => {
   );
   const handleLogout = () => {
     setUser(null);
+    toast.success("Logged out successfully");
     window.localStorage.removeItem("login");
   };
 
   return (
     <div>
+      <ToastContainer />
       <div className="navbar">
         <div className="navbar-contents">
           <ul>

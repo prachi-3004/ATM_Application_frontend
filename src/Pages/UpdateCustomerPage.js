@@ -2,7 +2,8 @@ import React, { useState, useContext, useEffect } from "react";
 import { AppContext } from "../Context/AppContext";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const UpdateCustomerPage = () => {
   const [customer, setCustomer] = useState({});
   const { user, setUser } = useContext(AppContext);
@@ -38,13 +39,14 @@ const UpdateCustomerPage = () => {
       { headers }
     );
     setCustomer(response.data);
-
+    toast.success("Updated details successfully");
     console.log("Updated Customer details:" + response.data);
     if (user.role != 0) navigate("/navigateadmin");
     else navigate("/navigatecustomer");
   };
   return (
     <div>
+      <ToastContainer />
       <h4>Update Customer details</h4>
       <form onSubmit={handleSubmit}>
         {customer && (

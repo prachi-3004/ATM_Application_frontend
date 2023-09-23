@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const ChangePinPage = () => {
   const [account, setAccount] = useState([]);
   const [token, setToken] = useState(
@@ -62,9 +63,9 @@ const ChangePinPage = () => {
           .then((response) => {
             if (response.status >= 200 && response.status < 300) {
               console.log(response);
-              alert("Pin change successful!");
+              toast.success("Pin change successful!");
             } else {
-              alert("Pin change failed");
+              toast.error("Pin change failed");
             }
           });
       }
@@ -74,6 +75,7 @@ const ChangePinPage = () => {
   };
   return (
     <div>
+      <ToastContainer />
       <h1>Change your ATM pin</h1>
       <form onSubmit={handleSubmit}>
         <div>

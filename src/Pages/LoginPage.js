@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { AppContext } from "../Context/AppContext";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./LoginPage.css";
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -34,20 +36,23 @@ const LoginPage = () => {
         setUser(response.data);
         window.localStorage.setItem("login", JSON.stringify(response.data));
         if (res.role == 1) {
+          toast.success("Admin Login Successful");
           navigate("/navigateadmin");
         } else if (res.role == 0) {
+          toast.success("Customer Login Successful");
           navigate("/navigatecustomer");
         } else {
-          alert("Invalid login credentials");
+          toast.error("Login Error.Please check credentials");
         }
       }
     } catch (error) {
-      alert("Login failed: " + error.message);
+      toast.error("Login failed: " + error.message);
       console.log(error);
     }
   };
   return (
     <div>
+      <ToastContainer />
       <h1>Login to ATM Banking</h1>
       <form className="loginform" onSubmit={handleSubmit}>
         <div>

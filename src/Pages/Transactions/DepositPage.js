@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const DepositPage = () => {
   const [account, setAccount] = useState([]);
   const [token, setToken] = useState(
@@ -89,18 +90,18 @@ const DepositPage = () => {
         .post("https://localhost:44307/api/Transaction", request, { headers })
         .then((response) => {
           if (response.status >= 200 && response.status < 300) {
-            alert("Deposit successful");
+            toast.success("Deposit successful");
             navigate("/getaccountspec/" + id);
           }
           if (response.status == 500) {
-            alert("Deposit failed. Check the details entered");
+            toast.error("Deposit failed. Check the details entered");
             setPin("");
             setAmount(0);
             setSelcurr("");
           }
         });
     } catch (error) {
-      alert("Deposit failed. Check the details entered");
+      toast.error("Deposit failed. Check the details entered");
       setPin("");
       setAmount(0);
       setSelcurr("");
@@ -109,6 +110,7 @@ const DepositPage = () => {
   };
   return (
     <div>
+      <ToastContainer />
       <h1>Deposit</h1>
       <p>Account No: {account.id}</p>
       <p>Balance: {account.balance}</p>

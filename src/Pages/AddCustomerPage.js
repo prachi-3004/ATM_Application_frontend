@@ -3,6 +3,8 @@ import axios from "axios";
 import validator from "validator";
 import { AppContext } from "../Context/AppContext";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const AddCustomerPage = () => {
   const [name, setName] = useState("");
   const [username, setUserName] = useState("");
@@ -96,7 +98,7 @@ const AddCustomerPage = () => {
           .then((response) => {
             if (response.status >= 200 && response.status < 300) {
               console.log(response);
-              alert("Customer added successfully");
+              toast.success("Customer added successfully");
               setName("");
               setUserName("");
               setAddress("");
@@ -106,16 +108,18 @@ const AddCustomerPage = () => {
               setPassword("");
               navigate("/navigateadmin");
             } else {
-              alert("Registration failed");
+              toast.error("Registration failed");
             }
           });
       }
     } catch (error) {
+      toast.error("Registration failed" + error.Message);
       setError(error.Message);
     }
   };
   return (
     <div>
+      <ToastContainer />
       <form onSubmit={handleSubmit}>
         <div>
           Name:{" "}

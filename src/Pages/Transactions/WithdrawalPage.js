@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const WithdrawalPage = () => {
   const [account, setAccount] = useState([]);
   const [token, setToken] = useState(
@@ -73,34 +74,39 @@ const WithdrawalPage = () => {
     try {
       var amt = amount / currRate;
       setBalance(account.balance);
-      setBalance(account.balance - amt);
-      console.log(account.balance - amt);
+      if (account.balance - 100 > amt) {
+        setBalance(account.balance - amt);
+        console.log(account.balance - amt);
 
-      const request = {
-        type: "Withdrawal",
-        amount: parseInt(amt),
-        senderId: id,
-        pin: pin,
-      };
-      console.log(request);
-      axios
-        .post("https://localhost:44307/api/Transaction", request)
-        .then((response) => {
-          if (response.status >= 200 && response.status < 300) {
-            //console.log(response);
-            alert("Withdraw successful");
-            navigate("/getaccountspec/" + id);
-          } else {
-            alert("Withdrawal failed");
-          }
-        });
+        const request = {
+          type: "Withdrawal",
+          amount: parseInt(amt),
+          senderId: id,
+          pin: pin,
+        };
+        console.log(request);
+        axios
+          .post("https://localhost:44307/api/Transaction", request)
+          .then((response) => {
+            if (response.status >= 200 && response.status < 300) {
+              //console.log(response);
+              toast.success("Withdraw successful");
+              navigate("/getaccountspec/" + id);
+            } else {
+              toast.error("Withdrawal failed");
+            }
+          });
+      } else {
+        toast.error("Insufficient balance");
+      }
     } catch (error) {
-      alert("Withdrawal failed");
+      toast.error("Withdrawal failed");
       setError(error.Message);
     }
   };
   return (
     <div>
+      <ToastContainer />
       <h1>Withdrawal</h1>
       <p>Account No.: {account.id}</p>
       <p>Balance: {account.balance}</p>

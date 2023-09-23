@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const MiniStatementsPage = () => {
   const [transactions, setTransactions] = useState([]);
   const [token, setToken] = useState(
@@ -20,6 +21,7 @@ const MiniStatementsPage = () => {
       }
     );
     console.log("Transactions " + res.data);
+    toast.success("Fetched transaction successfully");
     setTransactions(res.data);
   };
 
@@ -29,6 +31,7 @@ const MiniStatementsPage = () => {
 
   return (
     <div>
+      <ToastContainer />
       <h1> Transactions Statement</h1>
 
       <table className="mini statements table">

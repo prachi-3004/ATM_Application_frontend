@@ -2,6 +2,8 @@ import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { AppContext } from "../Context/AppContext";
 import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const CreateAccountPage = () => {
   const navigate = useNavigate();
   const [accountType, setAccountType] = useState("Savings");
@@ -63,7 +65,7 @@ const CreateAccountPage = () => {
 
         if (response.status >= 200 && response.status < 300) {
           console.log(response);
-          alert(`Account created successfully`);
+          toast.success(`Account created successfully`);
           setAccountType("Savings");
           setCardNo("");
           setDoc("");
@@ -71,15 +73,17 @@ const CreateAccountPage = () => {
           setBalance(100);
           navigate("/getcustomer/" + id);
         } else {
-          alert("Account creation failed");
+          toast.error("Account creation failed");
         }
       }
     } catch (error) {
+      toast.error("Account creation failed" + error.Message);
       setError(error.Message);
     }
   };
   return (
     <div>
+      <ToastContainer />
       <h1>Create your Account!</h1>
       <h3>Enter your details:</h3>
       <form onSubmit={handleSubmit}>
