@@ -74,4 +74,8 @@ const UpdateCredentials = () => {
   );
 };
 
+<<<<<<< HEAD
 export default UpdateCredentials;
+=======
+export default UpdateCredentials;
+>>>>>>> 13c59482da025524d7800d82287279af2000d732

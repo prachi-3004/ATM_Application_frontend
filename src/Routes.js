@@ -13,4 +13,8 @@ export const transaction = `${host}/Transaction`;
 export const gettransactionhistory = `${host}/Transaction?id=`;
 export const getallcurr = `${host}/Currency/GetAll`;
 export const getcurrrate = `${host}/Currency/GetRate/`;
+<<<<<<< HEAD
 //pin change route shd be added
+=======
+//pin change route shd be added
+>>>>>>> 13c59482da025524d7800d82287279af2000d732

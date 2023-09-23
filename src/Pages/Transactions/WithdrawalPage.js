@@ -77,6 +77,7 @@ const WithdrawalPage = () => {
           pin: pin,
         };
         console.log(request);
+<<<<<<< HEAD
         axios.post(transaction, request).then((response) => {
           if (response.status >= 200 && response.status < 300) {
             //console.log(response);
@@ -87,6 +88,25 @@ const WithdrawalPage = () => {
             toast.error("Withdrawal failed");
           }
         });
+=======
+        axios
+          .post(transaction, request)
+          .then((response) => {
+            if (response.status >= 200 && response.status < 300) {
+              //console.log(response);
+              toast.success("Withdraw successful");
+              navigate("/getaccountspec/" + id);
+            }
+          })
+          .catch((error) => {
+            if (error.response && error.response.status === 500) {
+              toast.error(error.response.data);
+              setPin("");
+            } else {
+              toast.error("Withdrawal failed. Check the details entered");
+            }
+          });
+>>>>>>> 13c59482da025524d7800d82287279af2000d732
       } else {
         toast.error("Insufficient balance");
       }
@@ -145,4 +165,8 @@ const WithdrawalPage = () => {
   );
 };
 
+<<<<<<< HEAD
 export default WithdrawalPage;
+=======
+export default WithdrawalPage;
+>>>>>>> 13c59482da025524d7800d82287279af2000d732

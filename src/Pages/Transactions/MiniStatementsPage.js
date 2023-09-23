@@ -66,4 +66,8 @@ const MiniStatementsPage = () => {
   );
 };
 
+<<<<<<< HEAD
 export default MiniStatementsPage;
+=======
+export default MiniStatementsPage;
+>>>>>>> 13c59482da025524d7800d82287279af2000d732
