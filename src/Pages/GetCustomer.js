@@ -65,6 +65,15 @@ const GetCustomer = () => {
       {customer?.city && <div> Customer City: {customer?.city} </div>}
       {customer?.email && <div> Email ID: {customer?.email} </div>}
       {customer?.contact && <div> Contact Number: {customer?.contact} </div>}
+
+      <br />
+      <buton
+        type="submit"
+        onClick={() => navigate(-1)}
+        style={{ color: "blue", border: "10px" }}
+      >
+        Go Back
+      </buton>
     </div>
   );
 };

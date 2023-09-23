@@ -41,6 +41,14 @@ const BalanceCheckPage = () => {
       <h1>Balance Inquiry</h1>
       <p>Account No.:{account.id}</p>
       <p>Balance:{account.balance}</p>
+      <br />
+      <buton
+        type="submit"
+        onClick={() => navigate(-1)}
+        style={{ color: "blue", border: "10px" }}
+      >
+        Go Back
+      </buton>
     </div>
   );
 };

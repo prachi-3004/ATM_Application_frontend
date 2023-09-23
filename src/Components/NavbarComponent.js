@@ -26,7 +26,9 @@ const NavbarComponent = () => {
             <li className="nav-link">
               <NavLink to="/addcustomer">Add Customer</NavLink>
             </li>
-
+            <li className="nav-link">
+              <NavLink to="/getallaccounts">Get All Accounts</NavLink>
+            </li>
             <li className="nav-link">
               <NavLink to="/login" onClick={handleLogout}>
                 Logout

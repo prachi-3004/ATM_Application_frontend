@@ -3,6 +3,7 @@ import AddCustomerPage from "./Pages/AddCustomerPage";
 import LoginPage from "./Pages/LoginPage";
 import GetCustomer from "./Pages/GetCustomer";
 import CreateAccountPage from "./Pages/CreateAccountPage";
+import GetAllAccounts from "./Pages/GetAllAccounts";
 import GetAccountDetails from "./Pages/GetAccountDetails";
 import { createBrowserRouter } from "react-router-dom";
 import { AppProvider } from "../src/Context/AppContext";
@@ -46,6 +47,14 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <CreateAccountPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/getallaccounts",
+    element: (
+      <ProtectedRoute>
+        <GetAllAccounts />
       </ProtectedRoute>
     ),
   },

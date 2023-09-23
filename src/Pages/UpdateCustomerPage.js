@@ -37,7 +37,7 @@ const UpdateCustomerPage = () => {
     const response = await axios.put(updatedetails + id, customer, { headers });
     setCustomer(response.data);
     toast.success("Updated details successfully");
-    console.log("Updated Customer details:" + response.data);
+    // console.log("Updated Customer details:" + response.data);
     if (user.role != 0) navigate("/navigateadmin");
     else navigate("/navigatecustomer");
   };

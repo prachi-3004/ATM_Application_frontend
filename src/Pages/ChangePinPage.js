@@ -99,6 +99,14 @@ const ChangePinPage = () => {
           <button type="submit"> OK </button>
         </div>
       </form>
+      <br />
+      <buton
+        type="submit"
+        onClick={() => navigate(-1)}
+        style={{ color: "blue", border: "10px" }}
+      >
+        Go Back
+      </buton>
     </div>
   );
 };

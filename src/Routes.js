@@ -8,6 +8,7 @@ export const updatecredentials = `${host}/Customer/UpdateCredentials/`;
 export const addacc = `${host}/Account/AddAccount`;
 export const getaccbyid = `${host}/Account/GetAccountByID/`;
 export const getaccbycustid = `${host}/Account/GetAccountByCustomer/`;
+export const getallacc = `${host}/Account/GetAll`;
 export const transaction = `${host}/Transaction`;
 export const gettransactionhistory = `${host}/Transaction?id=`;
 export const getallcurr = `${host}/Currency/GetAll`;

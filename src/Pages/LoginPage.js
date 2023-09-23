@@ -28,8 +28,6 @@ const LoginPage = () => {
     };
     event.preventDefault();
     try {
-      console.log(authorize);
-      console.log(res);
       const response = await axios.post(authorize, res);
       if (response.status >= 200 && response.status < 300) {
         setLogin(true);

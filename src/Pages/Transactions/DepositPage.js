@@ -92,7 +92,11 @@ const DepositPage = () => {
         }
       });
     } catch (error) {
-      toast.error("Deposit failed. Check the details entered");
+      if (error.response.status === 500) {
+        toast.error(error.response.data);
+      } else {
+        toast.error("Deposit failed. Check the details entered");
+      }
       setPin("");
       setAmount(0);
       setSelcurr("");
@@ -138,6 +142,14 @@ const DepositPage = () => {
           <button type="submit"> Deposit </button>
         </div>
       </form>
+      <br />
+      <buton
+        type="submit"
+        onClick={() => navigate(-1)}
+        style={{ color: "blue", border: "10px" }}
+      >
+        Go Back
+      </buton>
     </div>
   );
 };
