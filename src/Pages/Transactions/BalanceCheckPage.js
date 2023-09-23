@@ -53,8 +53,4 @@ const BalanceCheckPage = () => {
   );
 };
 
-<<<<<<< HEAD
 export default BalanceCheckPage;
-=======
-export default BalanceCheckPage;
->>>>>>> 13c59482da025524d7800d82287279af2000d732

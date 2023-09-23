@@ -49,33 +49,49 @@ const AddCustomerPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      if (name.trim() == "") {
-        alert("Name cannot be empty");
-        return;
+      if(name.length<1 || name.length>50)
+      {
+        setError("Name must be between 1 to 50 characters");
+        toast.error("Name must be between 1 to 50 characters");
+        setName("");
       }
-      if (username.trim() == "") {
-        alert("User Name cannot be empty");
-        return;
+      else if(username.length<4 || username.length>20)
+      {
+        setError("Username must be between 4 to 20 characters");
+        toast.error("Username must be between 4 to 20 characters");
+        setUserName("");
       }
-      if (address.trim() == "") {
-        alert("Address cannot be empty");
-        return;
+      else if(!/^[a-zA-Z0-9_.]+$/.test(username))
+      {
+        setError("Username contains invalid characters. Only letters, numbers, dots, and underscores are allowed");
+        toast.error("Username contains invalid characters. Only letters, numbers, dots, and underscores are allowed");
+        setUserName("");
       }
-      if (city.trim() == "") {
-        alert("City cannot be empty");
-        return;
+      else if (address.length<1 || address.length>150) {
+        setError("Address must be between 1 to 150 characters");
+        toast.error("Address must be between 1 to 150 characters");
+        setAddress("");
       }
-      if (contact.trim() == "") {
-        alert("Contact cannot be empty");
-        return;
+      else if (city.length<1 || city.length>15) {
+        setError("City must be between 1 to 15 characters");
+        toast.error("City must be between 1 to 15 characters");
+        setCity("");
       }
-      if (password.trim() == "") {
-        alert("Password cannot be empty");
-        return;
+      else if (!/^\d{10}$/.test(contact)) {
+        setError("Enter a valid contact number");
+        toast.error("Enter a valid contact number");
+        setContact("");
       }
-      if (!validator.isEmail(email)) {
-        alert("Enter a valid email address");
-        return;
+      else if(password.length<3 || password.length>16)//password must 
+      {
+        setError("Password must be between 3 to 16 characters");
+        toast.error("Password must be between 3 to 16 characters");
+        setPassword("");
+      }
+      else if (!validator.isEmail(email)) {
+        setError("Enter a valid email address");
+        toast.error("Enter a valid email address");
+        setEmail("");
       } else {
         const res = {
           name: name,
@@ -129,7 +145,6 @@ const AddCustomerPage = () => {
             value={name}
             onChange={handleName}
             placeholder="Enter Name"
-            required
           />
         </div>
         <div>
@@ -139,7 +154,6 @@ const AddCustomerPage = () => {
             value={username}
             onChange={handleUserName}
             placeholder="Enter User Name"
-            required
           />
         </div>
         <div>
@@ -149,7 +163,6 @@ const AddCustomerPage = () => {
             value={address}
             onChange={handleAddress}
             placeholder="Enter Customer Address"
-            required
           />
         </div>
         <div>
@@ -168,18 +181,15 @@ const AddCustomerPage = () => {
             value={email}
             onChange={handleEmail}
             placeholder="Enter Email id"
-            required
           />
         </div>
         <div>
           Contact:{" "}
           <input
             type="text"
-            pattern="[0-9]{10}"
             value={contact}
             onChange={handleContact}
             placeholder="Enter Contact Number"
-            required
           />
         </div>
         <div>
@@ -189,7 +199,6 @@ const AddCustomerPage = () => {
             value={password}
             onChange={handlePassword}
             placeholder="Enter Password"
-            required
           />
         </div>
         <div>

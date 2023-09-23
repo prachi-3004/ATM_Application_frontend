@@ -4,6 +4,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getcustomer, updatecredentials } from "../Routes";
+
 const UpdateCredentials = () => {
   const [customer, setCustomer] = useState("");
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const UpdateCredentials = () => {
   );
   const headers = { Authorization: `Bearer${token}` };
   const { id } = useParams();
+  const [Error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,17 +32,33 @@ const UpdateCredentials = () => {
   }, [id]);
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const res = {
-      userName: customer.userName,
-      password: customer.password,
-      role: 0,
-    };
-    const response = await axios.put(updatecredentials + id, res, { headers });
-    //setCustomer(response.data);
+    if(customer.userName.length<4 || customer.userNamelength>20)
+    {
+      setError("Username must be between 4 to 20 characters");
+      toast.error("Username must be between 4 to 20 characters");
+      setCustomer.password("");
+      setCustomer.userName("");
+    }
+    else if(customer.password.length<3 || customer.password.length>16)//password must 
+    {
+      setError("Password must be between 3 to 16 characters");
+      toast.error("Password must be between 3 to 16 characters");
+      setCustomer.password("");
+      setCustomer.userName("");
+    }
+    else{
+      const res = {
+        userName: customer.userName,
+        password: customer.password,
+        role: 0,
+      };
+      const response = await axios.put(updatecredentials + id, res, { headers });
+      //setCustomer(response.data);
 
-    console.log("Updated Customer details:" + response.data);
-    toast.success("updated successfully");
-    navigate("/navigatecustomer");
+      console.log("Updated Customer details:" + response.data);
+      toast.success("updated successfully");
+      navigate("/navigatecustomer");
+    }
   };
   return (
     <div>
@@ -74,8 +92,4 @@ const UpdateCredentials = () => {
   );
 };
 
-<<<<<<< HEAD
 export default UpdateCredentials;
-=======
-export default UpdateCredentials;
->>>>>>> 13c59482da025524d7800d82287279af2000d732

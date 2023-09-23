@@ -12,6 +12,7 @@ const LoginPage = () => {
   const [login, setLogin] = useState(false);
   const { user, setUser } = useContext(AppContext);
   const [userType, setuserType] = useState(0);
+  const [Error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleUsername = (event) => {
@@ -27,25 +28,48 @@ const LoginPage = () => {
       role: userType,
     };
     event.preventDefault();
-    try {
-      const response = await axios.post(authorize, res);
-      if (response.status >= 200 && response.status < 300) {
-        setLogin(true);
-        setUser(response.data);
-        window.localStorage.setItem("login", JSON.stringify(response.data));
-        if (res.role == 1) {
-          toast.success("Admin Login Successful");
-          navigate("/navigateadmin");
-        } else if (res.role == 0) {
-          toast.success("Customer Login Successful");
-          navigate("/navigatecustomer");
-        } else {
-          toast.error("Login Error.Please check credentials");
+    if(username.length<4 || username.length>20)
+    {
+      setError("Username must be between 4 to 20 characters");
+      toast.error("Username must be between 4 to 20 characters");
+      setpwd("");
+      setUsername("");
+    }
+    else if(!/^[a-zA-Z0-9_.]+$/.test(username))
+    {
+      setError("Username contains invalid characters. Only letters, numbers, dots, and underscores are allowed");
+      toast.error("Username contains invalid characters. Only letters, numbers, dots, and underscores are allowed");
+      setpwd("");
+      setUsername("");
+    }
+    else if(password.length<3 || password.length>16)//password must 
+    {
+      setError("Password must be between 3 to 16 characters");
+      toast.error("Password must be between 3 to 16 characters");
+      setpwd("");
+      setUsername("");
+    }
+    else{
+      try {
+        const response = await axios.post(authorize, res);
+        if (response.status >= 200 && response.status < 300) {
+          setLogin(true);
+          setUser(response.data);
+          window.localStorage.setItem("login", JSON.stringify(response.data));
+          if (res.role == 1) {
+            toast.success("Admin Login Successful");
+            navigate("/navigateadmin");
+          } else if (res.role == 0) {
+            toast.success("Customer Login Successful");
+            navigate("/navigatecustomer");
+          } else {
+            toast.error("Login Error.Please check credentials");
+          }
         }
+      } catch (error) {
+        toast.error("Login failed: " + error.message);//error message
+        console.log(error);
       }
-    } catch (error) {
-      toast.error("Login failed: " + error.message);
-      console.log(error);
     }
   };
   return (
@@ -82,7 +106,6 @@ const LoginPage = () => {
             placeholder="Enter User Name"
             value={username}
             onChange={handleUsername}
-            required
           />
         </div>
 
@@ -91,10 +114,9 @@ const LoginPage = () => {
           Password:{" "}
           <input
             type="password"
-            placeholder="Enter Passworrd"
+            placeholder="Enter Password"
             value={password}
             onChange={handlepwd}
-            required
           />
         </div>
 

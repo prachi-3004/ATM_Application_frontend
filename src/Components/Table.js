@@ -63,8 +63,4 @@ export const Table = ({ rows, deleteRow, editRow, viewRow }) => {
     </div>
   );
 };
-<<<<<<< HEAD
 export default Table;
-=======
-export default Table;
->>>>>>> 13c59482da025524d7800d82287279af2000d732

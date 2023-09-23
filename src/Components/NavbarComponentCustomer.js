@@ -70,9 +70,9 @@ const NavbarComponentCustomer = () => {
         {customer?.email && <div> Email ID: {customer?.email} </div>}
         {customer?.contact && <div> Contact Number: {customer?.contact} </div>}
       </div>
-      <button onClick={() => navigate("/updatecustomer/" + id)}>
+      {/* <button onClick={() => navigate("/updatecustomer/" + id)}>
         Update Details
-      </button>
+      </button> */}
     </div>
   );
 };

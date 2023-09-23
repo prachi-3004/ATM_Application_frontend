@@ -65,64 +65,51 @@ const DepositPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      setBalance(account.balance);
-      setBalance(account.balance + amount / currRate);
-      console.log(account.balance + amount / currRate);
-      var amt = amount / currRate;
-      const request = {
-        type: "Deposit",
-        amount: parseInt(amt),
-        RecipientId: id,
-        pin: pin,
-      };
-      console.log(request);
 
-<<<<<<< HEAD
-      axios.post(transaction, request, { headers }).then((response) => {
-        console.log(response);
-        if (response.status >= 200 && response.status < 300) {
-          toast.success("Deposit successful");
-          navigate("/getaccountspec/" + id);
-        }
-        if (response.data === 0) {
-          toast.error("Deposit failed. Check the details entered");
-          setPin("");
-          setAmount(0);
-          setSelcurr("");
-        }
-      });
-    } catch (error) {
-      if (error.response.status === 500) {
-        toast.error(error.response.data);
-      } else {
-        toast.error("Deposit failed. Check the details entered");
-      }
+    if (amount < 0 || amount == null || !/^\d+$/.test(amount)) {
+      setError("Invalid Amount");
+      toast.error("Invalid Amount");
       setPin("");
       setAmount(0);
-      setSelcurr("");
-=======
-      axios
-        .post(transaction, request, { headers })
-        .then((response) => {
-          if (response.status >= 200 && response.status < 300) {
-            toast.success("Deposit successful");
-            navigate("/getaccountspec/" + id);
-          }
-        })
-        .catch((error) => {
-          if (error.response && error.response.status === 500) {
-            toast.error(error.response.data);
-            setPin("");
-          } else {
-            toast.error("Deposit failed. Check the details entered");
-          }
-        });
-    } catch (error) {
-      console.log(error.Message);
-      toast.error("Deposit failed. Check the details entered");
->>>>>>> 13c59482da025524d7800d82287279af2000d732
-      setError(error.Message);
+    } else {
+      try {
+        setBalance(account.balance);
+
+        if (amount > 0 && amount != NaN) {
+          var amt = amount / currRate;
+          setBalance(account.balance + amt);
+          console.log(account.balance + amt);
+
+          const request = {
+            type: "Deposit",
+            amount: parseInt(amt),
+            RecipientId: id,
+            pin: pin,
+          };
+          console.log(request);
+
+          axios
+            .post(transaction, request, { headers })
+            .then((response) => {
+              if (response.status >= 200 && response.status < 300) {
+                toast.success("Deposit successful");
+                navigate("/getaccountspec/" + id);
+              }
+            })
+            .catch((error) => {
+              if (error.response && error.response.status === 500) {
+                toast.error(error.response.data + " Please check your pin");
+                setPin("");
+              } else {
+                toast.error("Deposit failed. Check the details entered");
+              }
+            });
+        }
+      } catch (error) {
+        console.log(error.Message);
+        toast.error("Deposit failed. Check the details entered");
+        setError(error.Message);
+      }
     }
   };
   return (
@@ -157,7 +144,13 @@ const DepositPage = () => {
         </div>
         <div>
           Enter PIN{" "}
-          <input type="password" value={pin} onChange={handlePin} required />
+          <input
+            type="password"
+            value={pin}
+            placeholder="Enter ATM Pin"
+            onChange={handlePin}
+            required
+          />
         </div>
         <br />
         <div>
@@ -176,8 +169,4 @@ const DepositPage = () => {
   );
 };
 
-<<<<<<< HEAD
 export default DepositPage;
-=======
-export default DepositPage;
->>>>>>> 13c59482da025524d7800d82287279af2000d732

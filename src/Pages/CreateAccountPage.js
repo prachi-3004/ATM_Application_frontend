@@ -38,14 +38,17 @@ const CreateAccountPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      if (cardNo.trim() == "") {
-        alert("Card No. cannot be empty");
-        return;
+      if (!/^\d{16}$/.test(cardNo)) {
+        setError("Card No. must be exactly 16 digits");
+        toast.error("Card No. must be exactly 16 digits");
+        setCardNo("");
       }
-      if (pinNo.trim() == "") {
-        alert("Pin No. cannot be empty");
-        return;
-      } else {
+      else if (!/^\d{4}$/.test(pinNo)) {
+        setError("Pin must be exactly 4 digits");
+        toast.error("Pin must be exactly 4 digits");
+        setPinNo("");
+      }
+      else {
         const res = {
           customerId: parseInt(id),
           type: accountType,
@@ -62,13 +65,17 @@ const CreateAccountPage = () => {
 
         if (response.status >= 200 && response.status < 300) {
           console.log(response);
-          toast.success(`Account created successfully`);
+          toast.success(`Account created successfully`, {
+            onClose: () => {
+              navigate("/getcustomer/" + id);
+            },
+          });
           setAccountType("Savings");
           setCardNo("");
           setDoc("");
           setPinNo("");
           setBalance(100);
-          navigate("/getcustomer/" + id);
+          
         } else {
           toast.error("Account creation failed");
         }

@@ -67,8 +67,4 @@ const GetAllAccounts = () => {
     </div>
   );
 };
-<<<<<<< HEAD
 export default GetAllAccounts;
-=======
-export default GetAllAccounts;
->>>>>>> 13c59482da025524d7800d82287279af2000d732

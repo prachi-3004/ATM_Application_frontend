@@ -49,11 +49,19 @@ const TransferPage = () => {
 
   const getRecipientAccount = async (recipientId) => {
     if (recipientId != null) {
-      const res1 = await axios.get(getaccbyid + recipientId, {
-        headers,
-      });
-      console.log(res1.data);
-      setRecipientAccount(res1.data);
+      try {
+        const res1 = await axios.get(getaccbyid + recipientId, {
+          headers,
+        });
+        console.log(res1.data);
+        setRecipientAccount(res1.data);
+      } catch (error) {
+        //toast.error("Couldnt find recipient account");
+        setError(error.Message);
+        setRecipientId(null);
+      }
+    } else {
+      setRecipientId(null);
     }
   };
 
@@ -88,62 +96,65 @@ const TransferPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      getRecipientAccount(recipientId);
-      var amt = amount / currRate;
-      setSenderBal(senderAccount.balance);
+    if (amount < 0 || amount == null || !/^\d+$/.test(amount)) {
+      setError("Invalid Amount");
+      toast.error("Invalid Amount");
+      setPin("");
+      setAmount(0);
+    } else if (
+      recipientId == null ||
+      recipientId.length != 4 ||
+      !/^\d+$/.test(amount)
+    ) {
+      setError("Invalid Recipient Account ");
+      toast.error("Invalid Recipient Account ");
+      setRecipientId("");
+      setPin("");
+    } else {
+      try {
+        if (amount > 0 && recipientId != null) {
+          getRecipientAccount(recipientId);
+          var amt = amount / currRate;
+          setSenderBal(senderAccount.balance);
 
-      if (senderAccount.balance - 100 > amt) {
-        setSenderBal(senderBal - amt);
-        setRecipientBal(recipientAccount.balance + amt);
+          if (senderAccount.balance - 100 > amt) {
+            setSenderBal(senderBal - amt);
+            setRecipientBal(recipientAccount.balance + amt);
 
-        const request = {
-          type: "Transfer",
-          amount: parseInt(amt),
-          senderId: id,
-          recipientId: recipientId,
-          pin: pin,
-        };
-        console.log(request);
+            const request = {
+              type: "Transfer",
+              amount: parseInt(amt),
+              senderId: id,
+              recipientId: recipientId,
+              pin: pin,
+            };
+            console.log(request);
 
-<<<<<<< HEAD
-        axios.post(transaction, request).then((response) => {
-          if (response.status >= 200 && response.status < 300) {
-            console.log(response);
-            toast.success("Transfer successful");
-
-            navigate("/getaccountspec/" + id);
+            axios
+              .post(transaction, request)
+              .then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                  //console.log(response);
+                  toast.success("Transfer successful");
+                  navigate("/getaccountspec/" + id);
+                }
+              })
+              .catch((error) => {
+                if (error.response && error.response.status === 500) {
+                  toast.error(error.response.data);
+                  setPin("");
+                } else {
+                  toast.error("Transfer failed. Check the details entered");
+                }
+              });
+          } else {
+            toast.error("Insufficient balance");
           }
-          if (response.data === 0) {
-            toast.error("Transfer failed");
-          }
-        });
-=======
-        axios
-          .post(transaction, request)
-          .then((response) => {
-            if (response.status >= 200 && response.status < 300) {
-              //console.log(response);
-              toast.success("Transfer successful");
-
-              navigate("/getaccountspec/" + id);
-            }
-          })
-          .catch((error) => {
-            if (error.response && error.response.status === 500) {
-              toast.error(error.response.data);
-              setPin("");
-            } else {
-              toast.error("Transfer failed. Check the details entered");
-            }
-          });
->>>>>>> 13c59482da025524d7800d82287279af2000d732
-      } else {
-        toast.error("Insufficient balance");
+        }
+      } catch (error) {
+        toast.error("Transfer failed" + error.Message);
+        setError(error.Message);
       }
-    } catch (error) {
-      toast.error("Transfer failed" + error.Message);
-      setError(error.Message);
     }
   };
   return (
@@ -206,8 +217,4 @@ const TransferPage = () => {
   );
 };
 
-<<<<<<< HEAD
 export default TransferPage;
-=======
-export default TransferPage;
->>>>>>> 13c59482da025524d7800d82287279af2000d732
