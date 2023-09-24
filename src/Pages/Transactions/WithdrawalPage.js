@@ -89,8 +89,11 @@ const WithdrawalPage = () => {
               .then((response) => {
                 if (response.status >= 200 && response.status < 300) {
                   //console.log(response);
-                  toast.success("Withdraw successful");
-                  navigate("/getaccountspec/" + id);
+                  toast.success("Withdraw successful", {
+                    onClose: () => {
+                      navigate("/getaccountspec/" + id);
+                    },
+                  });
                 }
               })
               .catch((error) => {

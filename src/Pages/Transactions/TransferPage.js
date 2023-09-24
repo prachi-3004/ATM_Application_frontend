@@ -96,7 +96,7 @@ const TransferPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (amount < 0 || amount == null || !/^\d+$/.test(amount)) {
+    if (amount <= 0 || amount == null || !/^\d+$/.test(amount)) {
       setError("Invalid Amount");
       toast.error("Invalid Amount");
       setPin("");
@@ -135,8 +135,11 @@ const TransferPage = () => {
               .then((response) => {
                 if (response.status >= 200 && response.status < 300) {
                   //console.log(response);
-                  toast.success("Transfer successful");
-                  navigate("/getaccountspec/" + id);
+                  toast.success("Transfer successful", {
+                    onClose: () => {
+                      navigate("/getaccountspec/" + id);
+                    },
+                  });
                 }
               })
               .catch((error) => {
@@ -181,6 +184,7 @@ const TransferPage = () => {
           <input
             type="text"
             value={recipientId}
+            placeholder="Enter recipient account number"
             onChange={handleRecipientId}
             required
           />
@@ -198,7 +202,13 @@ const TransferPage = () => {
 
         <div>
           Enter PIN{" "}
-          <input type="password" value={pin} onChange={handlePin} required />
+          <input
+            type="password"
+            value={pin}
+            placeholder="Enter pin"
+            onChange={handlePin}
+            required
+          />
         </div>
         <br />
         <div>

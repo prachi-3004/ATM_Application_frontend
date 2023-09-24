@@ -65,7 +65,11 @@ const ChangePinPage = () => {
           .then((response) => {
             if (response.status >= 200 && response.status < 300) {
               console.log(response);
-              toast.success("Pin change successful!");
+              toast.success("Pin change successful!", {
+                onClose: () => {
+                  navigate("/getaccountspec/" + id);
+                },
+              });
             } else {
               toast.error("Pin change failed");
             }

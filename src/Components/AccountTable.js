@@ -5,6 +5,9 @@ import { AppContext } from "../Context/AppContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 export const AccountTable = ({ rows, deleteRow, viewRow }) => {
+  const [token, setToken] = useState(
+    JSON.parse(window.localStorage.getItem("login")).token
+  );
   const { user, setUser } = useContext(AppContext);
   return (
     <div>
@@ -16,6 +19,7 @@ export const AccountTable = ({ rows, deleteRow, viewRow }) => {
             <tr>
               <th>AccountId</th>
               <th>Type</th>
+
               <th>Card Number</th>
               <th>Balance</th>
               <th>Actions</th>

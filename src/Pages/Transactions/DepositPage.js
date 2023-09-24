@@ -92,8 +92,11 @@ const DepositPage = () => {
             .post(transaction, request, { headers })
             .then((response) => {
               if (response.status >= 200 && response.status < 300) {
-                toast.success("Deposit successful");
-                navigate("/getaccountspec/" + id);
+                toast.success("Deposit successful", {
+                  onClose: () => {
+                    navigate("/getaccountspec/" + id);
+                  },
+                });
               }
             })
             .catch((error) => {

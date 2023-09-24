@@ -2,66 +2,69 @@
 
 /* Set the background color of the entire page to dark grey */
 body {
-    background-color: #333333;/* Dark Grey */
-    color: white; /* White text on dark background */
+  background-color: #5e5c5c; /* Dark Grey */
+  color: white; /* White text on dark background */
 }
 
 /* global.css or component-specific CSS file */
 .centered-container {
-    padding: 40px;
-    text-align: center; /* Center-align the content */
-    font-size: 22px;
-    font-weight: 600;
+  padding: 40px;
+  text-align: center; /* Center-align the content */
+  font-size: 22px;
+  font-weight: 600;
 }
 
 /* Apply a sea green color to specific elements like headings and links */
-h1, h2, h3, h4, h5, h6 {
-color: #20B2AA; /* Sea Green */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #20b2aa; /* Sea Green */
 }
 
 a {
-color: #20B2AA; /* Sea Green for links */
-text-decoration: none; /* Remove underlines from links */
+  color: #20b2aa; /* Sea Green for links */
+  text-decoration: none; /* Remove underlines from links */
 }
 
 a:hover {
-color: #0e504d;
-text-decoration: underline; /* Add underline on hover for links */
+  color: #0e504d;
+  text-decoration: underline; /* Add underline on hover for links */
 }
 
 input[type="text"],
 input[type="email"],
-input[type="password"]{
-width: 20%; /* Make input fields full-width */
-padding: 10px;  /*Add padding for better spacing */
-margin-bottom: 10px; /* Add margin between input fields */
-border: 1px solid #ccc; /* Add a border */
-border-radius: 5px; /* Add rounded corners */
+input[type="password"] {
+  width: 20%; /* Make input fields full-width */
+  padding: 10px; /*Add padding for better spacing */
+  margin-bottom: 10px; /* Add margin between input fields */
+  border: 1px solid #ccc; /* Add a border */
+  border-radius: 5px; /* Add rounded corners */
 }
 
 .radio-label {
-    display: inline-block;
-    position: relative;
-    padding-left: 30px; /* Add spacing to the left of the label */
-    margin-right: 20px; /* Add margin between radio buttons */
-    cursor: pointer;
-  }
-
-button {
-font-size: large;
-font-family: 'Roboto', sans-serif;
-align: center;
-background-color: #20B2AA; /* Sea Green */
-color: white; /* White text */
-padding: 15px 30px; /* Add padding for better appearance */
-border: none; /* Remove default button border */
-border-radius: 10px; /* Add rounded corners */
-cursor: pointer; /* Add a pointer cursor on hover */
+  display: inline-block;
+  position: relative;
+  padding-left: 30px; /* Add spacing to the left of the label */
+  margin-right: 20px; /* Add margin between radio buttons */
+  cursor: pointer;
 }
 
+button {
+  font-size: large;
+  font-family: "Roboto", sans-serif;
+  align: center;
+  background-color: #20b2aa; /* Sea Green */
+  color: white; /* White text */
+  padding: 15px 30px; /* Add padding for better appearance */
+  border: none; /* Remove default button border */
+  border-radius: 10px; /* Add rounded corners */
+  cursor: pointer; /* Add a pointer cursor on hover */
+}
 
 /* Style a button when hovering over it */
 button:hover {
-background-color: #008080; /* Darker Sea Green */
+  background-color: #008080; /* Darker Sea Green */
 }
-

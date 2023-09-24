@@ -13,13 +13,11 @@ const GetAccountDetails = () => {
 
   const { id } = useParams();
   const navigate = useNavigate();
-  var res = {};
   const [account, setAccount] = useState([]);
-
   const [hadAccs, sethadAccs] = useState(false);
   const headers = { Authorization: `Bearer${token}` };
   const getAcc = async () => {
-    res = await axios.get(getaccbycustid + id, {
+    const res = await axios.get(getaccbycustid + id, {
       headers,
     });
     //console.log("Got Account Details:" + res.data);
@@ -43,17 +41,17 @@ const GetAccountDetails = () => {
     toast.success("User deleted successfully!");
   };
   const handleView = async (idx) => {
-    await axios
-      .get(getaccbyid + idx, {
-        headers,
-      })
-      .then((response) => setAccount(response.data));
-    if (account != null) navigate("/getaccountspec/" + idx);
-    else {
-      toast.error("Couldn't fetch account details");
-      console.log("Couldn't fetch account details");
-      navigate("/login");
-    }
+    // await axios
+    //   .get(getaccbyid + idx, {
+    //     headers,
+    //   })
+    //   .then((response) => setAccount(response.data));
+    // if (account != null) navigate("/getaccountspec/" + idx);
+    // else {
+    //   toast.error("Couldn't fetch account details");
+    //   console.log("Couldn't fetch account details");
+    //   navigate("/login");}
+    navigate("/getaccountspec/" + idx);
   };
   return (
     <div>
