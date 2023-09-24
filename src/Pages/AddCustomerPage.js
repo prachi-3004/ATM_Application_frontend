@@ -8,7 +8,6 @@ import { addcust } from "../Routes";
 import "react-toastify/dist/ReactToastify.css";
 const AddCustomerPage = () => {
   const [name, setName] = useState("");
-  const [username, setUserName] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [email, setEmail] = useState("");
@@ -22,9 +21,6 @@ const AddCustomerPage = () => {
   const navigate = useNavigate();
   const handleName = (event) => {
     setName(event.target.value);
-  };
-  const handleUserName = (event) => {
-    setUserName(event.target.value);
   };
   const handleAddress = (event) => {
     setAddress(event.target.value);
@@ -55,18 +51,7 @@ const AddCustomerPage = () => {
         toast.error("Name must be between 1 to 50 characters");
         setName("");
       }
-      else if(username.length<4 || username.length>20)
-      {
-        setError("Username must be between 4 to 20 characters");
-        toast.error("Username must be between 4 to 20 characters");
-        setUserName("");
-      }
-      else if(!/^[a-zA-Z0-9_.]+$/.test(username))
-      {
-        setError("Username contains invalid characters. Only letters, numbers, dots, and underscores are allowed");
-        toast.error("Username contains invalid characters. Only letters, numbers, dots, and underscores are allowed");
-        setUserName("");
-      }
+      
       else if (address.length<1 || address.length>150) {
         setError("Address must be between 1 to 150 characters");
         toast.error("Address must be between 1 to 150 characters");
@@ -95,7 +80,6 @@ const AddCustomerPage = () => {
       } else {
         const res = {
           name: name,
-          userName: username,
           useraddress: address,
           city: city,
           email: email,
@@ -117,7 +101,6 @@ const AddCustomerPage = () => {
               console.log(response);
               toast.success("Customer added successfully");
               setName("");
-              setUserName("");
               setAddress("");
               setCity("");
               setEmail("");
@@ -148,15 +131,6 @@ const AddCustomerPage = () => {
           />
         </div>
         <div>
-          User Name:{" "}
-          <input
-            type="text"
-            value={username}
-            onChange={handleUserName}
-            placeholder="Enter User Name"
-          />
-        </div>
-        <div>
           Address:{" "}
           <input
             type="text"
@@ -177,7 +151,7 @@ const AddCustomerPage = () => {
         <div>
           Email:{" "}
           <input
-            type="text"
+            type="email"
             value={email}
             onChange={handleEmail}
             placeholder="Enter Email id"

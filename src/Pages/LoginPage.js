@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
+import validator from "validator";
 import { AppContext } from "../Context/AppContext";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -7,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./LoginPage.css";
 import { authorize } from "../Routes";
 const LoginPage = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setpwd] = useState("");
   const [login, setLogin] = useState(false);
   const { user, setUser } = useContext(AppContext);
@@ -15,40 +16,32 @@ const LoginPage = () => {
   const [Error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleUsername = (event) => {
-    setUsername(event.target.value);
+  const handleEmail = (event) => {
+    setEmail(event.target.value);
   };
   const handlepwd = (event) => {
     setpwd(event.target.value);
   };
   const handleSubmit = async (event) => {
     const res = {
-      username: username,
+      email: email,
       password: password,
       role: userType,
     };
     event.preventDefault();
-    if (username.length < 4 || username.length > 20) {
-      setError("Username must be between 4 to 20 characters");
-      toast.error("Username must be between 4 to 20 characters");
-      setpwd("");
-      setUsername("");
-    } else if (!/^[a-zA-Z0-9_.]+$/.test(username)) {
-      setError(
-        "Username contains invalid characters. Only letters, numbers, dots, and underscores are allowed"
-      );
-      toast.error(
-        "Username contains invalid characters. Only letters, numbers, dots, and underscores are allowed"
-      );
-      setpwd("");
-      setUsername("");
-    } else if (password.length < 3 || password.length > 16) {
+    if (password.length < 3 || password.length > 16) {
       //password must
       setError("Password must be between 3 to 16 characters");
       toast.error("Password must be between 3 to 16 characters");
       setpwd("");
-      setUsername("");
-    } else {
+      setEmail("");
+    }
+    else if (!validator.isEmail(email)) {
+      setError("Enter a valid email address");
+      toast.error("Enter a valid email address");
+      setEmail("");
+    } 
+    else {
       try {
         axios
           .post(authorize, res)
@@ -75,7 +68,7 @@ const LoginPage = () => {
             if (error.response && error.response.status === 500) {
               console.log(error.response.data);
               toast.error("Invalid Login");
-              setUsername("");
+              setEmail("");
               setpwd("");
             } else {
               toast.error("Login failed: " + error.message); //error message
@@ -116,12 +109,12 @@ const LoginPage = () => {
         </div>
         <br />
         <div>
-          Username:{" "}
+          email:{" "}
           <input
-            type="text"
-            placeholder="Enter User Name"
-            value={username}
-            onChange={handleUsername}
+            type="email"
+            placeholder="Enter User Email"
+            value={email}
+            onChange={handleEmail}
           />
         </div>
 
