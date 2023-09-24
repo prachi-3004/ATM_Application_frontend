@@ -26,10 +26,22 @@ const UpdateCustomerPage = () => {
 
   var res = {};
   const getcust = async () => {
-    res = await axios.get(getcustomer + id, {
-      headers,
-    });
-    setCustomer(res.data);
+    await axios
+      .get(getcustomer + id, {
+        headers,
+      })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          console.log(response.data);
+          setCustomer(response.data);
+        } else {
+          toast.error(response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data);
+      });
   };
   useEffect(() => {
     getcust();
@@ -63,30 +75,36 @@ const UpdateCustomerPage = () => {
       toast.error("Enter a valid email address");
       setCustomer.email("");
     } else {
-      const response = await axios.put(updatedetails + id, customer, {
-        headers,
-      });
-      setCustomer(response.data);
-      // console.log("Updated Customer details:" + response.data);
-      if (user.role != 0) {
-        toast.success(
-          "Updated customer details successfully. Redirecting to Admin Page.",
-          {
-            onClose: () => {
-              navigate("/navigateadmin");
-            },
+      await axios
+        .put(updatedetails + id, customer, {
+          headers,
+        })
+        .then((response) => {
+          if (response.status >= 200 && response.status < 300) {
+            setCustomer(response.data);
+            // console.log("Updated Customer details:" + response.data);
+            if (user.role != 0) {
+              toast.success(
+                "Updated customer details successfully. Redirecting to Admin Page.",
+                {
+                  onClose: () => {
+                    navigate("/navigateadmin");
+                  },
+                }
+              );
+            }
+          } else {
+            toast.success(
+              "Updated customer details successfully. Redirecting to Customer Page",
+              {
+                onClose: () => {
+                  navigate("/navigatecustomer");
+                },
+              }
+            );
           }
-        );
-      } else {
-        toast.success(
-          "Updated customer details successfully. Redirecting to Customer Page",
-          {
-            onClose: () => {
-              navigate("/navigatecustomer");
-            },
-          }
-        );
-      }
+        })
+        .catch((error) => toast.error(error.response.data));
     }
   };
   return (

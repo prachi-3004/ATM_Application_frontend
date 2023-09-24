@@ -2,6 +2,8 @@ import React, { useState, useContext, useEffect } from "react";
 import { getcustomer } from "../Routes";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const GetCustomer = () => {
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login")).token
@@ -14,11 +16,22 @@ const GetCustomer = () => {
   const headers = { Authorization: `Bearer${token}` };
 
   const getcust = async () => {
-    res = await axios.get(getcustomer + id, {
-      headers,
-    });
-    //console.log(res.data);
-    setCustomer(res.data);
+    await axios
+      .get(getcustomer + id, {
+        headers,
+      })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          console.log(response.data);
+          setCustomer(response.data);
+        } else {
+          toast.error(response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data);
+      });
   };
 
   useEffect(() => {
@@ -51,6 +64,7 @@ const GetCustomer = () => {
   // };
   return (
     <div>
+      <ToastContainer />
       <button onClick={handleaddAccount}>Add Account</button>
       <button onClick={handleGetAccount}>Get Accounts details</button>
       {/* <button onClick={handleDelete}>Delete account</button>} */}

@@ -35,15 +35,13 @@ const LoginPage = () => {
       toast.error("Password must be between 3 to 16 characters");
       setpwd("");
       setEmail("");
-    }
-    else if (!validator.isEmail(email)) {
+    } else if (!validator.isEmail(email)) {
       setError("Enter a valid email address");
       toast.error("Enter a valid email address");
       setEmail("");
-    } 
-    else {
+    } else {
       try {
-        axios
+        await axios
           .post(authorize, res)
           .then((response) => {
             if (response.status >= 200 && response.status < 300) {

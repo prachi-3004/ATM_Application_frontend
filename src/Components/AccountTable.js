@@ -5,8 +5,8 @@ import { AppContext } from "../Context/AppContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 export const AccountTable = ({ rows, deleteRow, viewRow }) => {
-  const [token, setToken] = useState(
-    JSON.parse(window.localStorage.getItem("login")).token
+  const [role, setRole] = useState(
+    JSON.parse(window.localStorage.getItem("login")).role
   );
   const { user, setUser } = useContext(AppContext);
   return (

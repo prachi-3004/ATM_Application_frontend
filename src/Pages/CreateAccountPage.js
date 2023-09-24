@@ -42,13 +42,11 @@ const CreateAccountPage = () => {
         setError("Card No. must be exactly 16 digits");
         toast.error("Card No. must be exactly 16 digits");
         setCardNo("");
-      }
-      else if (!/^\d{4}$/.test(pinNo)) {
+      } else if (!/^\d{4}$/.test(pinNo)) {
         setError("Pin must be exactly 4 digits");
         toast.error("Pin must be exactly 4 digits");
         setPinNo("");
-      }
-      else {
+      } else {
         const res = {
           customerId: parseInt(id),
           type: accountType,
@@ -60,29 +58,33 @@ const CreateAccountPage = () => {
         console.log(res);
         setToken(user.token);
         const headers = { Authorization: `Bearer${token}` };
-        //console.log(headers);
-        const response = await axios.post(addacc, res, { headers });
 
-        if (response.status >= 200 && response.status < 300) {
-          console.log(response);
-          toast.success(`Account created successfully`, {
-            onClose: () => {
-              navigate("/getcustomer/" + id);
-            },
+        await axios
+          .post(addacc, res, { headers })
+          .then((response) => {
+            if (response.status >= 200 && response.status < 300) {
+              console.log(response);
+              toast.success(`Account created successfully`, {
+                onClose: () => {
+                  navigate("/getcustomer/" + id);
+                },
+              });
+              setAccountType("Savings");
+              setCardNo("");
+              setDoc("");
+              setPinNo("");
+              setBalance(100);
+            } else {
+              toast.error("Account creation failed");
+            }
+          })
+          .catch((error) => {
+            toast.error("Account creation failed" + error.Message);
+            setError(error.Message);
           });
-          setAccountType("Savings");
-          setCardNo("");
-          setDoc("");
-          setPinNo("");
-          setBalance(100);
-          
-        } else {
-          toast.error("Account creation failed");
-        }
       }
     } catch (error) {
-      toast.error("Account creation failed" + error.Message);
-      setError(error.Message);
+      toast.error(error.Message);
     }
   };
   return (

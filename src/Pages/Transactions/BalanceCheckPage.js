@@ -17,16 +17,26 @@ const BalanceCheckPage = () => {
 
   const getAccount = async () => {
     if (id != null) {
-      const res = await axios.get(getaccbyid + id, {
-        headers,
-      });
-      //console.log("resdata" + res.data);
-      if (res.data) {
-        setAccount(res.data);
-        //toast.success("Balance fetched successfully");
-      } else {
-        toast.error("Something went wrong");
-      }
+      await axios
+        .get(getaccbyid + id, {
+          headers,
+        })
+        .then((response) => {
+          if (response.status >= 200 && response.status < 300) {
+            setAccount(response.data);
+          } else {
+            toast.error("Something went wrong");
+          }
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 500) {
+            toast.error(error.response.data);
+          } else {
+            toast.error("Something went wrong");
+          }
+        });
+    } else {
+      toast.error("Invalid account id");
     }
   };
 

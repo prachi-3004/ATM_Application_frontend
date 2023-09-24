@@ -24,11 +24,24 @@ const NavbarComponentCustomer = () => {
     window.localStorage.removeItem("login");
   };
   const getcust = async () => {
-    res = await axios.get(getcustomer + id, {
-      headers,
-    });
+    await axios
+      .get(getcustomer + id, {
+        headers,
+      })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          setCustomer(response.data);
+          console.log("Fetched customer details successfully");
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 500) {
+          toast.error(error.response.data);
+        } else {
+          toast.error(error.response.data);
+        }
+      });
     //console.log("Get Customer Details" + res.data);
-    setCustomer(res.data);
   };
 
   useEffect(() => {

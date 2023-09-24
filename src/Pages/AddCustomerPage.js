@@ -45,35 +45,28 @@ const AddCustomerPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      if(name.length<1 || name.length>50)
-      {
+      if (name.length < 1 || name.length > 50) {
         setError("Name must be between 1 to 50 characters");
         toast.error("Name must be between 1 to 50 characters");
         setName("");
-      }
-      
-      else if (address.length<1 || address.length>150) {
+      } else if (address.length < 1 || address.length > 150) {
         setError("Address must be between 1 to 150 characters");
         toast.error("Address must be between 1 to 150 characters");
         setAddress("");
-      }
-      else if (city.length<1 || city.length>15) {
+      } else if (city.length < 1 || city.length > 15) {
         setError("City must be between 1 to 15 characters");
         toast.error("City must be between 1 to 15 characters");
         setCity("");
-      }
-      else if (!/^\d{10}$/.test(contact)) {
+      } else if (!/^\d{10}$/.test(contact)) {
         setError("Enter a valid contact number");
         toast.error("Enter a valid contact number");
         setContact("");
-      }
-      else if(password.length<3 || password.length>16)//password must 
-      {
+      } else if (password.length < 3 || password.length > 16) {
+        //password must
         setError("Password must be between 3 to 16 characters");
         toast.error("Password must be between 3 to 16 characters");
         setPassword("");
-      }
-      else if (!validator.isEmail(email)) {
+      } else if (!validator.isEmail(email)) {
         setError("Enter a valid email address");
         toast.error("Enter a valid email address");
         setEmail("");
@@ -91,7 +84,7 @@ const AddCustomerPage = () => {
         const headers = { Authorization: `Bearer${user.token}` };
         console.log(headers);
         console.log(res);
-        axios
+        await axios
           .post(addcust, res, {
             headers,
           })
@@ -110,7 +103,8 @@ const AddCustomerPage = () => {
             } else {
               toast.error("Registration failed");
             }
-          });
+          })
+          .catch((error) => toast.error(error.reponse.data));
       }
     } catch (error) {
       toast.error("Registration failed" + error.Message);

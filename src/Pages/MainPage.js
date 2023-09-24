@@ -14,13 +14,23 @@ const MainPage = () => {
     JSON.parse(window.localStorage.getItem("login")).token
   );
   const headers = { Authorization: `Bearer${token}` };
-  //console.log(headers);
+
   const handleDeleteRow = async (idx) => {
-    await axios.delete("" + idx, {
-      headers,
-    });
-    console.log("User deleted successfully!");
-    toast.success("User deleted successfully!");
+    await axios
+      .delete("" + idx, {
+        headers,
+      })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          console.log("User deleted successfully!");
+          toast.success("User deleted successfully!");
+        } else {
+          toast.error(response.data);
+        }
+      })
+      .catch((err) => {
+        toast.error(err.response.data);
+      });
   };
 
   const handleAdd = () => {

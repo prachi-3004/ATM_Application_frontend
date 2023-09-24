@@ -17,14 +17,23 @@ const GetAccountDetails = () => {
   const [hadAccs, sethadAccs] = useState(false);
   const headers = { Authorization: `Bearer${token}` };
   const getAcc = async () => {
-    const res = await axios.get(getaccbycustid + id, {
-      headers,
-    });
-    //console.log("Got Account Details:" + res.data);
-    if (res.data.length > 0) {
-      setAccount(res.data);
-      sethadAccs(true);
-    }
+    await axios
+      .get(getaccbyid + id, {
+        headers,
+      })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          console.log(response.data);
+          setAccount(response.data);
+          sethadAccs(true);
+        } else {
+          toast.error(response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data);
+      });
   };
 
   useEffect(() => {
@@ -32,25 +41,23 @@ const GetAccountDetails = () => {
   }, [id]);
 
   const handleDelete = async (idx) => {
-    const headers = { Authorization: `Bearer${token}` };
-    //console.log(headers);
-    await axios.delete("" + idx, {
-      headers,
-    });
-    console.log("User deleted successfully!");
-    toast.success("User deleted successfully!");
+    await axios
+      .delete("" + idx, {
+        headers,
+      })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          console.log("Account deleted successfully!");
+          toast.success("Account deleted successfully!");
+        } else {
+          toast.error(response.data);
+        }
+      })
+      .catch((err) => {
+        toast.error(err.response.data);
+      });
   };
   const handleView = async (idx) => {
-    // await axios
-    //   .get(getaccbyid + idx, {
-    //     headers,
-    //   })
-    //   .then((response) => setAccount(response.data));
-    // if (account != null) navigate("/getaccountspec/" + idx);
-    // else {
-    //   toast.error("Couldn't fetch account details");
-    //   console.log("Couldn't fetch account details");
-    //   navigate("/login");}
     navigate("/getaccountspec/" + idx);
   };
   return (

@@ -27,10 +27,22 @@ const WithdrawalPage = () => {
     setPin(event.target.value);
   };
   const getAccount = async () => {
-    const res = await axios.get(getaccbyid + id, {
-      headers,
-    });
-    setAccount(res.data);
+    await axios
+      .get(getaccbyid + id, {
+        headers,
+      })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          console.log(response.data);
+          setAccount(response.data);
+        } else {
+          toast.error(response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data);
+      });
   };
 
   useEffect(() => {
@@ -38,22 +50,41 @@ const WithdrawalPage = () => {
   }, [id]);
 
   const getCurr = async () => {
-    const res1 = await axios.get(getallcurr, {
-      headers,
-    });
-    setCurr(res1.data);
+    await axios
+      .get(getallcurr, {
+        headers,
+      })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          setCurr(response.data);
+        } else {
+          toast.error("Unable to fetch currency");
+        }
+      })
+      .catch((error) => {
+        toast.error(error.response.data);
+      });
   };
   useEffect(() => {
     getCurr();
   }, []);
   const getCurrRate = async (selcurr) => {
     if (selcurr != null) {
-      const res2 = await axios.get(getcurrrate + selcurr, {
-        headers,
-      });
-      //console.log(res2);
-      console.log("Currency Rate got" + res2.data);
-      setCurrRate(res2.data);
+      await axios
+        .get(getcurrrate + selcurr, {
+          headers,
+        })
+        .then((response) => {
+          if (response.status >= 200 && response.status < 300) {
+            console.log("Currency Rate got" + response.data);
+            setCurrRate(response.data);
+          } else {
+            toast.error("Unable to fetch currency rate");
+          }
+        })
+        .catch((error) => toast.error(error.response.data));
+    } else {
+      toast.error("Currency should be selected");
     }
   };
 
@@ -84,8 +115,8 @@ const WithdrawalPage = () => {
               pin: pin,
             };
             console.log(request);
-            axios
-              .post(transaction, request)
+            await axios
+              .post(transaction, request, { headers })
               .then((response) => {
                 if (response.status >= 200 && response.status < 300) {
                   //console.log(response);
@@ -94,6 +125,8 @@ const WithdrawalPage = () => {
                       navigate("/getaccountspec/" + id);
                     },
                   });
+                } else {
+                  toast.error(response);
                 }
               })
               .catch((error) => {

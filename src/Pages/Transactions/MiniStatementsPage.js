@@ -15,12 +15,21 @@ const MiniStatementsPage = () => {
   const headers = { Authorization: `Bearer${token}` };
 
   const getTransactions = async () => {
-    const res = await axios.get(gettransactionhistory + id, {
-      headers,
-    });
-    console.log("Transactions " + res.data);
-    //toast.success("Fetched transaction successfully");
-    setTransactions(res.data);
+    await axios
+      .get(gettransactionhistory + id, {
+        headers,
+      })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          console.log("Transactions " + response.data);
+          setTransactions(response.data);
+        } else {
+          toast.error(response.data);
+        }
+      })
+      .catch((error) => {
+        toast.error(error.response.data);
+      });
   };
 
   useEffect(() => {

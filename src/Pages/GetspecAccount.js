@@ -2,7 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { getaccbyid } from "../Routes";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const GetspecAccount = () => {
   const [account, setAccount] = useState({});
   const { id } = useParams();
@@ -16,11 +17,22 @@ const GetspecAccount = () => {
   const headers = { Authorization: `Bearer${token}` };
 
   const getAcc = async () => {
-    const res = await axios.get(getaccbyid + id, {
-      headers,
-    });
-
-    setAccount(res.data);
+    await axios
+      .get(getaccbyid + id, {
+        headers,
+      })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          console.log(response.data);
+          setAccount(response.data);
+        } else {
+          toast.error(response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data);
+      });
   };
 
   useEffect(() => {
@@ -48,6 +60,7 @@ const GetspecAccount = () => {
 
   return (
     <div>
+      <ToastContainer />
       <div>
         <h3>Account Details</h3>
         <div>

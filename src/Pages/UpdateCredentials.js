@@ -20,11 +20,22 @@ const UpdateCredentials = () => {
     setCustomer((prev) => ({ ...prev, [name]: value }));
   };
   const getcust = async () => {
-    const res = await axios.get(getcustomer + id, {
-      headers,
-    });
-    //console.log(res.data);
-    setCustomer(res.data);
+    await axios
+      .get(getcustomer + id, {
+        headers,
+      })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          console.log(response.data);
+          setCustomer(response.data);
+        } else {
+          toast.error(response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data);
+      });
   };
 
   useEffect(() => {
@@ -32,32 +43,40 @@ const UpdateCredentials = () => {
   }, [id]);
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if(customer.userName.length<4 || customer.userNamelength>20)
-    {
+    if (customer.userName.length < 4 || customer.userNamelength > 20) {
       setError("Username must be between 4 to 20 characters");
       toast.error("Username must be between 4 to 20 characters");
       setCustomer.password("");
       setCustomer.userName("");
-    }
-    else if(customer.password.length<3 || customer.password.length>16)//password must 
-    {
+    } else if (customer.password.length < 3 || customer.password.length > 16) {
+      //password must
       setError("Password must be between 3 to 16 characters");
       toast.error("Password must be between 3 to 16 characters");
       setCustomer.password("");
       setCustomer.userName("");
-    }
-    else{
+    } else {
       const res = {
         userName: customer.userName,
         password: customer.password,
         role: 0,
       };
-      const response = await axios.put(updatecredentials + id, res, { headers });
-      //setCustomer(response.data);
-
-      console.log("Updated Customer details:" + response.data);
-      toast.success("updated successfully");
-      navigate("/navigatecustomer");
+      await axios
+        .put(updatecredentials + id, res, {
+          headers,
+        })
+        .then((response) => {
+          if (response.status >= 200 && response.status < 300) {
+            console.log("Updated Customer details:" + response.data);
+            toast.success("updated successfully");
+            navigate("/navigatecustomer");
+          } else {
+            toast.error(response.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error(err.response.data);
+        });
     }
   };
   return (

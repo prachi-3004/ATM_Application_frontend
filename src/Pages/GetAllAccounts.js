@@ -15,13 +15,22 @@ const GetAllAccounts = () => {
   const [account, setAccount] = useState([]);
   const headers = { Authorization: `Bearer${token}` };
   const getAccs = async () => {
-    res = await axios.get(getallacc, {
-      headers,
-    });
-    //console.log("Got Account Details:" + res.data);
-    if (res.data.length > 0) {
-      setAccount(res.data);
-    }
+    await axios
+      .get(getallacc, {
+        headers,
+      })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          console.log(response.data);
+          setAccount(response.data);
+        } else {
+          toast.error(response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data);
+      });
   };
 
   useEffect(() => {
@@ -29,25 +38,35 @@ const GetAllAccounts = () => {
   }, []);
 
   const handleDelete = async (idx) => {
-    //console.log(headers);
-    await axios.delete("" + idx, {
-      headers,
-    });
-    console.log("Account deleted successfully!");
-    toast.success("Account deleted successfully!");
-  };
-  const handleView = async (idx) => {
     await axios
-      .get(getaccbyid + idx, {
+      .delete("" + idx, {
         headers,
       })
-      .then((response) => setAccount(response.data));
-    if (account != null) navigate("/getaccountspec/" + idx);
-    else {
-      toast.error("Couldn't fetch account details");
-      console.log("Couldn't fetch account details");
-      navigate("/navigateadmin");
-    }
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          console.log("Account deleted successfully!");
+          toast.success("Account deleted successfully!");
+        } else {
+          toast.error(response.data);
+        }
+      })
+      .catch((err) => {
+        toast.error(err.response.data);
+      });
+  };
+  const handleView = async (idx) => {
+    // await axios
+    //   .get(getaccbyid + idx, {
+    //     headers,
+    //   })
+    //   .then((response) => setAccount(response.data));
+    // if (account != null) navigate("/getaccountspec/" + idx);
+    // else {
+    //   toast.error("Couldn't fetch account details");
+    //   console.log("Couldn't fetch account details");
+    //   navigate("/navigateadmin");
+    // }
+    navigate("/getaccountspec/" + idx);
   };
   return (
     <div>

@@ -29,11 +29,22 @@ const ChangePinPage = () => {
   };
 
   const getAccount = async () => {
-    const res = await axios.get(getaccbyid + id, {
-      headers,
-    });
-    //console.log("resdata" + res.data);
-    setAccount(res.data);
+    await axios
+      .get(getaccbyid + id, {
+        headers,
+      })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          console.log(response.data);
+          setAccount(response.data);
+        } else {
+          toast.error(response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data);
+      });
   };
 
   useEffect(() => {
@@ -73,6 +84,9 @@ const ChangePinPage = () => {
             } else {
               toast.error("Pin change failed");
             }
+          })
+          .catch((error) => {
+            toast.error(error.response.data);
           });
       }
     } catch (error) {
