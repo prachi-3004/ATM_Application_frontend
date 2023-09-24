@@ -118,7 +118,7 @@ const DepositPage = () => {
           };
           console.log(request);
 
-          await.axios
+          await axios
             .post(transaction, request, { headers })
             .then((response) => {
               if (response.status >= 200 && response.status < 300) {

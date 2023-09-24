@@ -12,6 +12,7 @@ const AddCustomerPage = () => {
   const [city, setCity] = useState("");
   const [email, setEmail] = useState("");
   const [contact, setContact] = useState("");
+  const [govtid, setgovtid] = useState("");
   const [password, setPassword] = useState("");
   const [Error, setError] = useState("");
   const { user, setUser } = useContext(AppContext);
@@ -37,7 +38,9 @@ const AddCustomerPage = () => {
   const handleContact = (event) => {
     setContact(event.target.value);
   };
-
+  const handleGovtid = (event) => {
+    setgovtid(event.target.value);
+  };
   const handlePassword = (event) => {
     setPassword(event.target.value);
   };
@@ -70,14 +73,19 @@ const AddCustomerPage = () => {
         setError("Enter a valid email address");
         toast.error("Enter a valid email address");
         setEmail("");
+      } else if (govtid == null) {
+        setError("Enter a valid government id");
+        toast.error("Enter a valid government id");
+        setgovtid("");
       } else {
         const res = {
           name: name,
-          useraddress: address,
+          address: address,
           city: city,
           email: email,
-          contact: contact,
+          contactNumber: contact,
           password: password,
+          governmentId: govtid,
         };
 
         setToken(user.token);
@@ -99,6 +107,7 @@ const AddCustomerPage = () => {
               setEmail("");
               setContact("");
               setPassword("");
+              setgovtid("");
               navigate("/navigateadmin");
             } else {
               toast.error("Registration failed");
@@ -122,6 +131,7 @@ const AddCustomerPage = () => {
             value={name}
             onChange={handleName}
             placeholder="Enter Name"
+            required
           />
         </div>
         <div>
@@ -131,6 +141,7 @@ const AddCustomerPage = () => {
             value={address}
             onChange={handleAddress}
             placeholder="Enter Customer Address"
+            required
           />
         </div>
         <div>
@@ -149,6 +160,7 @@ const AddCustomerPage = () => {
             value={email}
             onChange={handleEmail}
             placeholder="Enter Email id"
+            required
           />
         </div>
         <div>
@@ -158,6 +170,17 @@ const AddCustomerPage = () => {
             value={contact}
             onChange={handleContact}
             placeholder="Enter Contact Number"
+            required
+          />
+        </div>
+        <div>
+          Government ID:{" "}
+          <input
+            type="text"
+            value={govtid}
+            onChange={handleGovtid}
+            placeholder="Enter Government ID"
+            required
           />
         </div>
         <div>
@@ -167,6 +190,7 @@ const AddCustomerPage = () => {
             value={password}
             onChange={handlePassword}
             placeholder="Enter Password"
+            required
           />
         </div>
         <div>

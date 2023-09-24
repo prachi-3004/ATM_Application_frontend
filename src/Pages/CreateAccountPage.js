@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 const CreateAccountPage = () => {
   const navigate = useNavigate();
   const [accountType, setAccountType] = useState("Savings");
-  const [cardNo, setCardNo] = useState("");
   const { id } = useParams();
   const [pinNo, setPinNo] = useState("");
   const [balance, setBalance] = useState(100);
@@ -23,10 +22,6 @@ const CreateAccountPage = () => {
     setAccountType(event.target.value);
   };
 
-  const handleCardNo = (event) => {
-    setCardNo(event.target.value);
-  };
-
   const handlePinNo = (event) => {
     setPinNo(event.target.value);
   };
@@ -38,11 +33,7 @@ const CreateAccountPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      if (!/^\d{16}$/.test(cardNo)) {
-        setError("Card No. must be exactly 16 digits");
-        toast.error("Card No. must be exactly 16 digits");
-        setCardNo("");
-      } else if (!/^\d{4}$/.test(pinNo)) {
+      if (!/^\d{4}$/.test(pinNo)) {
         setError("Pin must be exactly 4 digits");
         toast.error("Pin must be exactly 4 digits");
         setPinNo("");
@@ -50,7 +41,6 @@ const CreateAccountPage = () => {
         const res = {
           customerId: parseInt(id),
           type: accountType,
-          cardNumber: cardNo,
           dateOfCreation: doc,
           pin: pinNo,
           balance: balance,
@@ -70,7 +60,7 @@ const CreateAccountPage = () => {
                 },
               });
               setAccountType("Savings");
-              setCardNo("");
+
               setDoc("");
               setPinNo("");
               setBalance(100);
@@ -103,11 +93,10 @@ const CreateAccountPage = () => {
             <option value="FD">Fixed Deposit</option>
           </select>
         </div>
+
         <div>
-          Card No: <input type="text" value={cardNo} onChange={handleCardNo} />
-        </div>
-        <div>
-          Pin No: <input type="text" value={pinNo} onChange={handlePinNo} />
+          Pin No:{" "}
+          <input type="text" value={pinNo} onChange={handlePinNo} required />
         </div>
         <div>
           Balance:{" "}
@@ -116,6 +105,7 @@ const CreateAccountPage = () => {
             min="100"
             value={balance}
             onChange={handleBalance}
+            required
           />
         </div>
         <div>
