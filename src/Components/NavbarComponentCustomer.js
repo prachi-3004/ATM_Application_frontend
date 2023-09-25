@@ -61,9 +61,7 @@ const NavbarComponentCustomer = () => {
                   Get Account details
                 </NavLink>
               )}
-              <NavLink to={`/updatecredentials/${id}`}>
-                Update Credentials
-              </NavLink>
+             
             </li>
             <li className="nav-link">
               <NavLink to="/login" onClick={handleLogout}>

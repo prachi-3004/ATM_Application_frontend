@@ -83,7 +83,7 @@ const LoginPage = () => {
                 setToken(response.data);
                 window.localStorage.setItem(
                   "login",
-                  JSON.stringify({ token, userType })
+                  JSON.stringify(response.data)
                 );
                 window.localStorage.setItem(
                   "role",

@@ -12,7 +12,7 @@ const GetspecAccount = () => {
     JSON.parse(window.localStorage.getItem("login"))
   );
   const [role, setRole] = useState(
-    JSON.parse(window.localStorage.getItem("login")).role
+    JSON.parse(window.localStorage.getItem("role"))
   );
   const headers = { Authorization: `Bearer ${token}` };
 
@@ -65,7 +65,9 @@ const GetspecAccount = () => {
         <h3>Account Details</h3>
         <div>
           {account && <div> Account ID: {account?.id} </div>}
-          {account && <div> Account Type: {account?.type} </div>}
+          {account && <div>Account Type:{account?.type===0 && ("Savings")}
+                {account?.type===1 && ("Current")}
+                {account?.type===2 && ("Salary")}</div>}
           {account && <div> Date of Creation: {account?.createdAt} </div>}
           {account && <div> Card Number: {account?.cardNumber} </div>}
           {account && <div> Balance: {account?.balance} </div>}

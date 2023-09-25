@@ -19,7 +19,7 @@ const GetAccountDetails = () => {
   const headers = { Authorization: `Bearer ${token}` };
   const getAcc = async () => {
     await axios
-      .get(getaccbycustid + user, {
+      .get(getaccbycustid + id, {
         headers,
       })
       .then((response) => {

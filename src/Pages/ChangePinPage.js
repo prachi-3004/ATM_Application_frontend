@@ -14,10 +14,13 @@ const ChangePinPage = () => {
   const navigate = useNavigate();
 
   const headers = { Authorization: `Bearer ${token}` };
-
+  const [oldpassword, setOldPassword]=useState("");
   const [newpassword, setNewPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
 
+    const handleOldPasswod = (event)=>{
+      setOldPassword(event.target.value);
+    }
   const handleNewPassword = (event) => {
     //console.log(event.target.value);
     setNewPassword(event.target.value);
@@ -54,6 +57,7 @@ const ChangePinPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      
       if (newpassword !== confirmpassword) {
         toast.error("Both passwords doesnt match");
         setNewPassword("");
@@ -62,11 +66,12 @@ const ChangePinPage = () => {
         toast.error("Password must be 4 characters long");
         setNewPassword("");
         setConfirmPassword("");
-      } else {
+      } 
+      else {
         await axios
           .put(
             changepin + id,
-            { oldPin: "1234", newPin: newpassword },
+            { oldPin: oldpassword, newPin: newpassword },
             { headers }
           )
           .then((response) => {
@@ -95,6 +100,16 @@ const ChangePinPage = () => {
       <ToastContainer />
       <h1>Change your ATM pin</h1>
       <form onSubmit={handleSubmit}>
+      <div>
+          Enter old password:{" "}
+          <input
+            type="password"
+            value={oldpassword}
+            placeholder="Enter your old password"
+            onChange={handleOldPasswod}
+            required
+          />
+        </div>
         <div>
           Enter new password:{" "}
           <input

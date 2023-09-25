@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 export const AccountTable = ({ rows, deleteRow, viewRow }) => {
   const [role, setRole] = useState(
-    JSON.parse(window.localStorage.getItem("login")).role
+    JSON.parse(window.localStorage.getItem("role"))
   );
  
   return (
@@ -30,7 +30,9 @@ export const AccountTable = ({ rows, deleteRow, viewRow }) => {
               return (
                 <tr key={row.id}>
                   <td>{row.id}</td>
-                  <td>{row.type}</td>
+                  {row.type===0 && (<td>Savings</td>)}
+                {row.type===1 && (<td>Current</td>)}
+                {row.type===2 && (<td>Salaried</td>)}
                   <td>{row.cardNumber}</td>
                   <td>{row.balance}</td>
 

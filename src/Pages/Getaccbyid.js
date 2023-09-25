@@ -21,8 +21,8 @@ const Getaccbyid = () => {
         headers,
       })
       .then((response) => {
-        if (response.status >= 200 && response.status < 300) {
-          console.log(response.data);
+        if (response.status >= 200 && response.status < 300 && response.data.length>0) {
+          //console.log(response.data);
           setAccount(response.data);
           sethadAccs(true);
         } else {

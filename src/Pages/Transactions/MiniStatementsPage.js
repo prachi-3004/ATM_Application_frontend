@@ -46,7 +46,8 @@ const MiniStatementsPage = () => {
           <tr>
             <th>Transaction ID</th>
             <th>Date of transaction</th>
-            <th>Amount</th>
+            <th>Amount (in INR)</th>
+            <th>Currency</th>
             <th>Type of transaction</th>
           </tr>
         </thead>
@@ -55,9 +56,13 @@ const MiniStatementsPage = () => {
             return (
               <tr key={transaction.id}>
                 <td>{transaction.id}</td>
-                <td>{transaction.time}</td>
+                <td>{transaction.createdAt}</td>
                 <td>{transaction.amount}</td>
-                <td>{transaction.type}</td>
+                {transaction.currency===0 &&<td>INR</td>}
+                {transaction.type===0 && (<td>Withdrawal</td>)}
+                {transaction.type===1 && (<td>Deposit</td>)}
+                {transaction.type===2 && (<td>Transfer_Credit</td>)}
+                {transaction.type===3 && (<td>Transfer_Debit</td>)}
               </tr>
             );
           })}
