@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Table } from "../Components/Table";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getcusts } from "../Routes";
+import { getcusts,getcustomer,deletecustomer } from "../Routes";
 const MainPage = () => {
   const navigate = useNavigate();
   const [rows, setRows] = useState([]);
@@ -14,22 +14,46 @@ const MainPage = () => {
     JSON.parse(window.localStorage.getItem("login"))
   );
   const headers = { Authorization: `Bearer ${token}` };
-
-  const handleDeleteRow = async (idx) => {
+  const [customer,setCustomer]=useState('');
+  const getcust = async(idx) => {
     await axios
-      .delete("" + idx, {
+      .get(getcustomer + idx, {
         headers,
       })
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
-          console.log("User deleted successfully!");
-          toast.success("User deleted successfully!");
+          console.log(response.data);
+          setCustomer(response.data);
         } else {
           toast.error(response.data);
         }
       })
       .catch((err) => {
-        toast.error(err.response.data);
+        console.log(err);
+        toast.error(err.Message);
+      });
+  };
+  const handleDeleteRow = async (idx) => {
+getcust(idx);
+    await axios
+      .put(deletecustomer + customer.email, {
+        headers,
+      })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          console.log("User disabled successfully!");
+          toast.success(`${customer.name} disabled successfully!`);
+        } else {
+          toast.error(response.data);
+        }
+      })
+      .catch((err) => {
+        if(err.response && err.response.status===500){
+          toast.error(err.response.data);
+        }
+        else{
+        toast.error(err.Message);
+        }
       });
   };
 

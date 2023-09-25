@@ -8,17 +8,11 @@ const TransferPage = () => {
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login"))
   );
-
   const { id } = useParams();
   const navigate = useNavigate();
-
-  var res = {};
-
   const headers = { Authorization: `Bearer ${token}` };
-
-  const [recipientId, setRecipientId] = useState(null);
-
-  const [recipientAccount, setRecipientAccount] = useState([]);
+  const [recipientId, setRecipientId] = useState(0);
+  //const [recipientAccount, setRecipientAccount] = useState([]);
   const [senderAccount, setSenderAccount] = useState([]);
   const [senderBal, setSenderBal] = useState(0); //Sender's balance
   const [recipientBal, setRecipientBal] = useState(0); //Recipient's balance
@@ -58,32 +52,29 @@ const TransferPage = () => {
       });
   };
 
-  const getRecipientAccount = async (recipientId) => {
-    if (recipientId != null) {
-      try {
-        await axios
-          .get(getaccbyid + recipientId, {
-            headers,
-          })
-          .then((response) => {
-            if (response.status >= 200 && response.status < 300) {
-              setRecipientAccount(response.data);
-              console.log(response.data);
-            } else {
-              toast.error("Couldnt find recipient account");
-              setRecipientId(null);
-            }
-          })
-          .catch((error) => toast.error(error.response.data));
-      } catch (error) {
-        //toast.error("Couldnt find recipient account");
-        setError(error.Message);
-        setRecipientId(null);
-      }
-    } else {
-      setRecipientId(null);
-    }
-  };
+  // const getRecipientAccount = async () => {
+  //   if(recipientId!=0){
+  //   await axios
+  //     .get(getaccbyid + recipientId, {
+  //       headers,
+  //     })
+  //     .then((response) => {
+  //       if (response.status >= 200 && response.status < 300) {
+  //         console.log(response.data);
+  //         setRecipientAccount(response.data);
+  //       } else {
+  //         toast.error(response.data);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       toast.error(err.response.data);
+  //     });
+  //   }
+  // };
+  // useEffect(() => {
+  //   getRecipientAccount();
+  // }, [recipientId]);
 
   useEffect(() => {
     getSenderAccount();
@@ -141,10 +132,7 @@ const TransferPage = () => {
       setPin("");
       setAmount(0);
     } else if (
-      recipientId == null ||
-      recipientId.length != 4 ||
-      !/^\d+$/.test(amount)
-    ) {
+      recipientId == null ||recipientId==0) {
       setError("Invalid Recipient Account ");
       toast.error("Invalid Recipient Account ");
       setRecipientId("");
@@ -152,13 +140,13 @@ const TransferPage = () => {
     } else {
       try {
         if (amount > 0 && recipientId != null) {
-          getRecipientAccount(recipientId);
+          
           var amt = amount / currRate;
           setSenderBal(senderAccount.balance);
 
           if (senderAccount.balance - 100 > amt) {
             setSenderBal(senderBal - amt);
-            setRecipientBal(recipientAccount.balance + amt);
+            //setRecipientBal(recipientAccount.balance + amt);
 
             const request = {
               type: "Transfer",
@@ -203,7 +191,7 @@ const TransferPage = () => {
     <div>
       <ToastContainer />
       <h1>Transfer Money</h1>
-      <p>Account No.:{senderAccount.id}</p>
+      <p>Account Number:{senderAccount.id}</p>
       <p>Balance:{senderAccount.balance}</p>
       <form onSubmit={handleSubmit}>
         <label>Select currency in which you want to transfer money:</label>
@@ -219,9 +207,9 @@ const TransferPage = () => {
           ))}
         </select>
         <div>
-          Enter the recipient's account no.:{" "}
+          Enter the recipient's account number:{" "}
           <input
-            type="text"
+            type="number"
             value={recipientId}
             placeholder="Enter recipient account number"
             onChange={handleRecipientId}

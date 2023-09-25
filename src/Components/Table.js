@@ -40,7 +40,7 @@ export const Table = ({ rows, deleteRow, editRow, viewRow }) => {
                         className="delete-btn"
                         onClick={() => {
                           deleteRow(row.id);
-                          toast.success(row.name + "deleted successfully");
+                          
                         }}
                       />
                       <BsFillPencilFill
