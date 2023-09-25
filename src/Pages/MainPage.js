@@ -11,9 +11,9 @@ const MainPage = () => {
   const [rowToEdit, setRowToEdit] = useState(null);
   const [rowToView, setRowToView] = useState(null);
   const [token, setToken] = useState(
-    JSON.parse(window.localStorage.getItem("login")).token
+    JSON.parse(window.localStorage.getItem("login"))
   );
-  const headers = { Authorization: `Bearer${token}` };
+  const headers = { Authorization: `Bearer ${token}` };
 
   const handleDeleteRow = async (idx) => {
     await axios
@@ -47,18 +47,21 @@ const MainPage = () => {
     navigate(`/getcustomer/${idx}`);
   };
   useEffect(() => {
-    axios.get(getcusts).then((res) => setRows(res.data));
+    axios.get(getcusts, { headers }).then((res) => {
+      setRows(res.data);
+      console.log(res.data);
+    });
   }, []);
 
   return (
     <div>
       <ToastContainer />
-      <Table
+      {rows!=null && <Table
         rows={rows}
         deleteRow={handleDeleteRow}
         editRow={handleEditRow}
         viewRow={handleViewRow}
-      />
+      />}
     </div>
   );
 };

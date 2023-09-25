@@ -9,12 +9,12 @@ const GetspecAccount = () => {
   const { id } = useParams();
   const navigate = useNavigate("");
   const [token, setToken] = useState(
-    JSON.parse(window.localStorage.getItem("login")).token
+    JSON.parse(window.localStorage.getItem("login"))
   );
   const [role, setRole] = useState(
     JSON.parse(window.localStorage.getItem("login")).role
   );
-  const headers = { Authorization: `Bearer${token}` };
+  const headers = { Authorization: `Bearer ${token}` };
 
   const getAcc = async () => {
     await axios
@@ -66,7 +66,7 @@ const GetspecAccount = () => {
         <div>
           {account && <div> Account ID: {account?.id} </div>}
           {account && <div> Account Type: {account?.type} </div>}
-          {account && <div> Date of Creation: {account?.dateOfCreation} </div>}
+          {account && <div> Date of Creation: {account?.createdAt} </div>}
           {account && <div> Card Number: {account?.cardNumber} </div>}
           {account && <div> Balance: {account?.balance} </div>}
         </div>

@@ -8,17 +8,17 @@ import "./Table.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 export const Table = ({ rows, deleteRow, editRow, viewRow }) => {
+  
   return (
     <div>
       <ToastContainer />
-
-      <div className="table-wrapper">
+{rows==null && <div>No customers registered yet</div>}
+      {rows!=null && <div className="table-wrapper">
         <table className="table">
           <thead>
             <tr>
               <th>UserId</th>
               <th>Name</th>
-              <th>UserName</th>
               <th>City</th>
               <th>Email</th>
               <th>Contact</th>
@@ -31,10 +31,9 @@ export const Table = ({ rows, deleteRow, editRow, viewRow }) => {
                 <tr key={row.id}>
                   <td>{row.id}</td>
                   <td>{row.name}</td>
-                  <td>{row.userName}</td>
                   <td>{row.city}</td>
                   <td>{row.email}</td>
-                  <td>{row.contact}</td>
+                  <td>{row.contactNumber}</td>
                   <td className="fit">
                     <span className="actions">
                       <BsFillTrashFill
@@ -59,7 +58,7 @@ export const Table = ({ rows, deleteRow, editRow, viewRow }) => {
             })}
           </tbody>
         </table>
-      </div>
+      </div>}
     </div>
   );
 };

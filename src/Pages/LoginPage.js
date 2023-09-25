@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./LoginPage.css";
-import { authorize } from "../Routes";
+import { authorize, authorizecust } from "../Routes";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setpwd] = useState("");
@@ -14,6 +14,7 @@ const LoginPage = () => {
   const { user, setUser } = useContext(AppContext);
   const [userType, setuserType] = useState(0);
   const [Error, setError] = useState("");
+  const [token, setToken] = useState("");
   const navigate = useNavigate();
 
   const handleEmail = (event) => {
@@ -26,7 +27,6 @@ const LoginPage = () => {
     const res = {
       email: email,
       password: password,
-      role: userType,
     };
     event.preventDefault();
     if (password.length < 3 || password.length > 16) {
@@ -41,38 +41,71 @@ const LoginPage = () => {
       setEmail("");
     } else {
       try {
-        await axios
-          .post(authorize, res)
-          .then((response) => {
-            if (response.status >= 200 && response.status < 300) {
-              setLogin(true);
-              setUser(response.data);
-              window.localStorage.setItem(
-                "login",
-                JSON.stringify(response.data)
-              );
-              if (res.role == 1) {
+        if (userType === 1) {
+          axios
+            .post(authorize, res)
+            .then((response) => {
+              if (response.status >= 200 && response.status < 300) {
+                setLogin(true);
+                setUser(res.email);
+                setToken(response.data);
+
+                window.localStorage.setItem(
+                  "login",
+                  JSON.stringify(response.data)
+                );
+                window.localStorage.setItem(
+                  "role",
+                  JSON.stringify(userType)
+                );
                 toast.success("Admin Login Successful");
                 navigate("/navigateadmin");
-              } else if (res.role == 0) {
+              }
+            })
+            .catch((error) => {
+              if (error.response && error.response.status === 500) {
+                console.log(error.response.data);
+                toast.error("Invalid Login");
+                setEmail("");
+                setpwd("");
+              } else {
+                toast.error("Login failed: " + error.response.data); //error message
+                console.log(error);
+              }
+            });
+        } else {
+          await axios
+            .post(authorizecust, res)
+            .then((response) => {
+              if (response.status >= 200 && response.status < 300) {
+                setLogin(true);
+                setUser(res.email);
+                setToken(response.data);
+                window.localStorage.setItem(
+                  "login",
+                  JSON.stringify({ token, userType })
+                );
+                window.localStorage.setItem(
+                  "role",
+                  JSON.stringify(userType)
+                );
+                console.log(login);
                 toast.success("Customer Login Successful");
                 navigate("/navigatecustomer");
-              } else {
-                toast.error("Login Error.Please check credentials");
               }
-            }
-          })
-          .catch((error) => {
-            if (error.response && error.response.status === 500) {
-              console.log(error.response.data);
-              toast.error("Invalid Login");
-              setEmail("");
-              setpwd("");
-            } else {
-              toast.error("Login failed: " + error.message); //error message
-              console.log(error);
-            }
-          });
+            })
+            .catch((error) => {
+              if (error.response && error.response.status === 500) {
+                console.log(error.response.data);
+                toast.error("Invalid Login");
+                setEmail("");
+                setpwd("");
+              } else {
+                toast.error("Login failed: " + error.response.data); //error message
+                console.log(error);
+              }
+            });
+        }
       } catch (error) {
         console.log(error.Message);
       }

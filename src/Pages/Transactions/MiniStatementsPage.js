@@ -7,12 +7,12 @@ import { gettransactionhistory } from "../../Routes";
 const MiniStatementsPage = () => {
   const [transactions, setTransactions] = useState([]);
   const [token, setToken] = useState(
-    JSON.parse(window.localStorage.getItem("login")).token
+    JSON.parse(window.localStorage.getItem("login"))
   );
   const [Error, setError] = useState("");
   const { id } = useParams();
   const navigate = useNavigate();
-  const headers = { Authorization: `Bearer${token}` };
+  const headers = { Authorization: `Bearer ${token}` };
 
   const getTransactions = async () => {
     await axios

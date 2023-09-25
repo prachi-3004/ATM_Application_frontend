@@ -5,32 +5,34 @@ import axios from "axios";
 import "./NavbarComponent.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getcustomer } from "../Routes";
+import { getcustbyemail } from "../Routes";
+
 const NavbarComponentCustomer = () => {
   const [token, setToken] = useState(
-    JSON.parse(window.localStorage.getItem("login")).token
+    JSON.parse(window.localStorage.getItem("login"))
   );
   const { user, setUser } = useContext(AppContext);
   const navigate = useNavigate("");
   var res = {};
-
   const [customer, setCustomer] = useState(null);
-  const headers = { Authorization: `Bearer${token}` };
-  const id = JSON.parse(window.localStorage.getItem("login")).user_Id;
-  //console.log(id);
+  const headers = { Authorization: `Bearer ${token}` };
+  const id = user;
+  console.log(id);
   const handleLogout = () => {
     setUser(null);
     toast.success(`User ${customer.name} logged out`);
     window.localStorage.removeItem("login");
+    window.localStorage.removeItem("role");
   };
   const getcust = async () => {
     await axios
-      .get(getcustomer + id, {
+      .get(getcustbyemail + user, {
         headers,
       })
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
           setCustomer(response.data);
+          console.log(response.data);
           console.log("Fetched customer details successfully");
         }
       })
@@ -38,7 +40,7 @@ const NavbarComponentCustomer = () => {
         if (error.response && error.response.status === 500) {
           toast.error(error.response.data);
         } else {
-          toast.error(error.response.data);
+          toast.error(error);
         }
       });
     //console.log("Get Customer Details" + res.data);
@@ -49,13 +51,16 @@ const NavbarComponentCustomer = () => {
   }, []);
   return (
     <div>
+      <ToastContainer/>
       <div className="navbar">
         <div className="navbar-contents">
           <ul>
             <li className="nav-link">
-              <NavLink to={`/getaccountdetails/${id}`}>
-                Get Account details
-              </NavLink>
+              {customer && (
+                <NavLink to={`/getaccountdetails/${customer.id}`}>
+                  Get Account details
+                </NavLink>
+              )}
               <NavLink to={`/updatecredentials/${id}`}>
                 Update Credentials
               </NavLink>
@@ -67,25 +72,27 @@ const NavbarComponentCustomer = () => {
             </li>
           </ul>
         </div>
-      </div>
-      <div>
-        {customer && <h1>Customer Details</h1>}
+        <div>
+          {customer && <h1>Customer Details</h1>}
 
-        {customer?.id && <div> Customer ID: {customer?.id} </div>}
-        {customer?.name && <div> Customer Name: {customer?.name}</div>}
-        {customer?.userName && (
-          <div> Customer User Name: {customer?.userName} </div>
-        )}
-        {customer?.address && (
-          <div> Customer Address: {customer?.address} </div>
-        )}
-        {customer?.city && <div> Customer City: {customer?.city} </div>}
-        {customer?.email && <div> Email ID: {customer?.email} </div>}
-        {customer?.contact && <div> Contact Number: {customer?.contact} </div>}
-      </div>
-      {/* <button onClick={() => navigate("/updatecustomer/" + id)}>
+          {customer?.id && <div> Customer ID: {customer?.id} </div>}
+          {customer?.name && <div> Customer Name: {customer?.name}</div>}
+          {customer?.userName && (
+            <div> Customer User Name: {customer?.userName} </div>
+          )}
+          {customer?.address && (
+            <div> Customer Address: {customer?.address} </div>
+          )}
+          {customer?.city && <div> Customer City: {customer?.city} </div>}
+          {customer?.email && <div> Email ID: {customer?.email} </div>}
+          {customer?.contact && (
+            <div> Contact Number: {customer?.contact} </div>
+          )}
+        </div>
+        {/* <button onClick={() => navigate("/updatecustomer/" + id)}>
         Update Details
       </button> */}
+      </div>
     </div>
   );
 };

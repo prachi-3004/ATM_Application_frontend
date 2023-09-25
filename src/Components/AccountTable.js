@@ -1,19 +1,19 @@
 import React, { useState, useContext, useEffect } from "react";
 import { BsFillTrashFill, BsBoxArrowUpRight } from "react-icons/bs";
 import "./Table.css";
-import { AppContext } from "../Context/AppContext";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 export const AccountTable = ({ rows, deleteRow, viewRow }) => {
   const [role, setRole] = useState(
     JSON.parse(window.localStorage.getItem("login")).role
   );
-  const { user, setUser } = useContext(AppContext);
+ 
   return (
     <div>
       <ToastContainer />
 
-      <div className="table-wrapper">
+      {rows&& <div className="table-wrapper">
         <table className="table">
           <thead>
             <tr>
@@ -36,15 +36,15 @@ export const AccountTable = ({ rows, deleteRow, viewRow }) => {
 
                   <td className="fit">
                     <span className="actions">
-                      {user.role == 1 && (
-                        <BsFillTrashFill
+                      
+                        {role==1 &&<BsFillTrashFill
                           className="delete-btn"
                           onClick={() => {
                             deleteRow(row.id);
                             toast.info("Deleted account");
                           }}
-                        />
-                      )}
+                        />}
+                      
 
                       <BsBoxArrowUpRight
                         className="view-btn"
@@ -57,7 +57,7 @@ export const AccountTable = ({ rows, deleteRow, viewRow }) => {
             })}
           </tbody>
         </table>
-      </div>
+      </div>}
     </div>
   );
 };

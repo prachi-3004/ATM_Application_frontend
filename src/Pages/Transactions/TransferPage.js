@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { getaccbyid, getallcurr, getcurrrate, transaction } from "../../Routes";
 const TransferPage = () => {
   const [token, setToken] = useState(
-    JSON.parse(window.localStorage.getItem("login")).token
+    JSON.parse(window.localStorage.getItem("login"))
   );
 
   const { id } = useParams();
@@ -14,7 +14,7 @@ const TransferPage = () => {
 
   var res = {};
 
-  const headers = { Authorization: `Bearer${token}` };
+  const headers = { Authorization: `Bearer ${token}` };
 
   const [recipientId, setRecipientId] = useState(null);
 

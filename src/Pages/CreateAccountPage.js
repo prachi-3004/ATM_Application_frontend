@@ -15,9 +15,9 @@ const CreateAccountPage = () => {
   const [Error, setError] = useState("");
   const { user, setUser } = useContext(AppContext);
   const [token, setToken] = useState(
-    JSON.parse(window.localStorage.getItem("login")).token
+    JSON.parse(window.localStorage.getItem("login"))
   );
-
+  const headers = { Authorization: `Bearer ${token}` };
   const handleAccountType = (event) => {
     setAccountType(event.target.value);
   };
@@ -41,13 +41,11 @@ const CreateAccountPage = () => {
         const res = {
           customerId: parseInt(id),
           type: accountType,
-          dateOfCreation: doc,
+          // createdAt: doc,
           pin: pinNo,
-          balance: balance,
+          balance: parseInt(balance),
         };
         console.log(res);
-        setToken(user.token);
-        const headers = { Authorization: `Bearer${token}` };
 
         await axios
           .post(addacc, res, { headers })
@@ -69,7 +67,11 @@ const CreateAccountPage = () => {
             }
           })
           .catch((error) => {
-            toast.error("Account creation failed" + error.Message);
+            if (error.response && error.response.status === 500) {
+              toast.error(error.reponse.data);
+            } else {
+              toast.error("Account creation failed" + error.Message);
+            }
             setError(error.Message);
           });
       }
@@ -88,15 +90,20 @@ const CreateAccountPage = () => {
           Select the account type:
           <select onChange={handleAccountType}>
             <option value="Savings">Savings</option>
-            <option value="Salary">Salary</option>
+            <option value="Salaried">Salary</option>
             <option value="Current">Current</option>
-            <option value="FD">Fixed Deposit</option>
+            
           </select>
         </div>
 
         <div>
           Pin No:{" "}
-          <input type="text" value={pinNo} onChange={handlePinNo} required />
+          <input
+            type="password"
+            value={pinNo}
+            onChange={handlePinNo}
+            required
+          />
         </div>
         <div>
           Balance:{" "}

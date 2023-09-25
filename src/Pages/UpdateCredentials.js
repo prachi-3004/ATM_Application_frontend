@@ -9,9 +9,9 @@ const UpdateCredentials = () => {
   const [customer, setCustomer] = useState("");
   const navigate = useNavigate();
   const [token, setToken] = useState(
-    JSON.parse(window.localStorage.getItem("login")).token
+    JSON.parse(window.localStorage.getItem("login"))
   );
-  const headers = { Authorization: `Bearer${token}` };
+  const headers = { Authorization: `Bearer ${token}` };
   const { id } = useParams();
   const [Error, setError] = useState("");
 

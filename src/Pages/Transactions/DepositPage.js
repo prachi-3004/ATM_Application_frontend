@@ -7,11 +7,11 @@ import { getaccbyid, getallcurr, getcurrrate, transaction } from "../../Routes";
 const DepositPage = () => {
   const [account, setAccount] = useState([]);
   const [token, setToken] = useState(
-    JSON.parse(window.localStorage.getItem("login")).token
+    JSON.parse(window.localStorage.getItem("login"))
   );
   const { id } = useParams();
   const navigate = useNavigate();
-  const headers = { Authorization: `Bearer${token}` };
+  const headers = { Authorization: `Bearer ${token}` };
   const [balance, setBalance] = useState(0);
   const [amount, setAmount] = useState(0);
   const [Error, setError] = useState("");

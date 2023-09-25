@@ -6,19 +6,20 @@ import { AccountTable } from "../Components/AccountTable";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getaccbycustid, getaccbyid } from "../Routes";
+import { AppContext } from "../Context/AppContext";
 const GetAccountDetails = () => {
   const [token, setToken] = useState(
-    JSON.parse(window.localStorage.getItem("login")).token
+    JSON.parse(window.localStorage.getItem("login"))
   );
-
+  const { user, setUser } = useContext(AppContext);
   const { id } = useParams();
   const navigate = useNavigate();
   const [account, setAccount] = useState([]);
   const [hadAccs, sethadAccs] = useState(false);
-  const headers = { Authorization: `Bearer${token}` };
+  const headers = { Authorization: `Bearer ${token}` };
   const getAcc = async () => {
     await axios
-      .get(getaccbyid + id, {
+      .get(getaccbycustid + user, {
         headers,
       })
       .then((response) => {
@@ -71,14 +72,7 @@ const GetAccountDetails = () => {
         />
       )}
 
-      {!hadAccs && (
-        <div>
-          You don't have any accounts
-          <button onClick={() => navigate("/createaccount/" + id)}>
-            Click here to create account
-          </button>
-        </div>
-      )}
+      {!hadAccs && <div>You don't have any accounts</div>}
       <br />
       <buton
         type="submit"

@@ -11,13 +11,13 @@ const UpdateCustomerPage = () => {
   const [customer, setCustomer] = useState({});
   const { user, setUser } = useContext(AppContext);
   const [token, setToken] = useState(
-    JSON.parse(window.localStorage.getItem("login")).token
+    JSON.parse(window.localStorage.getItem("login"))
   );
   const { id } = useParams();
   const navigate = useNavigate();
   const [Error, setError] = useState("");
 
-  const headers = { Authorization: `Bearer${token}` };
+  const headers = { Authorization: `Bearer ${token}` };
 
   const handleChange = (e) => {
     const { name, value } = e.target;

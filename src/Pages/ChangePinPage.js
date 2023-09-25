@@ -3,17 +3,17 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getaccbyid } from "../Routes";
+import { getaccbyid, changepin } from "../Routes";
 const ChangePinPage = () => {
   const [account, setAccount] = useState([]);
   const [token, setToken] = useState(
-    JSON.parse(window.localStorage.getItem("login")).token
+    JSON.parse(window.localStorage.getItem("login"))
   );
   const [Error, setError] = useState("");
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const headers = { Authorization: `Bearer${token}` };
+  const headers = { Authorization: `Bearer ${token}` };
 
   const [newpassword, setNewPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
@@ -63,15 +63,11 @@ const ChangePinPage = () => {
         setNewPassword("");
         setConfirmPassword("");
       } else {
-        const request = {
-          id: id,
-          newPin: newpassword,
-        };
-        console.log(request);
         await axios
           .put(
-            `https://localhost:44307/api/Account/ChangePin/${id}?newPin=${newpassword}`,
-            headers
+            changepin + id,
+            { oldPin: "1234", newPin: newpassword },
+            { headers }
           )
           .then((response) => {
             if (response.status >= 200 && response.status < 300) {

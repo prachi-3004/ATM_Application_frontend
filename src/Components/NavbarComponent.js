@@ -9,12 +9,13 @@ const NavbarComponent = () => {
   const navigate = useNavigate();
   const { user, setUser } = useContext(AppContext);
   const [token, setToken] = useState(
-    JSON.parse(window.localStorage.getItem("login")).token
+    JSON.parse(window.localStorage.getItem("login"))
   );
   const handleLogout = () => {
     setUser(null);
     toast.success("Logged out successfully");
     window.localStorage.removeItem("login");
+    window.localStorage.removeItem("role");
   };
 
   return (

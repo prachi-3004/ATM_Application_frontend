@@ -1,16 +1,19 @@
-export const host = "https://localhost:44307/api";
-export const authorize = `${host}/Authorization`;
+export const host = "https://localhost:44356/api";
+export const authorize = `${host}/Authentication/admin/login`;
+export const authorizecust = `${host}/Authentication/customers/login`;
 export const addcust = `${host}/Customer/Add`;
 export const getcusts = `${host}/Customer/GetAll`;
-export const getcustomer = `${host}/Customer/Get/`;
+export const getcustomer = `${host}/Customer/GetByID/`;
+export const getcustbyemail = `${host}/Customer/GetByEmail/`;
 export const updatedetails = `${host}/Customer/UpdateDetails/`;
 export const updatecredentials = `${host}/Customer/UpdateCredentials/`;
 export const addacc = `${host}/Account/AddAccount`;
 export const getaccbyid = `${host}/Account/GetAccountByID/`;
-export const getaccbycustid = `${host}/Account/GetAccountByCustomer/`;
+export const getaccbycustid = `${host}/Account/GetAccountsByCustomer/`;
 export const getallacc = `${host}/Account/GetAll`;
-export const transaction = `${host}/Transaction`;
-export const gettransactionhistory = `${host}/Transaction?id=`;
+export const transaction = `${host}/Transaction/Add`;
+export const gettransactionhistory = `${host}/Transaction/MiniStatement/`;
 export const getallcurr = `${host}/Currency/GetAll`;
 export const getcurrrate = `${host}/Currency/GetRate/`;
-//pin change route shd be added
+export const changepin = `${host}/Account/ChangePin/`;
+export const deletecustomer = `${host}/Customer/Delete/`;

@@ -10,6 +10,7 @@ import { AppProvider } from "../src/Context/AppContext";
 import { RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import UpdateCustomerPage from "./Pages/UpdateCustomerPage";
+import Getaccbyid from "./Pages/Getaccbyid";
 import GetspecAccount from "./Pages/GetspecAccount";
 import NavbarComponent from "./Components/NavbarComponent";
 import NavbarComponentCustomer from "./Components/NavbarComponentCustomer";
@@ -63,6 +64,14 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <GetAccountDetails />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/getaccbyid/:id",
+    element: (
+      <ProtectedRoute>
+        <Getaccbyid />
       </ProtectedRoute>
     ),
   },

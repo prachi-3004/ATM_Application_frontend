@@ -2,18 +2,22 @@ import React, { useState, useContext, useEffect } from "react";
 import { getcustomer } from "../Routes";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { AppContext } from "../Context/AppContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const GetCustomer = () => {
   const [token, setToken] = useState(
-    JSON.parse(window.localStorage.getItem("login")).token
+    JSON.parse(window.localStorage.getItem("login"))
+  );
+  const [userType, setuserType] = useState(
+    JSON.parse(window.localStorage.getItem("role"))
   );
   const { id } = useParams();
   const navigate = useNavigate();
   var res = {};
-
+  const { user, setUser } = useContext(AppContext);
   const [customer, setCustomer] = useState({});
-  const headers = { Authorization: `Bearer${token}` };
+  const headers = { Authorization: `Bearer ${token}` };
 
   const getcust = async () => {
     await axios
@@ -30,7 +34,7 @@ const GetCustomer = () => {
       })
       .catch((err) => {
         console.log(err);
-        toast.error(err.response.data);
+        toast.error(err.Message);
       });
   };
 
@@ -41,7 +45,8 @@ const GetCustomer = () => {
     navigate("/createaccount/" + id);
   };
   const handleGetAccount = async () => {
-    navigate("/getaccountdetails/" + id);
+    if (userType===0) navigate("/getaccountdetails/" + id);
+    else navigate("/getaccbyid/" + id);
   };
   // const handleDelete = async () => {
   //   if (hadAcc) {

@@ -7,13 +7,13 @@ import { getaccbyid } from "../../Routes";
 const BalanceCheckPage = () => {
   const [account, setAccount] = useState([]);
   const [token, setToken] = useState(
-    JSON.parse(window.localStorage.getItem("login")).token
+    JSON.parse(window.localStorage.getItem("login"))
   );
   const [Error, setError] = useState("");
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const headers = { Authorization: `Bearer${token}` };
+  const headers = { Authorization: `Bearer ${token}` };
 
   const getAccount = async () => {
     if (id != null) {
