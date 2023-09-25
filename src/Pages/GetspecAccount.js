@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { getaccbyid } from "../Routes";
+import { getaccbyid ,getcustbyemail} from "../Routes";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {AppContext} from "../Context/AppContext";
 const GetspecAccount = () => {
   const [account, setAccount] = useState({});
   const { id } = useParams();
   const navigate = useNavigate("");
+  const {user,setUser}=useContext(AppContext);
+  const [customer,setCustomer]=useState({});
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login"))
   );
@@ -15,7 +18,28 @@ const GetspecAccount = () => {
     JSON.parse(window.localStorage.getItem("role"))
   );
   const headers = { Authorization: `Bearer ${token}` };
+  const getcust = async () => {
+    await axios
+      .get(getcustbyemail+user, {
+        headers,
+      })
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          console.log(response.data);
+          setCustomer(response.data);
+        } else {
+          toast.error(response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.Message);
+      });
+  };
 
+  useEffect(() => {
+    getcust();
+  }, []);
   const getAcc = async () => {
     await axios
       .get(getaccbyid + id, {
@@ -126,6 +150,7 @@ const GetspecAccount = () => {
         </div>
       )}
       <br />
+      
       <buton
         type="submit"
         onClick={() => navigate(-1)}
