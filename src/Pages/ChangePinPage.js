@@ -87,7 +87,13 @@ const ChangePinPage = () => {
             }
           })
           .catch((error) => {
+            if(error.response && error.response.status===500){
+              toast.error("Mismatch of old pin ");
+              setOldPassword('');
+            }
+            else{
             toast.error(error.response.data);
+            }
           });
       }
     } catch (error) {
