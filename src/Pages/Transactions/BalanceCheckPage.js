@@ -1,3 +1,4 @@
+//Balance check page for customer
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
@@ -9,7 +10,7 @@ const BalanceCheckPage = () => {
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login"))
   );
-  const [Error, setError] = useState("");
+
   const { id } = useParams();
   const navigate = useNavigate();
 

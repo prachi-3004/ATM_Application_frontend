@@ -1,7 +1,7 @@
+//Create Customer Page
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import validator from "validator";
-import { AppContext } from "../Context/AppContext";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { addcust } from "../Routes";
@@ -113,9 +113,13 @@ const AddCustomerPage = () => {
             toast.error("Registration failed");
           }
         })
-        .catch((error) =>{if(error.response && error.response.status===500){
-          toast.error(error.response.data);}
-        else{toast.error(error)}});
+        .catch((error) => {
+          if (error.response && error.response.status === 500) {
+            toast.error(error.response.data);
+          } else {
+            toast.error(error);
+          }
+        });
     }
   };
   return (

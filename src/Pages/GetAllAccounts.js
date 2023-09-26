@@ -1,17 +1,17 @@
-import React, { useState, useContext, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+//get all accounts for admin
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AccountTable } from "../Components/AccountTable";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getallacc, getaccbyid } from "../Routes";
+import { getallacc, deleteaccount } from "../Routes";
 const GetAllAccounts = () => {
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login"))
   );
 
   const navigate = useNavigate();
-  var res = {};
   const [account, setAccount] = useState([]);
   const headers = { Authorization: `Bearer ${token}` };
   const getAccs = async () => {
@@ -39,33 +39,26 @@ const GetAllAccounts = () => {
 
   const handleDelete = async (idx) => {
     await axios
-      .delete("" + idx, {
+      .put(deleteaccount + idx, {
         headers,
       })
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
           console.log("Account deleted successfully!");
-          toast.success("Account deleted successfully!");
+          toast.success("Account disabled successfully!");
         } else {
           toast.error(response.data);
         }
       })
       .catch((err) => {
-        toast.error(err.response.data);
+        if (err.response && err.response.status === 500) {
+          toast.error(err.response.data);
+        } else {
+          toast.error(err.Message);
+        }
       });
   };
   const handleView = async (idx) => {
-    // await axios
-    //   .get(getaccbyid + idx, {
-    //     headers,
-    //   })
-    //   .then((response) => setAccount(response.data));
-    // if (account != null) navigate("/getaccountspec/" + idx);
-    // else {
-    //   toast.error("Couldn't fetch account details");
-    //   console.log("Couldn't fetch account details");
-    //   navigate("/navigateadmin");
-    // }
     navigate("/getaccountspec/" + idx);
   };
   return (

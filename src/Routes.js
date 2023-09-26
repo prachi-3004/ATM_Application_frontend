@@ -17,3 +17,4 @@ export const getallcurr = `${host}/Currency/GetAll`;
 export const getcurrrate = `${host}/Currency/GetRate/`;
 export const changepin = `${host}/Account/ChangePin/`;
 export const deletecustomer = `${host}/Customer/Delete/`;
+export const deleteaccount = `${host}/Account/DisableAccount/`

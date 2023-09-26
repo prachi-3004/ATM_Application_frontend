@@ -1,10 +1,11 @@
+//get account dtails for table
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { AccountTable } from "../Components/AccountTable";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getaccbycustid, getaccbyid } from "../Routes";
+import { getaccbycustid, getaccbyid, deleteaccount } from "../Routes";
 import { AppContext } from "../Context/AppContext";
 const GetAccountDetails = () => {
   const [token, setToken] = useState(
@@ -42,19 +43,23 @@ const GetAccountDetails = () => {
 
   const handleDelete = async (idx) => {
     await axios
-      .delete("" + idx, {
+      .put(deleteaccount + idx, {
         headers,
       })
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
           console.log("Account deleted successfully!");
-          toast.success("Account deleted successfully!");
+          toast.success("Account disabled successfully!");
         } else {
           toast.error(response.data);
         }
       })
       .catch((err) => {
-        toast.error(err.response.data);
+        if (err.response && err.response.status === 500) {
+          toast.error(err.response.data);
+        } else {
+          toast.error(err.Message);
+        }
       });
   };
   const handleView = async (idx) => {
@@ -71,13 +76,18 @@ const GetAccountDetails = () => {
         />
       )}
 
-      {!hadAccs && <div>You don't have any accounts <button onClick={() => navigate("/createaccount/" + id)}>
+      {!hadAccs && (
+        <div>
+          You don't have any accounts{" "}
+          <button onClick={() => navigate("/createaccount/" + id)}>
             Click here to create account
-          </button></div>}
+          </button>
+        </div>
+      )}
       <br />
       <buton
         type="submit"
-        onClick={() => navigate("/getcustomer/"+id)}
+        onClick={() => navigate("/getcustomer/" + id)}
         style={{ color: "blue", border: "10px" }}
       >
         Go Back

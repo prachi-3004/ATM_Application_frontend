@@ -1,3 +1,4 @@
+//login page
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import validator from "validator";
@@ -54,10 +55,7 @@ const LoginPage = () => {
                   "login",
                   JSON.stringify(response.data)
                 );
-                window.localStorage.setItem(
-                  "role",
-                  JSON.stringify(userType)
-                );
+                window.localStorage.setItem("role", JSON.stringify(userType));
                 toast.success("Admin Login Successful");
                 navigate("/navigateadmin");
               }
@@ -85,10 +83,7 @@ const LoginPage = () => {
                   "login",
                   JSON.stringify(response.data)
                 );
-                window.localStorage.setItem(
-                  "role",
-                  JSON.stringify(userType)
-                );
+                window.localStorage.setItem("role", JSON.stringify(userType));
                 console.log(login);
                 toast.success("Customer Login Successful");
                 navigate("/navigatecustomer");

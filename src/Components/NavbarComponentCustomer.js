@@ -1,3 +1,4 @@
+//Navbar component for customer
 import React, { useContext, useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AppContext } from "../Context/AppContext";
@@ -51,7 +52,7 @@ const NavbarComponentCustomer = () => {
   }, []);
   return (
     <div>
-      <ToastContainer/>
+      <ToastContainer />
       <div className="navbar">
         <div className="navbar-contents">
           <ul>

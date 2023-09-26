@@ -1,3 +1,4 @@
+//get customer page
 import React, { useState, useContext, useEffect } from "react";
 import { getcustomer } from "../Routes";
 import { useNavigate, useParams } from "react-router-dom";
@@ -45,34 +46,43 @@ const GetCustomer = () => {
     navigate("/createaccount/" + id);
   };
   const handleGetAccount = async () => {
-    if (userType===1) navigate("/getaccountdetails/" + id);
+    if (userType === 1) navigate("/getaccountdetails/" + id);
     else navigate("/getaccbyid/" + id);
   };
-  // const handleDelete = async () => {
-  //   if (hadAcc) {
-  //     await axios
-  //       .delete("" + customer.id, {
-  //         headers,
-  //       })
-  //       .then((res) => {
-  //         console.log(res);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //     alert("account deleted");
-  //     sethadAcc(false);
-  //     navigate("/navigateadmin");
-  //   } else {
-  //     alert("couldnot delete account");
-  //   }
-  // };
+  //   const handleDelete = async (idx) => {
+  //     if (hadAcc) {
+  //       await axios
+  //         .delete(deleteaccount + idx, {
+  //           headers,
+  //         })
+  //         .then((res) => {
+  //           if(res.status>=200 && res.status<300){
+  //             toast.success("Account disabled succesfully!");
+  //           }
+  //           else{
+  //             toast.error("Deletion failed");
+  //           }
+  //         })
+  //         .catch((err) => {
+  //           if(err.response && err.response===500){
+  //             toast.error(err.response.data);
+  //           }
+  //         else{
+  //           toast.err(err.Message);
+  //         }
+  //         });
+
+  //       navigate("/navigateadmin");
+  //     } else {
+  //       alert("couldnot delete account");
+  //     }
+  //   };
   return (
     <div>
       <ToastContainer />
       <button onClick={handleaddAccount}>Add Account</button>
       <button onClick={handleGetAccount}>Get Accounts details</button>
-      {/* <button onClick={handleDelete}>Delete account</button>} */}
+
       {customer && <h1>Customer Details</h1>}
 
       {customer?.id && <div> Customer ID: {customer?.id} </div>}

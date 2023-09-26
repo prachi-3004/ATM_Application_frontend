@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from "react";
+//Transfer page for customer
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
@@ -12,10 +13,10 @@ const TransferPage = () => {
   const navigate = useNavigate();
   const headers = { Authorization: `Bearer ${token}` };
   const [recipientId, setRecipientId] = useState(0);
-  //const [recipientAccount, setRecipientAccount] = useState([]);
+
   const [senderAccount, setSenderAccount] = useState([]);
   const [senderBal, setSenderBal] = useState(0); //Sender's balance
-  const [recipientBal, setRecipientBal] = useState(0); //Recipient's balance
+
   const [amount, setAmount] = useState(0);
   const [Error, setError] = useState("");
   const [Curr, setCurr] = useState([]);
@@ -131,8 +132,7 @@ const TransferPage = () => {
       toast.error("Invalid Amount");
       setPin("");
       setAmount(0);
-    } else if (
-      recipientId == null ||recipientId==0) {
+    } else if (recipientId == null || recipientId == 0) {
       setError("Invalid Recipient Account ");
       toast.error("Invalid Recipient Account ");
       setRecipientId("");
@@ -140,7 +140,6 @@ const TransferPage = () => {
     } else {
       try {
         if (amount > 0 && recipientId != null) {
-          
           var amt = amount / currRate;
           setSenderBal(senderAccount.balance);
 

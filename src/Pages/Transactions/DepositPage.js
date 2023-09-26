@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from "react";
+//Deposit page for customer
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import { ToastContainer, toast } from "react-toastify";

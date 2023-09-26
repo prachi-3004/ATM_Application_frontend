@@ -1,15 +1,16 @@
+//Getting account page for table
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { AccountTable } from "../Components/AccountTable";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getaccbycustid } from "../Routes";
+import { getaccbycustid, deleteaccount } from "../Routes";
 const Getaccbyid = () => {
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login"))
   );
-  
+
   const { id } = useParams();
   const navigate = useNavigate();
   const [account, setAccount] = useState([]);
@@ -21,7 +22,11 @@ const Getaccbyid = () => {
         headers,
       })
       .then((response) => {
-        if (response.status >= 200 && response.status < 300 && response.data.length>0) {
+        if (
+          response.status >= 200 &&
+          response.status < 300 &&
+          response.data.length > 0
+        ) {
           //console.log(response.data);
           setAccount(response.data);
           sethadAccs(true);
@@ -41,13 +46,13 @@ const Getaccbyid = () => {
 
   const handleDelete = async (idx) => {
     await axios
-      .delete("" + idx, {
+      .put(deleteaccount + idx, {
         headers,
       })
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
           console.log("Account deleted successfully!");
-          toast.success("Account deleted successfully!");
+          toast.success("Account disabled successfully!");
         } else {
           toast.error(response.data);
         }
@@ -70,12 +75,7 @@ const Getaccbyid = () => {
         />
       )}
 
-      {!hadAccs && (
-        <div>
-          You don't have any accounts
-          
-        </div>
-      )}
+      {!hadAccs && <div>You don't have any accounts</div>}
       <br />
       <buton
         type="submit"

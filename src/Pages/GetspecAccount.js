@@ -1,16 +1,17 @@
+//getting specific account details with transactions page
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { getaccbyid ,getcustbyemail} from "../Routes";
+import { getaccbyid, getcustbyemail } from "../Routes";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {AppContext} from "../Context/AppContext";
+import { AppContext } from "../Context/AppContext";
 const GetspecAccount = () => {
   const [account, setAccount] = useState({});
   const { id } = useParams();
   const navigate = useNavigate("");
-  const {user,setUser}=useContext(AppContext);
-  const [customer,setCustomer]=useState({});
+  const { user, setUser } = useContext(AppContext);
+  const [customer, setCustomer] = useState({});
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login"))
   );
@@ -20,7 +21,7 @@ const GetspecAccount = () => {
   const headers = { Authorization: `Bearer ${token}` };
   const getcust = async () => {
     await axios
-      .get(getcustbyemail+user, {
+      .get(getcustbyemail + user, {
         headers,
       })
       .then((response) => {
@@ -89,9 +90,13 @@ const GetspecAccount = () => {
         <h3>Account Details</h3>
         <div>
           {account && <div> Account ID: {account?.id} </div>}
-          {account && <div>Account Type:{account?.type===0 && ("Savings")}
-                {account?.type===1 && ("Current")}
-                {account?.type===2 && ("Salary")}</div>}
+          {account && (
+            <div>
+              Account Type:{account?.type === 0 && "Savings"}
+              {account?.type === 1 && "Current"}
+              {account?.type === 2 && "Salary"}
+            </div>
+          )}
           {account && <div> Date of Creation: {account?.createdAt} </div>}
           {account && <div> Card Number: {account?.cardNumber} </div>}
           {account && <div> Balance: {account?.balance} </div>}
@@ -150,7 +155,7 @@ const GetspecAccount = () => {
         </div>
       )}
       <br />
-      
+
       <buton
         type="submit"
         onClick={() => navigate(-1)}

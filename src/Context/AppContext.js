@@ -1,14 +1,8 @@
+// stores loggedin user email in context
 import { createContext, useState, useEffect } from "react";
-
-const AppContext = createContext(); //to create the context
-//children -
+const AppContext = createContext();
 const AppProvider = ({ children }) => {
   const [user, setUser] = useState();
-
-  // useEffect(()=>{
-  //     console.log("useffect",user)
-  // },[user])
-
   return (
     <AppContext.Provider value={{ user, setUser }}>
       {children}

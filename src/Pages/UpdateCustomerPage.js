@@ -1,3 +1,4 @@
+//update credentials for customer
 import React, { useState, useContext, useEffect } from "react";
 import { AppContext } from "../Context/AppContext";
 import axios from "axios";
@@ -11,13 +12,13 @@ const UpdateCustomerPage = () => {
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login"))
   );
-  
+
   //const { email } = useParams();
   const navigate = useNavigate();
   const headers = { Authorization: `Bearer ${token}` };
   const [customer, setCustomer] = useState({});
   const { user, setUser } = useContext(AppContext);
-  
+
   const [Error, setError] = useState("");
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -73,15 +74,14 @@ const UpdateCustomerPage = () => {
       setError("Enter a valid email address");
       toast.error("Enter a valid email address");
       setCustomer.email("");
-    } else if (customer.governmentId.length <1) {
+    } else if (customer.governmentId.length < 1) {
       setError("Government ID cannot be empty");
       toast.error("Government ID cannot be empty");
       setCustomer.governmentId("");
     } /*else if (!customer.dateOfBirth) {
       setError("Date of Birth cannot be empty");
       toast.error("Date of Birth cannot be empty");
-    } */
-    else {
+    } */ else {
       await axios
         .put(updatedetails + customer.email, customer, {
           headers,
@@ -90,31 +90,33 @@ const UpdateCustomerPage = () => {
           if (response.status >= 200 && response.status < 300) {
             setCustomer(response.data);
             console.log("Updated Customer details!");
-          
-            if (localStorage.getItem("role").localeCompare("0")==0) {
+
+            if (localStorage.getItem("role").localeCompare("0") == 0) {
               console.log(localStorage.getItem("role"));
-              toast.success("Updated customer details successfully. Redirecting...", {
-                onClose: () => {
-                  navigate("/getaccountspec/" + customer.id);
-                },
-              });
+              toast.success(
+                "Updated customer details successfully. Redirecting...",
+                {
+                  onClose: () => {
+                    navigate("/getaccountspec/" + customer.id);
+                  },
+                }
+              );
             }
           } else {
             console.log(localStorage.getItem("role"));
-            toast.success(
-              "Updated details successfully.\nRedirecting...",
-              {
-                onClose: () => {
-                  navigate("/navigatecustomer");
-                },
-              }
-            );
+            toast.success("Updated details successfully.\nRedirecting...", {
+              onClose: () => {
+                navigate("/navigatecustomer");
+              },
+            });
           }
         })
-        .catch((error) =>{if(error.response && error.response.status===500){
-          toast.error("Email id already existing");}
-          else{
-        } toast.error(error.Message);
+        .catch((error) => {
+          if (error.response && error.response.status === 500) {
+            toast.error("Email id already existing");
+          } else {
+          }
+          toast.error(error.Message);
         });
     }
   };
@@ -170,9 +172,8 @@ const UpdateCustomerPage = () => {
             />
           </div>
         )}
-        
-        
-        {customer &&(
+
+        {customer && (
           <div>
             Contact:{" "}
             <input
@@ -185,24 +186,26 @@ const UpdateCustomerPage = () => {
             />
           </div>
         )}
-        {customer && localStorage.getItem("role")=="0" && (
+        {customer && localStorage.getItem("role") == "0" && (
           <div id="fieldcontainer">
             Government ID:{" "}
             <input
               type="text"
-              name="governmentid" id="conditionalfield"
+              name="governmentid"
+              id="conditionalfield"
               disabled
               value={customer.governmentId}
               onChange={handleChange}
             />
           </div>
         )}
-        {customer && localStorage.getItem("role")=="0" && (
+        {customer && localStorage.getItem("role") == "0" && (
           <div id="fieldcontainer">
             Password:{" "}
             <input
               type="password"
-              name="password" id="conditionalfield"
+              name="password"
+              id="conditionalfield"
               onChange={handleChange}
             />
           </div>

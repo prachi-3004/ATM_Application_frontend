@@ -1,6 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
+//Create account page
+import React, { useState } from "react";
 import axios from "axios";
-import { AppContext } from "../Context/AppContext";
+
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { addacc } from "../Routes";
@@ -13,7 +14,7 @@ const CreateAccountPage = () => {
   const [balance, setBalance] = useState(100);
   const [doc, setDoc] = useState(new Date().toISOString() + "");
   const [Error, setError] = useState("");
-  const { user, setUser } = useContext(AppContext);
+
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login"))
   );
@@ -92,7 +93,6 @@ const CreateAccountPage = () => {
             <option value="Savings">Savings</option>
             <option value="Salaried">Salary</option>
             <option value="Current">Current</option>
-            
           </select>
         </div>
 

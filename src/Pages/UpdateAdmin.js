@@ -1,3 +1,4 @@
+//update customer for admin
 import React, { useState, useContext, useEffect } from "react";
 import { AppContext } from "../Context/AppContext";
 import axios from "axios";
@@ -5,35 +6,34 @@ import { useNavigate, useParams } from "react-router-dom";
 import validator from "validator";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getcustbyemail, updatedetails,getcustomer } from "../Routes";
+import { getcustbyemail, updatedetails, getcustomer } from "../Routes";
 
 const UpdateAdmin = () => {
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login"))
   );
-  
+
   //const { email } = useParams();
   const navigate = useNavigate();
   const headers = { Authorization: `Bearer ${token}` };
   const [customer, setCustomer] = useState({});
   const { user, setUser } = useContext(AppContext);
-  const [oldEmail,setOldEmail]= useState("");
+  const [oldEmail, setOldEmail] = useState("");
   const [Error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if(name == "email")
-    {
+    if (name == "email") {
       setOldEmail(customer.email);
     }
     setCustomer((prev) => ({ ...prev, [name]: value }));
   };
 
-const {id}=useParams();
+  const { id } = useParams();
   var res = {};
   const getcust = async () => {
     await axios
-      .get(getcustomer+id, {
+      .get(getcustomer + id, {
         headers,
       })
       .then((response) => {
@@ -75,12 +75,11 @@ const {id}=useParams();
       setError("Enter a valid email address");
       toast.error("Enter a valid email address");
       setCustomer.email("");
-    } else if (customer.governmentId.length <1) {
+    } else if (customer.governmentId.length < 1) {
       setError("Government ID cannot be empty");
       toast.error("Government ID cannot be empty");
       setCustomer.governmentId("");
-    } 
-    else {
+    } else {
       await axios
         .put(updatedetails + oldEmail, customer, {
           headers,
@@ -94,13 +93,14 @@ const {id}=useParams();
                 navigate("/navigateadmin");
               },
             });
-                
-          } 
+          }
         })
-        .catch((error) =>{if(error.response && error.response.status===500){
-          toast.error("Email id already existing");}
-          else{
-        } toast.error(error.Message);
+        .catch((error) => {
+          if (error.response && error.response.status === 500) {
+            toast.error("Email id already existing");
+          } else {
+          }
+          toast.error(error.Message);
         });
     }
   };
@@ -126,7 +126,6 @@ const {id}=useParams();
             <input
               type="text"
               name="address"
-             
               value={customer.address}
               onChange={handleChange}
             />
@@ -138,14 +137,13 @@ const {id}=useParams();
             <input
               type="text"
               name="city"
-             
               value={customer.city}
               onChange={handleChange}
             />
           </div>
         )}
-        
-        {customer &&  (
+
+        {customer && (
           <div>
             Email:{" "}
             <input
@@ -156,9 +154,8 @@ const {id}=useParams();
             />
           </div>
         )}
-      
-       
-        {customer &&(
+
+        {customer && (
           <div>
             Contact:{" "}
             <input
@@ -171,20 +168,20 @@ const {id}=useParams();
             />
           </div>
         )}
-        {customer && localStorage.getItem("role")=="1" && (
+        {customer && localStorage.getItem("role") == "1" && (
           <div id="fieldcontainer">
             Government ID:{" "}
             <input
               type="text"
-              name="governmentid" id="conditionalfield"
-            disabled
+              name="governmentid"
+              id="conditionalfield"
+              disabled
               value={customer.governmentId}
               onChange={handleChange}
             />
           </div>
         )}
-        
-        
+
         {customer && <button type="submit">Update</button>}
       </form>
     </div>

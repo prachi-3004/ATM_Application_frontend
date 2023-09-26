@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from "react";
+//Transaction history page for customer
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
@@ -9,7 +10,7 @@ const MiniStatementsPage = () => {
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login"))
   );
-  const [Error, setError] = useState("");
+
   const { id } = useParams();
   const navigate = useNavigate();
   const headers = { Authorization: `Bearer ${token}` };
@@ -47,7 +48,7 @@ const MiniStatementsPage = () => {
             <th>Transaction ID</th>
             <th>Date of transaction</th>
             <th>Amount (in INR)</th>
-            
+
             <th>Type of transaction</th>
           </tr>
         </thead>
@@ -58,11 +59,11 @@ const MiniStatementsPage = () => {
                 <td>{transaction.id}</td>
                 <td>{transaction.createdAt}</td>
                 <td>{transaction.amount}</td>
-                
-                {transaction.type===0 && (<td>Withdrawal</td>)}
-                {transaction.type===1 && (<td>Deposit</td>)}
-                {transaction.type===2 && (<td>Transfer_Credit</td>)}
-                {transaction.type===3 && (<td>Transfer_Debit</td>)}
+
+                {transaction.type === 0 && <td>Withdrawal</td>}
+                {transaction.type === 1 && <td>Deposit</td>}
+                {transaction.type === 2 && <td>Transfer_Credit</td>}
+                {transaction.type === 3 && <td>Transfer_Debit</td>}
               </tr>
             );
           })}

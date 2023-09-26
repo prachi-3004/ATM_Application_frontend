@@ -1,10 +1,11 @@
+//home page for admin
 import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Table } from "../Components/Table";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getcusts,getcustomer,deletecustomer } from "../Routes";
+import { getcusts, getcustomer, deletecustomer } from "../Routes";
 const MainPage = () => {
   const navigate = useNavigate();
   const [rows, setRows] = useState([]);
@@ -14,8 +15,8 @@ const MainPage = () => {
     JSON.parse(window.localStorage.getItem("login"))
   );
   const headers = { Authorization: `Bearer ${token}` };
-  const [customer,setCustomer]=useState('');
-  const getcust = async(idx) => {
+  const [customer, setCustomer] = useState("");
+  const getcust = async (idx) => {
     await axios
       .get(getcustomer + idx, {
         headers,
@@ -34,7 +35,7 @@ const MainPage = () => {
       });
   };
   const handleDeleteRow = async (idx) => {
-getcust(idx);
+    getcust(idx);
     await axios
       .put(deletecustomer + customer.email, {
         headers,
@@ -48,11 +49,10 @@ getcust(idx);
         }
       })
       .catch((err) => {
-        if(err.response && err.response.status===500){
+        if (err.response && err.response.status === 500) {
           toast.error(err.response.data);
-        }
-        else{
-        toast.error(err.Message);
+        } else {
+          toast.error(err.Message);
         }
       });
   };
@@ -80,12 +80,14 @@ getcust(idx);
   return (
     <div>
       <ToastContainer />
-      {rows!=null && <Table
-        rows={rows}
-        deleteRow={handleDeleteRow}
-        editRow={handleEditRow}
-        viewRow={handleViewRow}
-      />}
+      {rows != null && (
+        <Table
+          rows={rows}
+          deleteRow={handleDeleteRow}
+          editRow={handleEditRow}
+          viewRow={handleViewRow}
+        />
+      )}
     </div>
   );
 };

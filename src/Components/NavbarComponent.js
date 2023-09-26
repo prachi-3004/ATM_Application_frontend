@@ -1,3 +1,5 @@
+//Navbar Component for admin login
+
 import React, { useContext, useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AppContext } from "../Context/AppContext";
@@ -6,11 +8,7 @@ import "./NavbarComponent.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const NavbarComponent = () => {
-  const navigate = useNavigate();
   const { user, setUser } = useContext(AppContext);
-  const [token, setToken] = useState(
-    JSON.parse(window.localStorage.getItem("login"))
-  );
   const handleLogout = () => {
     setUser(null);
     toast.success("Logged out successfully");

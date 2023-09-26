@@ -1,3 +1,4 @@
+//Change pin for customer
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
@@ -14,13 +15,13 @@ const ChangePinPage = () => {
   const navigate = useNavigate();
 
   const headers = { Authorization: `Bearer ${token}` };
-  const [oldpassword, setOldPassword]=useState("");
+  const [oldpassword, setOldPassword] = useState("");
   const [newpassword, setNewPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
 
-    const handleOldPasswod = (event)=>{
-      setOldPassword(event.target.value);
-    }
+  const handleOldPasswod = (event) => {
+    setOldPassword(event.target.value);
+  };
   const handleNewPassword = (event) => {
     //console.log(event.target.value);
     setNewPassword(event.target.value);
@@ -57,7 +58,6 @@ const ChangePinPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      
       if (newpassword !== confirmpassword) {
         toast.error("Both passwords doesnt match");
         setNewPassword("");
@@ -66,8 +66,7 @@ const ChangePinPage = () => {
         toast.error("Password must be 4 characters long");
         setNewPassword("");
         setConfirmPassword("");
-      } 
-      else {
+      } else {
         await axios
           .put(
             changepin + id,
@@ -87,12 +86,11 @@ const ChangePinPage = () => {
             }
           })
           .catch((error) => {
-            if(error.response && error.response.status===500){
+            if (error.response && error.response.status === 500) {
               toast.error("Mismatch of old pin ");
-              setOldPassword('');
-            }
-            else{
-            toast.error(error.response.data);
+              setOldPassword("");
+            } else {
+              toast.error(error.response.data);
             }
           });
       }
@@ -106,7 +104,7 @@ const ChangePinPage = () => {
       <ToastContainer />
       <h1>Change your ATM pin</h1>
       <form onSubmit={handleSubmit}>
-      <div>
+        <div>
           Enter old password:{" "}
           <input
             type="password"
