@@ -89,9 +89,11 @@ const {id}=useParams();
           if (response.status >= 200 && response.status < 300) {
             setCustomer(response.data);
             console.log("Updated Customer details!");
-          
-            toast.success("Updated succesfully!");
-                  navigate("/navigateadmin");
+            toast.success("Updated Customer details! Redirecting...", {
+              onClose: () => {
+                navigate("/navigateadmin");
+              },
+            });
                 
           } 
         })
