@@ -105,14 +105,14 @@ const WithdrawalPage = () => {
         if (amount > 0 && amount != NaN) {
           var amt = amount / currRate;
           setBalance(account.balance);
-          if (account.balance - 100 > amt) {
+          if (account.balance >= amt) {
             setBalance(account.balance - amt);
-            //console.log(account.balance - amt);
 
             const request = {
               type: "Withdrawal",
               amount: parseInt(amt),
               senderId: id,
+              recipientId: null,
               pin: pin,
             };
             console.log(request);
@@ -131,6 +131,7 @@ const WithdrawalPage = () => {
                 }
               })
               .catch((error) => {
+                console.log(error);
                 if (error.response && error.response.status === 500) {
                   toast.error(error.response.data + " Please check your pin");
                   setPin("");

@@ -39,7 +39,7 @@ const GetAllAccounts = () => {
 
   const handleDelete = async (idx) => {
     await axios
-      .patch(
+      .put(
         deleteaccount,
         { id: idx },
         {
