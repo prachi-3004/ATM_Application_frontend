@@ -109,7 +109,6 @@ const CreateAccountPage = () => {
           Balance:{" "}
           <input
             type="number"
-            min="100"
             value={balance}
             onChange={handleBalance}
             required

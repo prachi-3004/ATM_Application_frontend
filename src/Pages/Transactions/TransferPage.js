@@ -143,7 +143,7 @@ const TransferPage = () => {
           var amt = amount / currRate;
           setSenderBal(senderAccount.balance);
 
-          if (senderAccount.balance - 100 > amt) {
+          if (senderAccount.balance > amt) {
             setSenderBal(senderBal - amt);
             //setRecipientBal(recipientAccount.balance + amt);
 
