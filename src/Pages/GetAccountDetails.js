@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from "react";
-
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { AccountTable } from "../Components/AccountTable";
@@ -72,11 +71,13 @@ const GetAccountDetails = () => {
         />
       )}
 
-      {!hadAccs && <div>You don't have any accounts</div>}
+      {!hadAccs && <div>You don't have any accounts <button onClick={() => navigate("/createaccount/" + id)}>
+            Click here to create account
+          </button></div>}
       <br />
       <buton
         type="submit"
-        onClick={() => navigate(-1)}
+        onClick={() => navigate("/getcustomer/"+id)}
         style={{ color: "blue", border: "10px" }}
       >
         Go Back

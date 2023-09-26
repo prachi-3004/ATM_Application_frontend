@@ -78,7 +78,7 @@ const GetAllAccounts = () => {
       />
       <buton
         type="submit"
-        onClick={() => navigate(-1)}
+        onClick={() => navigate("/navigateadmin")}
         style={{ color: "blue", border: "10px" }}
       >
         Go Back

@@ -45,7 +45,7 @@ const GetCustomer = () => {
     navigate("/createaccount/" + id);
   };
   const handleGetAccount = async () => {
-    if (userType===0) navigate("/getaccountdetails/" + id);
+    if (userType===1) navigate("/getaccountdetails/" + id);
     else navigate("/getaccbyid/" + id);
   };
   // const handleDelete = async () => {
@@ -88,7 +88,7 @@ const GetCustomer = () => {
       <br />
       <buton
         type="submit"
-        onClick={() => navigate(-1)}
+        onClick={() => navigate("/navigateadmin")}
         style={{ color: "blue", border: "10px" }}
       >
         Go Back
