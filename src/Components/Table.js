@@ -12,6 +12,7 @@ export const Table = ({ rows, deleteRow, editRow, viewRow }) => {
   return (
     <div>
       <ToastContainer />
+      
 {rows==null && <div>No customers registered yet</div>}
       {rows!=null && <div className="table-wrapper">
         <table className="table">
@@ -26,7 +27,7 @@ export const Table = ({ rows, deleteRow, editRow, viewRow }) => {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row, idx) => {
+            {Object.values(rows).map((row, idx) => {
               return (
                 <tr key={row.id}>
                   <td>{row.id}</td>

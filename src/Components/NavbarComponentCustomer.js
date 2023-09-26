@@ -57,12 +57,20 @@ const NavbarComponentCustomer = () => {
           <ul>
             <li className="nav-link">
               {customer && (
-                <NavLink to={`/getaccountdetails/${customer.id}`}>
+                <NavLink to={`/getaccbyid/${customer.id}`}>
                   Get Account details
                 </NavLink>
               )}
-             
             </li>
+
+            <li className="nav-link">
+              {customer && (
+                <NavLink to={`/updatecustomer/${customer.id}`}>
+                  Update details
+                </NavLink>
+              )}
+            </li>
+
             <li className="nav-link">
               <NavLink to="/login" onClick={handleLogout}>
                 Logout

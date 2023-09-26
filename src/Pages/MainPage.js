@@ -39,7 +39,7 @@ const MainPage = () => {
 
   const handleEditRow = (idx) => {
     setRowToEdit(idx);
-    navigate(`/updatecustomer/${idx}`);
+    navigate(`/update/${idx}`);
   };
 
   const handleViewRow = (idx) => {

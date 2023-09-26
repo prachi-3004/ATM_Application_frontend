@@ -5,9 +5,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import validator from "validator";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getcustbyemail, updatedetails } from "../Routes";
+import { getcustbyemail, updatedetails,getcustomer } from "../Routes";
 
-const UpdateCustomerPage = () => {
+const UpdateAdmin = () => {
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login"))
   );
@@ -17,17 +17,23 @@ const UpdateCustomerPage = () => {
   const headers = { Authorization: `Bearer ${token}` };
   const [customer, setCustomer] = useState({});
   const { user, setUser } = useContext(AppContext);
-  
+  const [oldEmail,setOldEmail]= useState("");
   const [Error, setError] = useState("");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if(name == "email")
+    {
+      setOldEmail(customer.email);
+    }
     setCustomer((prev) => ({ ...prev, [name]: value }));
   };
 
+const {id}=useParams();
   var res = {};
   const getcust = async () => {
     await axios
-      .get(getcustbyemail + user, {
+      .get(getcustomer+id, {
         headers,
       })
       .then((response) => {
@@ -65,10 +71,6 @@ const UpdateCustomerPage = () => {
       setError("Enter a valid contact number");
       toast.error("Enter a valid contact number");
       setCustomer.contact("");
-    } else if (customer.password.length < 3 || customer.password.length > 16) {
-      setError("Password must be between 3 to 16 characters");
-      toast.error("Password must be between 3 to 16 characters");
-      //setCustomer.password("");
     } else if (!validator.isEmail(customer.email)) {
       setError("Enter a valid email address");
       toast.error("Enter a valid email address");
@@ -77,13 +79,10 @@ const UpdateCustomerPage = () => {
       setError("Government ID cannot be empty");
       toast.error("Government ID cannot be empty");
       setCustomer.governmentId("");
-    } /*else if (!customer.dateOfBirth) {
-      setError("Date of Birth cannot be empty");
-      toast.error("Date of Birth cannot be empty");
-    } */
+    } 
     else {
       await axios
-        .put(updatedetails + customer.email, customer, {
+        .put(updatedetails + oldEmail, customer, {
           headers,
         })
         .then((response) => {
@@ -91,25 +90,10 @@ const UpdateCustomerPage = () => {
             setCustomer(response.data);
             console.log("Updated Customer details!");
           
-            if (localStorage.getItem("role").localeCompare("0")==0) {
-              console.log(localStorage.getItem("role"));
-              toast.success("Updated customer details successfully. Redirecting...", {
-                onClose: () => {
-                  navigate("/getaccountspec/" + customer.id);
-                },
-              });
-            }
-          } else {
-            console.log(localStorage.getItem("role"));
-            toast.success(
-              "Updated details successfully.\nRedirecting...",
-              {
-                onClose: () => {
-                  navigate("/navigatecustomer");
-                },
-              }
-            );
-          }
+            toast.success("Updated succesfully!");
+                  navigate("/navigateadmin");
+                
+          } 
         })
         .catch((error) =>{if(error.response && error.response.status===500){
           toast.error("Email id already existing");}
@@ -140,7 +124,7 @@ const UpdateCustomerPage = () => {
             <input
               type="text"
               name="address"
-              disabled
+             
               value={customer.address}
               onChange={handleChange}
             />
@@ -152,26 +136,26 @@ const UpdateCustomerPage = () => {
             <input
               type="text"
               name="city"
-              disabled
+             
               value={customer.city}
               onChange={handleChange}
             />
           </div>
         )}
-        {customer && (
+        
+        {customer &&  (
           <div>
             Email:{" "}
             <input
               type="text"
               name="email"
-              disabled
               value={customer.email}
               onChange={handleChange}
             />
           </div>
         )}
-        
-        
+      
+       
         {customer &&(
           <div>
             Contact:{" "}
@@ -185,31 +169,23 @@ const UpdateCustomerPage = () => {
             />
           </div>
         )}
-        {customer && localStorage.getItem("role")=="0" && (
+        {customer && localStorage.getItem("role")=="1" && (
           <div id="fieldcontainer">
             Government ID:{" "}
             <input
               type="text"
               name="governmentid" id="conditionalfield"
-              disabled
+            disabled
               value={customer.governmentId}
               onChange={handleChange}
             />
           </div>
         )}
-        {customer && localStorage.getItem("role")=="0" && (
-          <div id="fieldcontainer">
-            Password:{" "}
-            <input
-              type="password"
-              name="password" id="conditionalfield"
-              onChange={handleChange}
-            />
-          </div>
-        )}
+        
+        
         {customer && <button type="submit">Update</button>}
       </form>
     </div>
   );
 };
-export default UpdateCustomerPage;
+export default UpdateAdmin;
