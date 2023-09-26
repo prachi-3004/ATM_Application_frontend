@@ -11,7 +11,7 @@ const GetspecAccount = () => {
   const { id } = useParams();
   const navigate = useNavigate("");
   const { user, setUser } = useContext(AppContext);
-  const [customer, setCustomer] = useState({});
+  const [customer, setCustomer] = useState("");
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login"))
   );
@@ -41,6 +41,7 @@ const GetspecAccount = () => {
   useEffect(() => {
     getcust();
   }, []);
+
   const getAcc = async () => {
     await axios
       .get(getaccbyid + id, {
@@ -158,7 +159,7 @@ const GetspecAccount = () => {
 
       <buton
         type="submit"
-        onClick={() => navigate(-1)}
+        onClick={() => navigate("/navigatecustomer")}
         style={{ color: "blue", border: "10px" }}
       >
         Go Back

@@ -83,7 +83,7 @@ const UpdateCustomerPage = () => {
       toast.error("Date of Birth cannot be empty");
     } */ else {
       await axios
-        .put(updatedetails + customer.email, customer, {
+        .put(updatedetails + customer.id, customer, {
           headers,
         })
         .then((response) => {
@@ -97,13 +97,12 @@ const UpdateCustomerPage = () => {
                 "Updated customer details successfully. Redirecting...",
                 {
                   onClose: () => {
-                    navigate("/getaccountspec/" + customer.id);
+                    navigate("/navigatecustomer");
                   },
                 }
               );
             }
           } else {
-            console.log(localStorage.getItem("role"));
             toast.success("Updated details successfully.\nRedirecting...", {
               onClose: () => {
                 navigate("/navigatecustomer");
@@ -192,7 +191,6 @@ const UpdateCustomerPage = () => {
             <input
               type="text"
               name="governmentid"
-              id="conditionalfield"
               disabled
               value={customer.governmentId}
               onChange={handleChange}
@@ -202,16 +200,18 @@ const UpdateCustomerPage = () => {
         {customer && localStorage.getItem("role") == "0" && (
           <div id="fieldcontainer">
             Password:{" "}
-            <input
-              type="password"
-              name="password"
-              id="conditionalfield"
-              onChange={handleChange}
-            />
+            <input type="password" name="password" onChange={handleChange} />
           </div>
         )}
         {customer && <button type="submit">Update</button>}
       </form>
+      <buton
+        type="submit"
+        onClick={() => navigate("/navigatecustomer")}
+        style={{ color: "blue", border: "10px" }}
+      >
+        Go Back
+      </buton>
     </div>
   );
 };

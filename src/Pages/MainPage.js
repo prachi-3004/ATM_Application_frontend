@@ -1,6 +1,6 @@
 //home page for admin
 import axios from "axios";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Table } from "../Components/Table";
 import { ToastContainer, toast } from "react-toastify";
@@ -36,25 +36,36 @@ const MainPage = () => {
   };
   const handleDeleteRow = async (idx) => {
     getcust(idx);
-    await axios
-      .put(deletecustomer + customer.email, {
-        headers,
-      })
-      .then((response) => {
-        if (response.status >= 200 && response.status < 300) {
-          console.log("User disabled successfully!");
-          toast.success(`${customer.name} disabled successfully!`);
-        } else {
-          toast.error(response.data);
-        }
-      })
-      .catch((err) => {
-        if (err.response && err.response.status === 500) {
-          toast.error(err.response.data);
-        } else {
-          toast.error(err.Message);
-        }
-      });
+    if (customer != null && customer.email != null) {
+      await axios
+        .patch(
+          deletecustomer,
+          { email: customer.email },
+          {
+            headers,
+          }
+        )
+        .then((response) => {
+          if (response.status >= 200 && response.status < 300) {
+            console.log("User disabled successfully!");
+            window.location.reload();
+            toast.success(`${customer.name} disabled successfully!`, {
+              onClose: () => {
+                navigate("/navigateadmin");
+              },
+            });
+          } else {
+            toast.error(response.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response && err.response.status === 500) {
+            toast.error(err.response.data);
+          } else {
+            toast.error(err.Message);
+          }
+        });
+    }
   };
 
   const handleAdd = () => {

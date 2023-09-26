@@ -244,7 +244,7 @@ const TransferPage = () => {
       <br />
       <buton
         type="submit"
-        onClick={() => navigate(-1)}
+        onClick={() => navigate("/getaccountspec/" + id)}
         style={{ color: "blue", border: "10px" }}
       >
         Go Back

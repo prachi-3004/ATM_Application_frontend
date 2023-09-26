@@ -105,31 +105,31 @@ const ChangePinPage = () => {
       <h1>Change your ATM pin</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          Enter old password:{" "}
+          Enter old pin:{" "}
           <input
             type="password"
             value={oldpassword}
-            placeholder="Enter your old password"
+            placeholder="Enter your old pin"
             onChange={handleOldPasswod}
             required
           />
         </div>
         <div>
-          Enter new password:{" "}
+          Enter new pin:{" "}
           <input
             type="password"
             value={newpassword}
-            placeholder="Enter your new password"
+            placeholder="Enter your new pin"
             onChange={handleNewPassword}
             required
           />
         </div>
         <div>
-          Confirm your new password:{" "}
+          Confirm your new pin:{" "}
           <input
             type="password"
             value={confirmpassword}
-            placeholder="Enter password again"
+            placeholder="Enter new pin again"
             onChange={handleConfirmPassword}
             required
           />
@@ -142,7 +142,7 @@ const ChangePinPage = () => {
       <br />
       <buton
         type="submit"
-        onClick={() => navigate(-1)}
+        onClick={() => navigate("/getaccountspec/" + id)}
         style={{ color: "blue", border: "10px" }}
       >
         Go Back

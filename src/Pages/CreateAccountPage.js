@@ -119,6 +119,13 @@ const CreateAccountPage = () => {
           <button type="submit"> Submit </button>
         </div>
       </form>
+      <buton
+        type="submit"
+        onClick={() => navigate("/getcustomer/" + id)}
+        style={{ color: "blue", border: "10px" }}
+      >
+        Go Back
+      </buton>
     </div>
   );
 };

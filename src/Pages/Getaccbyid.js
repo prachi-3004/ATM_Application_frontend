@@ -46,13 +46,22 @@ const Getaccbyid = () => {
 
   const handleDelete = async (idx) => {
     await axios
-      .put(deleteaccount + idx, {
-        headers,
-      })
+      .put(
+        deleteaccount,
+        { id: idx },
+        {
+          headers,
+        }
+      )
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
           console.log("Account deleted successfully!");
+          window.location.reload();
           toast.success("Account disabled successfully!");
+          // onClose: () => {
+          //   navigate("/getallaccounts");
+          // },
+          //});
         } else {
           toast.error(response.data);
         }

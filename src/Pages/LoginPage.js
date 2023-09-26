@@ -135,7 +135,7 @@ const LoginPage = () => {
         </div>
         <br />
         <div>
-          email:{" "}
+          Email:{" "}
           <input
             type="email"
             placeholder="Enter User Email"

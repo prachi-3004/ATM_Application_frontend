@@ -39,13 +39,23 @@ const GetAllAccounts = () => {
 
   const handleDelete = async (idx) => {
     await axios
-      .put(deleteaccount + idx, {
-        headers,
-      })
+      .patch(
+        deleteaccount,
+        { id: idx },
+        {
+          headers,
+        }
+      )
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
           console.log("Account deleted successfully!");
-          toast.success("Account disabled successfully!");
+          window.location.reload();
+          toast.success("Account disabled successfully!", {
+            onClose: () => {
+              navigate("/getallaccounts");
+            },
+          });
+          navigate("/getallaccounts");
         } else {
           toast.error(response.data);
         }
@@ -64,11 +74,14 @@ const GetAllAccounts = () => {
   return (
     <div>
       <ToastContainer />
-      <AccountTable
-        rows={account}
-        deleteRow={handleDelete}
-        viewRow={handleView}
-      />
+      {account.length > 0 && (
+        <AccountTable
+          rows={account}
+          deleteRow={handleDelete}
+          viewRow={handleView}
+        />
+      )}
+      {account.length == 0 && <div>No accounts created yet</div>}
       <buton
         type="submit"
         onClick={() => navigate("/navigateadmin")}

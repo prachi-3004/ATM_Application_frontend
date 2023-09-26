@@ -50,12 +50,12 @@ const BalanceCheckPage = () => {
       <ToastContainer />
 
       <h1>Balance Inquiry</h1>
-      <p>Account No.:{account.id}</p>
+      <p>Account Number:{account.id}</p>
       <p>Balance:{account.balance}</p>
       <br />
       <buton
         type="submit"
-        onClick={() => navigate(-1)}
+        onClick={() => navigate("/getaccountspec/" + id)}
         style={{ color: "blue", border: "10px" }}
       >
         Go Back

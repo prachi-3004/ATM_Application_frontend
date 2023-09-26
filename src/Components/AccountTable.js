@@ -20,6 +20,7 @@ export const AccountTable = ({ rows, deleteRow, viewRow }) => {
             <thead>
               <tr>
                 <th>AccountId</th>
+                {role == 1 && <th>Customer Id</th>}
                 <th>Type</th>
                 <th>Card Number</th>
                 <th>Balance</th>
@@ -31,9 +32,10 @@ export const AccountTable = ({ rows, deleteRow, viewRow }) => {
                 return (
                   <tr key={row.id}>
                     <td>{row.id}</td>
+                    {role == 1 && <td>{row.customerId}</td>}
                     {row.type === 0 && <td>Savings</td>}
                     {row.type === 1 && <td>Current</td>}
-                    {row.type === 2 && <td>Salaried</td>}
+                    {row.type === 2 && <td>Salary</td>}
                     <td>{row.cardNumber}</td>
                     <td>{row.balance}</td>
 

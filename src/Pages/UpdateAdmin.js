@@ -18,19 +18,17 @@ const UpdateAdmin = () => {
   const headers = { Authorization: `Bearer ${token}` };
   const [customer, setCustomer] = useState({});
   const { user, setUser } = useContext(AppContext);
-  const [oldEmail, setOldEmail] = useState("");
+
   const [Error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name == "email") {
-      setOldEmail(customer.email);
-    }
+
     setCustomer((prev) => ({ ...prev, [name]: value }));
   };
 
   const { id } = useParams();
-  var res = {};
+
   const getcust = async () => {
     await axios
       .get(getcustomer + id, {
@@ -49,6 +47,7 @@ const UpdateAdmin = () => {
         toast.error(err.response.data);
       });
   };
+
   useEffect(() => {
     getcust();
   }, []);
@@ -81,7 +80,7 @@ const UpdateAdmin = () => {
       setCustomer.governmentId("");
     } else {
       await axios
-        .put(updatedetails + oldEmail, customer, {
+        .put(updatedetails + id, customer, {
           headers,
         })
         .then((response) => {
@@ -97,7 +96,7 @@ const UpdateAdmin = () => {
         })
         .catch((error) => {
           if (error.response && error.response.status === 500) {
-            toast.error("Email id already existing");
+            toast.error(error.response.data);
           } else {
           }
           toast.error(error.Message);
@@ -184,6 +183,13 @@ const UpdateAdmin = () => {
 
         {customer && <button type="submit">Update</button>}
       </form>
+      <buton
+        type="submit"
+        onClick={() => navigate("/navigateadmin")}
+        style={{ color: "blue", border: "10px" }}
+      >
+        Go Back
+      </buton>
     </div>
   );
 };

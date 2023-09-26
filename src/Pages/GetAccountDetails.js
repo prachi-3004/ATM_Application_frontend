@@ -11,7 +11,7 @@ const GetAccountDetails = () => {
   const [token, setToken] = useState(
     JSON.parse(window.localStorage.getItem("login"))
   );
-  const { user, setUser } = useContext(AppContext);
+
   const { id } = useParams();
   const navigate = useNavigate();
   const [account, setAccount] = useState([]);
@@ -29,10 +29,12 @@ const GetAccountDetails = () => {
           sethadAccs(true);
         } else {
           toast.error(response.data);
+          sethadAccs(false);
         }
       })
       .catch((err) => {
         console.log(err);
+        sethadAccs(false);
         toast.error(err.response.data);
       });
   };
@@ -43,13 +45,22 @@ const GetAccountDetails = () => {
 
   const handleDelete = async (idx) => {
     await axios
-      .put(deleteaccount + idx, {
-        headers,
-      })
+      .put(
+        deleteaccount,
+        { id: idx },
+        {
+          headers,
+        }
+      )
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
           console.log("Account deleted successfully!");
-          toast.success("Account disabled successfully!");
+          window.location.reload();
+          toast.success("Account disabled successfully!", {
+            onClose: () => {
+              navigate("/getcustomer/" + id);
+            },
+          });
         } else {
           toast.error(response.data);
         }
@@ -68,7 +79,7 @@ const GetAccountDetails = () => {
   return (
     <div>
       <ToastContainer />
-      {hadAccs && (
+      {account.length > 0 && (
         <AccountTable
           rows={account}
           deleteRow={handleDelete}
@@ -76,14 +87,15 @@ const GetAccountDetails = () => {
         />
       )}
 
-      {!hadAccs && (
+      {account.length == 0 && (
         <div>
-          You don't have any accounts{" "}
+          No accounts created yet
           <button onClick={() => navigate("/createaccount/" + id)}>
             Click here to create account
           </button>
         </div>
       )}
+
       <br />
       <buton
         type="submit"
