@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { addcust } from "../Routes";
 import "react-toastify/dist/ReactToastify.css";
+import "./AddCustomerPage.css";
 const AddCustomerPage = () => {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
@@ -125,80 +126,84 @@ const AddCustomerPage = () => {
   return (
     <div>
       <ToastContainer />
-      <form onSubmit={handleSubmit}>
-        <div>
-          Name:{" "}
-          <input
-            type="text"
-            value={name}
-            onChange={handleName}
-            placeholder="Enter Name"
-            required
-          />
-        </div>
-        <div>
-          Address:{" "}
-          <input
-            type="text"
-            value={address}
-            onChange={handleAddress}
-            placeholder="Enter Customer Address"
-            required
-          />
-        </div>
-        <div>
-          City:{" "}
-          <input
-            type="text"
-            value={city}
-            onChange={handleCity}
-            placeholder="Enter Customer City"
-          />
-        </div>
-        <div>
-          Email:{" "}
-          <input
-            type="email"
-            value={email}
-            onChange={handleEmail}
-            placeholder="Enter Email id"
-            required
-          />
-        </div>
-        <div>
-          Contact:{" "}
-          <input
-            type="text"
-            value={contact}
-            onChange={handleContact}
-            placeholder="Enter Contact Number"
-            required
-          />
-        </div>
-        <div>
-          Government ID:{" "}
-          <input
-            type="text"
-            value={govtid}
-            onChange={handleGovtid}
-            placeholder="Enter Government ID"
-            required
-          />
-        </div>
-        <div>
-          Password:{" "}
-          <input
-            type="password"
-            value={password}
-            onChange={handlePassword}
-            placeholder="Enter Password"
-            required
-          />
-        </div>
-        <div>
-          <button type="submit"> Submit </button>
-        </div>
-      </form>
+
+      <h1>Create Customer</h1>
+      <div className="formdiv">
+        <form onSubmit={handleSubmit}>
+          <div className="forminsidediv">
+            <label>Name: </label>
+            <input
+              type="text"
+              value={name}
+              onChange={handleName}
+              placeholder="Enter Name"
+              required
+            />
+          </div>
+          <div className="forminsidediv">
+            <label>Address: </label>
+            <input
+              type="text"
+              value={address}
+              onChange={handleAddress}
+              placeholder="Enter Customer Address"
+              required
+            />
+          </div>
+          <div className="forminsidediv">
+            <label>City: </label>
+            <input
+              type="text"
+              value={city}
+              onChange={handleCity}
+              placeholder="Enter Customer City"
+            />
+          </div>
+          <div className="forminsidediv">
+            <label>Email: </label>
+            <input
+              type="email"
+              value={email}
+              onChange={handleEmail}
+              placeholder="Enter Email id"
+              required
+            />
+          </div>
+          <div className="forminsidediv">
+            <label>Contact: </label>
+            <input
+              type="text"
+              value={contact}
+              onChange={handleContact}
+              placeholder="Enter Contact Number"
+              required
+            />
+          </div>
+          <div className="forminsidediv">
+            <label> Government ID: </label>
+            <input
+              type="text"
+              value={govtid}
+              onChange={handleGovtid}
+              placeholder="Enter Government ID"
+              required
+            />
+          </div>
+          <div className="forminsidediv">
+            <label>Password: </label>
+            <input
+              type="password"
+              value={password}
+              onChange={handlePassword}
+              placeholder="Enter Password"
+              required
+            />
+          </div>
+          <div>
+            <button type="submit"> Submit </button>
+          </div>
+        </form>
+      </div>
       <buton
         type="submit"
         onClick={() => navigate("/navigateadmin")}

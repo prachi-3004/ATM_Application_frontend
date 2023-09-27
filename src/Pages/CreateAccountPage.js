@@ -85,39 +85,41 @@ const CreateAccountPage = () => {
       <ToastContainer />
       <h1>Create your Account!</h1>
       <h3>Enter your details:</h3>
-      <form onSubmit={handleSubmit}>
-        <div>
-          {" "}
-          Select the account type:
-          <select onChange={handleAccountType}>
-            <option value="Savings">Savings</option>
-            <option value="Salaried">Salary</option>
-            <option value="Current">Current</option>
-          </select>
-        </div>
+      <div className="formdiv">
+        <form onSubmit={handleSubmit}>
+          <div className="forminsidediv">
+            {" "}
+            <label>Select the account type:</label>
+            <select onChange={handleAccountType}>
+              <option value="Savings">Savings</option>
+              <option value="Salaried">Salary</option>
+              <option value="Current">Current</option>
+            </select>
+          </div>
 
-        <div>
-          Pin No:{" "}
-          <input
-            type="password"
-            value={pinNo}
-            onChange={handlePinNo}
-            required
-          />
-        </div>
-        <div>
-          Balance:{" "}
-          <input
-            type="number"
-            value={balance}
-            onChange={handleBalance}
-            required
-          />
-        </div>
-        <div>
-          <button type="submit"> Submit </button>
-        </div>
-      </form>
+          <div className="forminsidediv">
+            <label> Pin No: </label>
+            <input
+              type="password"
+              value={pinNo}
+              onChange={handlePinNo}
+              required
+            />
+          </div>
+          <div className="forminsidediv">
+            <label>Balance: </label>
+            <input
+              type="number"
+              value={balance}
+              onChange={handleBalance}
+              required
+            />
+          </div>
+          <div>
+            <button type="submit"> Submit </button>
+          </div>
+        </form>
+      </div>
       <buton
         type="submit"
         onClick={() => navigate("/getcustomer/" + id)}

@@ -79,9 +79,10 @@ const NavbarComponentCustomer = () => {
             </li>
           </ul>
         </div>
-        <div>
-          {customer && <h1>Customer Details</h1>}
-
+      </div>
+      <div>
+        {customer && <h1>Customer Details</h1>}
+        <div className="textdiv">
           {customer?.id && <div> Customer ID: {customer?.id} </div>}
           {customer?.name && <div> Customer Name: {customer?.name}</div>}
           {customer?.userName && (

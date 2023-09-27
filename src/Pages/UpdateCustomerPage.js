@@ -122,89 +122,91 @@ const UpdateCustomerPage = () => {
   return (
     <div>
       <ToastContainer />
-      <h4>Update Customer details</h4>
-      <form onSubmit={handleSubmit}>
-        {customer && (
-          <div>
-            Name:{" "}
-            <input
-              type="text"
-              name="name"
-              value={customer.name}
-              onChange={handleChange}
-            />
-          </div>
-        )}
-        {customer && (
-          <div>
-            Address:{" "}
-            <input
-              type="text"
-              name="address"
-              disabled
-              value={customer.address}
-              onChange={handleChange}
-            />
-          </div>
-        )}
-        {customer && (
-          <div>
-            City:{" "}
-            <input
-              type="text"
-              name="city"
-              disabled
-              value={customer.city}
-              onChange={handleChange}
-            />
-          </div>
-        )}
-        {customer && (
-          <div>
-            Email:{" "}
-            <input
-              type="text"
-              name="email"
-              disabled
-              value={customer.email}
-              onChange={handleChange}
-            />
-          </div>
-        )}
+      <h1>Update Customer details</h1>
+      <div className="formdiv">
+        <form onSubmit={handleSubmit}>
+          {customer && (
+            <div className="forminsidediv">
+              <label>Name: </label>
+              <input
+                type="text"
+                name="name"
+                value={customer.name}
+                onChange={handleChange}
+              />
+            </div>
+          )}
+          {customer && (
+            <div className="forminsidediv">
+              <label>Address: </label>
+              <input
+                type="text"
+                name="address"
+                disabled
+                value={customer.address}
+                onChange={handleChange}
+              />
+            </div>
+          )}
+          {customer && (
+            <div className="forminsidediv">
+              <label>City: </label>
+              <input
+                type="text"
+                name="city"
+                disabled
+                value={customer.city}
+                onChange={handleChange}
+              />
+            </div>
+          )}
+          {customer && (
+            <div className="forminsidediv">
+              <label>Email: </label>
+              <input
+                type="text"
+                name="email"
+                disabled
+                value={customer.email}
+                onChange={handleChange}
+              />
+            </div>
+          )}
 
-        {customer && (
-          <div>
-            Contact:{" "}
-            <input
-              type="text"
-              pattern="[0-9]{10}"
-              name="contact"
-              disabled
-              value={customer.contactNumber}
-              onChange={handleChange}
-            />
-          </div>
-        )}
-        {customer && localStorage.getItem("role") == "0" && (
-          <div id="fieldcontainer">
-            Government ID:{" "}
-            <input
-              type="text"
-              name="governmentid"
-              disabled
-              value={customer.governmentId}
-              onChange={handleChange}
-            />
-          </div>
-        )}
-        {customer && localStorage.getItem("role") == "0" && (
-          <div id="fieldcontainer">
-            Password:{" "}
-            <input type="password" name="password" onChange={handleChange} />
-          </div>
-        )}
-        {customer && <button type="submit">Update</button>}
-      </form>
+          {customer && (
+            <div className="forminsidediv">
+              <label>Contact: \</label>
+              <input
+                type="text"
+                pattern="[0-9]{10}"
+                name="contact"
+                disabled
+                value={customer.contactNumber}
+                onChange={handleChange}
+              />
+            </div>
+          )}
+          {customer && localStorage.getItem("role") == "0" && (
+            <div className="forminsidediv">
+              <label>Government ID: </label>
+              <input
+                type="text"
+                name="governmentid"
+                disabled
+                value={customer.governmentId}
+                onChange={handleChange}
+              />
+            </div>
+          )}
+          {customer && localStorage.getItem("role") == "0" && (
+            <div className="forminsidediv">
+              <label>Password: </label>
+              <input type="password" name="password" onChange={handleChange} />
+            </div>
+          )}
+          {customer && <button type="submit">Update</button>}
+        </form>
+      </div>
       <buton
         type="submit"
         onClick={() => navigate("/navigatecustomer")}

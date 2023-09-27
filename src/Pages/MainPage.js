@@ -91,14 +91,16 @@ const MainPage = () => {
   return (
     <div>
       <ToastContainer />
-      {rows != null && (
-        <Table
-          rows={rows}
-          deleteRow={handleDeleteRow}
-          editRow={handleEditRow}
-          viewRow={handleViewRow}
-        />
-      )}
+      <div className="table">
+        {rows != null && (
+          <Table
+            rows={rows}
+            deleteRow={handleDeleteRow}
+            editRow={handleEditRow}
+            viewRow={handleViewRow}
+          />
+        )}
+      </div>
     </div>
   );
 };

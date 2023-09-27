@@ -87,8 +87,8 @@ const GetspecAccount = () => {
   return (
     <div>
       <ToastContainer />
-      <div>
-        <h3>Account Details</h3>
+      <h3>Account Details</h3>
+      <div className="textdiv">
         <div>
           {account && <div> Account ID: {account?.id} </div>}
           {account && (
@@ -108,26 +108,22 @@ const GetspecAccount = () => {
       {role == 0 && (
         <div>
           <h3>Please choose the type of transaction:</h3>
-
-          <div>
+          <div className="content">
             <button type="submit" value="Withdrawal" onClick={handleWithdrawal}>
               {" "}
               Withdrawal{" "}
             </button>
-          </div>
-          <div>
+
             <button type="submit" value="Deposit" onClick={handleDeposit}>
               {" "}
               Deposit{" "}
             </button>
-          </div>
-          <div>
+
             <button type="submit" value="Transfer" onClick={handleTransfer}>
               {" "}
               Transfer{" "}
             </button>
-          </div>
-          <div>
+
             <button
               type="submit"
               value="BalanceCheck"
@@ -136,8 +132,7 @@ const GetspecAccount = () => {
               {" "}
               Balance Check{" "}
             </button>
-          </div>
-          <div>
+
             <button
               type="submit"
               value="MiniStatements"
@@ -146,8 +141,7 @@ const GetspecAccount = () => {
               {" "}
               Get Transaction History
             </button>
-          </div>
-          <div>
+
             <button type="submit" value="ChangePin" onClick={handleChangePin}>
               {" "}
               Change Pin
@@ -157,13 +151,24 @@ const GetspecAccount = () => {
       )}
       <br />
 
-      <buton
-        type="submit"
-        onClick={() => navigate("/navigatecustomer")}
-        style={{ color: "blue", border: "10px" }}
-      >
-        Go Back
-      </buton>
+      {role == 0 && (
+        <buton
+          type="submit"
+          onClick={() => navigate("/navigatecustomer")}
+          style={{ color: "blue", border: "10px" }}
+        >
+          Go Back
+        </buton>
+      )}
+      {role == 1 && (
+        <buton
+          type="submit"
+          onClick={() => navigate("/getallaccounts")}
+          style={{ color: "blue", border: "10px" }}
+        >
+          Go Back
+        </buton>
+      )}
     </div>
   );
 };

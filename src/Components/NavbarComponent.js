@@ -22,6 +22,9 @@ const NavbarComponent = () => {
       <div className="navbar">
         <div className="navbar-contents">
           <ul>
+            <li classsName="nav-link">
+              <NavLink to="/navigateadmin">Welcome Admin</NavLink>
+            </li>
             <li className="nav-link">
               <NavLink to="/addcustomer">Add Customer</NavLink>
             </li>

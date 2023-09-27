@@ -111,7 +111,7 @@ const LoginPage = () => {
     <div>
       <ToastContainer />
       <h1>Login to ATM Banking</h1>
-      <form className="loginform" onSubmit={handleSubmit}>
+      <form className="formdiv" onSubmit={handleSubmit}>
         <div>
           Login as:
           <label>
@@ -134,8 +134,8 @@ const LoginPage = () => {
           </label>
         </div>
         <br />
-        <div>
-          Email:{" "}
+        <div class="forminsidediv">
+          <label>Email:</label>
           <input
             type="email"
             placeholder="Enter User Email"
@@ -145,8 +145,8 @@ const LoginPage = () => {
         </div>
 
         <br />
-        <div>
-          Password:{" "}
+        <div class="forminsidediv">
+          <label>Password:</label>
           <input
             type="password"
             placeholder="Enter Password"

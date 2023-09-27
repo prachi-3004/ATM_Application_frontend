@@ -1,10 +1,16 @@
-.btn {
-    margin-top: 1rem;
-    border: none;
-    background-color: #1d4ed8;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    border-radius: 10px;
-    cursor: pointer;
-    box-shadow: 0px 5px 5px #ccc;
-  }
+/* .btn {
+  margin-top: 1rem;
+  border: none;
+  background-color: #1d4ed8;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0px 5px 5px #ccc;
+} */
+.loginform {
+  justify-content: center;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}

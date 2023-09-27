@@ -152,47 +152,52 @@ const WithdrawalPage = () => {
   return (
     <div>
       <ToastContainer />
-      <h1>Withdrawal</h1>
-      <p>Account No.: {account.id}</p>
-      <p>Balance: {account.balance}</p>
-
-      <form onSubmit={handleSubmit}>
-        <label>Select currency in which you want to withdraw money:</label>
-        <select
-          name="Currency"
-          defaultValue="INR"
-          onChange={(e) => setSelcurr(e.target.value)}
-        >
-          {Curr.map((cur, index) => (
-            <option key={index} value={cur}>
-              {cur}
-            </option>
-          ))}
-        </select>
-        <div>
-          Enter the amount to withdraw:{" "}
-          <input
-            type="number"
-            value={amount}
-            onChange={handleAmount}
-            required
-          />
-        </div>
-        <div>
-          Enter PIN{" "}
-          <input
-            type="password"
-            value={pin}
-            placeholder="Enter ATM Pin"
-            onChange={handlePin}
-            required
-          />
-        </div>
-        <br />
-        <div>
-          <button type="submit"> Withdraw </button>
-        </div>
-      </form>
+      <h1>Withdrawal Page</h1>
+      <div className="textdiv">
+        <div>Account Number: {account.id}</div>
+        <div>Balance(in INR): {account.balance}</div>
+      </div>
+      <div className="formdiv">
+        <form onSubmit={handleSubmit}>
+          <div className="forminsidediv">
+            <label>Select currency in which you want to withdraw money:</label>
+            <select
+              name="Currency"
+              defaultValue="INR"
+              onChange={(e) => setSelcurr(e.target.value)}
+            >
+              {Curr.map((cur, index) => (
+                <option key={index} value={cur}>
+                  {cur}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="forminsidediv">
+            <label>Enter the amount to withdraw: </label>
+            <input
+              type="number"
+              value={amount}
+              onChange={handleAmount}
+              required
+            />
+          </div>
+          <div className="forminsidediv">
+            <label>Enter PIN </label>
+            <input
+              type="password"
+              value={pin}
+              placeholder="Enter ATM Pin"
+              onChange={handlePin}
+              required
+            />
+          </div>
+          <br />
+          <div>
+            <button type="submit"> Withdraw </button>
+          </div>
+        </form>
+      </div>
       <br />
       <buton
         type="submit"

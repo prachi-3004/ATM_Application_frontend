@@ -82,19 +82,20 @@ const GetCustomer = () => {
       <ToastContainer />
       <button onClick={handleaddAccount}>Add Account</button>
       <button onClick={handleGetAccount}>Get Accounts details</button>
-
       {customer && <h1>Customer Details</h1>}
-
-      {customer?.id && <div> Customer ID: {customer?.id} </div>}
-      {customer?.name && <div> Customer Name: {customer?.name}</div>}
-      {customer?.userName && (
-        <div> Customer User Name: {customer?.userName} </div>
-      )}
-      {customer?.address && <div> Customer Address: {customer?.address} </div>}
-      {customer?.city && <div> Customer City: {customer?.city} </div>}
-      {customer?.email && <div> Email ID: {customer?.email} </div>}
-      {customer?.contact && <div> Contact Number: {customer?.contact} </div>}
-
+      <div className="textdiv">
+        {customer?.id && <div> Customer ID: {customer?.id} </div>}
+        {customer?.name && <div> Customer Name: {customer?.name}</div>}
+        {customer?.userName && (
+          <div> Customer User Name: {customer?.userName} </div>
+        )}
+        {customer?.address && (
+          <div> Customer Address: {customer?.address} </div>
+        )}
+        {customer?.city && <div> Customer City: {customer?.city} </div>}
+        {customer?.email && <div> Email ID: {customer?.email} </div>}
+        {customer?.contact && <div> Contact Number: {customer?.contact} </div>}
+      </div>
       <br />
       <buton
         type="submit"

@@ -1,6 +1,8 @@
 /* Css for customers table rendered */
 .table-wrapper {
   width: 100%;
+  margin-left: 20px;
+  margin-top: 20px;
 }
 
 .table {
@@ -12,7 +14,7 @@
   max-width: 80%;
   margin: auto;
   table-layout: auto;
-  overflow-x: auto;
+  overflow-x: hidden;
 }
 
 .table thead {

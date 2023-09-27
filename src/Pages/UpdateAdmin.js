@@ -106,83 +106,85 @@ const UpdateAdmin = () => {
   return (
     <div>
       <ToastContainer />
-      <h4>Update Customer details</h4>
-      <form onSubmit={handleSubmit}>
-        {customer && (
-          <div>
-            Name:{" "}
-            <input
-              type="text"
-              name="name"
-              value={customer.name}
-              onChange={handleChange}
-            />
-          </div>
-        )}
-        {customer && (
-          <div>
-            Address:{" "}
-            <input
-              type="text"
-              name="address"
-              value={customer.address}
-              onChange={handleChange}
-            />
-          </div>
-        )}
-        {customer && (
-          <div>
-            City:{" "}
-            <input
-              type="text"
-              name="city"
-              value={customer.city}
-              onChange={handleChange}
-            />
-          </div>
-        )}
+      <h1>Update Customer details</h1>
+      <div className="formdiv">
+        <form onSubmit={handleSubmit}>
+          {customer && (
+            <div>
+              Name:{" "}
+              <input
+                type="text"
+                name="name"
+                value={customer.name}
+                onChange={handleChange}
+              />
+            </div>
+          )}
+          {customer && (
+            <div>
+              Address:{" "}
+              <input
+                type="text"
+                name="address"
+                value={customer.address}
+                onChange={handleChange}
+              />
+            </div>
+          )}
+          {customer && (
+            <div>
+              City:{" "}
+              <input
+                type="text"
+                name="city"
+                value={customer.city}
+                onChange={handleChange}
+              />
+            </div>
+          )}
 
-        {customer && (
-          <div>
-            Email:{" "}
-            <input
-              type="text"
-              name="email"
-              value={customer.email}
-              onChange={handleChange}
-            />
-          </div>
-        )}
+          {customer && (
+            <div>
+              Email:{" "}
+              <input
+                type="text"
+                name="email"
+                value={customer.email}
+                onChange={handleChange}
+              />
+            </div>
+          )}
 
-        {customer && (
-          <div>
-            Contact:{" "}
-            <input
-              type="text"
-              pattern="[0-9]{10}"
-              name="contact"
-              disabled
-              value={customer.contactNumber}
-              onChange={handleChange}
-            />
-          </div>
-        )}
-        {customer && localStorage.getItem("role") == "1" && (
-          <div id="fieldcontainer">
-            Government ID:{" "}
-            <input
-              type="text"
-              name="governmentid"
-              id="conditionalfield"
-              disabled
-              value={customer.governmentId}
-              onChange={handleChange}
-            />
-          </div>
-        )}
+          {customer && (
+            <div>
+              Contact:{" "}
+              <input
+                type="text"
+                pattern="[0-9]{10}"
+                name="contact"
+                disabled
+                value={customer.contactNumber}
+                onChange={handleChange}
+              />
+            </div>
+          )}
+          {customer && localStorage.getItem("role") == "1" && (
+            <div id="fieldcontainer">
+              Government ID:{" "}
+              <input
+                type="text"
+                name="governmentid"
+                id="conditionalfield"
+                disabled
+                value={customer.governmentId}
+                onChange={handleChange}
+              />
+            </div>
+          )}
 
-        {customer && <button type="submit">Update</button>}
-      </form>
+          {customer && <button type="submit">Update</button>}
+        </form>
+      </div>
       <buton
         type="submit"
         onClick={() => navigate("/navigateadmin")}
