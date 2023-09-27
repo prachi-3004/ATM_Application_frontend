@@ -152,22 +152,14 @@ const GetspecAccount = () => {
       <br />
 
       {role == 0 && (
-        <buton
-          type="submit"
-          onClick={() => navigate("/navigatecustomer")}
-          style={{ color: "blue", border: "10px" }}
-        >
+        <button type="submit" onClick={() => navigate("/login")}>
           Go Back
-        </buton>
+        </button>
       )}
       {role == 1 && (
-        <buton
-          type="submit"
-          onClick={() => navigate("/getallaccounts")}
-          style={{ color: "blue", border: "10px" }}
-        >
+        <button type="submit" onClick={() => navigate("/getallaccounts")}>
           Go Back
-        </buton>
+        </button>
       )}
     </div>
   );

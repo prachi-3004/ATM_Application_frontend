@@ -207,13 +207,9 @@ const UpdateCustomerPage = () => {
           {customer && <button type="submit">Update</button>}
         </form>
       </div>
-      <buton
-        type="submit"
-        onClick={() => navigate("/navigatecustomer")}
-        style={{ color: "blue", border: "10px" }}
-      >
+      <button type="submit" onClick={() => navigate("/navigatecustomer")}>
         Go Back
-      </buton>
+      </button>
     </div>
   );
 };

@@ -198,14 +198,10 @@ const WithdrawalPage = () => {
           </div>
         </form>
       </div>
-      <br />
-      <buton
-        type="submit"
-        onClick={() => navigate("/getaccountspec/" + id)}
-        style={{ color: "blue", border: "10px" }}
-      >
+      <br />t
+      <button type="submit" onClick={() => navigate("/getaccountspec/" + id)}>
         Go Back
-      </buton>
+      </button>
     </div>
   );
 };

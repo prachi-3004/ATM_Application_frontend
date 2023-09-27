@@ -103,50 +103,48 @@ const ChangePinPage = () => {
     <div>
       <ToastContainer />
       <h1>Change your ATM pin</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          Enter old pin:{" "}
-          <input
-            type="password"
-            value={oldpassword}
-            placeholder="Enter your old pin"
-            onChange={handleOldPasswod}
-            required
-          />
-        </div>
-        <div>
-          Enter new pin:{" "}
-          <input
-            type="password"
-            value={newpassword}
-            placeholder="Enter your new pin"
-            onChange={handleNewPassword}
-            required
-          />
-        </div>
-        <div>
-          Confirm your new pin:{" "}
-          <input
-            type="password"
-            value={confirmpassword}
-            placeholder="Enter new pin again"
-            onChange={handleConfirmPassword}
-            required
-          />
-        </div>
-        <br />
-        <div>
-          <button type="submit"> Change </button>
-        </div>
-      </form>
+      <div className="formdiv">
+        <form onSubmit={handleSubmit}>
+          <div className="forminsidediv">
+            <label>Enter old pin: </label>
+            <input
+              type="password"
+              value={oldpassword}
+              placeholder="Enter your old pin"
+              onChange={handleOldPasswod}
+              required
+            />
+          </div>
+          <div className="forminsidediv">
+            <label>Enter new pin: </label>
+            <input
+              type="password"
+              value={newpassword}
+              placeholder="Enter your new pin"
+              onChange={handleNewPassword}
+              required
+            />
+          </div>
+          <div className="forminsidediv">
+            <label> Confirm your new pin: </label>
+            <input
+              type="password"
+              value={confirmpassword}
+              placeholder="Enter new pin again"
+              onChange={handleConfirmPassword}
+              required
+            />
+          </div>
+          <br />
+          <div>
+            <button type="submit"> Change </button>
+          </div>
+        </form>
+      </div>
       <br />
-      <buton
-        type="submit"
-        onClick={() => navigate("/getaccountspec/" + id)}
-        style={{ color: "blue", border: "10px" }}
-      >
+      <button type="submit" onClick={() => navigate("/getaccountspec/" + id)}>
         Go Back
-      </buton>
+      </button>
     </div>
   );
 };

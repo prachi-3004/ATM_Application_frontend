@@ -50,16 +50,14 @@ const BalanceCheckPage = () => {
       <ToastContainer />
 
       <h1>Balance Inquiry</h1>
-      <p>Account Number:{account.id}</p>
-      <p>Balance:{account.balance}</p>
-      <br />
-      <buton
-        type="submit"
-        onClick={() => navigate("/getaccountspec/" + id)}
-        style={{ color: "blue", border: "10px" }}
-      >
+      <div className="textdiv">
+        <div>Account Number:{account.id}</div>
+        <div>Balance (in INR):{account.balance}</div>
+        <br />
+      </div>
+      <button type="submit" onClick={() => navigate("/getaccountspec/" + id)}>
         Go Back
-      </buton>
+      </button>
     </div>
   );
 };

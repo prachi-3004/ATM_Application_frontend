@@ -57,6 +57,9 @@ const NavbarComponentCustomer = () => {
         <div className="navbar-contents">
           <ul>
             <li className="nav-link">
+              {customer && <NavLink>Welcome {customer.name}</NavLink>}
+            </li>
+            <li className="nav-link">
               {customer && (
                 <NavLink to={`/getaccbyid/${customer.id}`}>
                   Get Account details

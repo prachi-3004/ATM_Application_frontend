@@ -86,13 +86,9 @@ const Getaccbyid = () => {
 
       {!hadAccs && <div>You don't have any accounts</div>}
       <br />
-      <buton
-        type="submit"
-        onClick={() => navigate("/navigatecustomer")}
-        style={{ color: "blue", border: "10px" }}
-      >
+      <button type="submit" onClick={() => navigate("/navigatecustomer")}>
         Go Back
-      </buton>
+      </button>
     </div>
   );
 };

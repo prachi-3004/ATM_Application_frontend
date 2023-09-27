@@ -70,13 +70,9 @@ const MiniStatementsPage = () => {
         </tbody>
       </table>
       <br />
-      <buton
-        type="submit"
-        onClick={() => navigate("/getaccountspec/" + id)}
-        style={{ color: "blue", border: "10px" }}
-      >
+      <button type="submit" onClick={() => navigate("/getaccountspec/" + id)}>
         Go Back
-      </buton>
+      </button>
     </div>
   );
 };

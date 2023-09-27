@@ -190,65 +190,71 @@ const TransferPage = () => {
     <div>
       <ToastContainer />
       <h1>Transfer Money</h1>
-      <p>Account Number:{senderAccount.id}</p>
-      <p>Balance:{senderAccount.balance}</p>
-      <form onSubmit={handleSubmit}>
-        <label>Select currency in which you want to transfer money:</label>
-        <select
-          name="Currency"
-          defaultValue="INR"
-          onChange={(e) => setSelcurr(e.target.value)}
-        >
-          {Curr.map((cur, index) => (
-            <option key={index} value={cur}>
-              {cur}
-            </option>
-          ))}
-        </select>
-        <div>
-          Enter the recipient's account number:{" "}
-          <input
-            type="number"
-            value={recipientId}
-            placeholder="Enter recipient account number"
-            onChange={handleRecipientId}
-            required
-          />
-        </div>
-        <div>
-          Enter the amount to be transferred:{" "}
-          <input
-            type="number"
-            max={senderAccount.balance}
-            value={amount}
-            onChange={handleAmount}
-            required
-          />
-        </div>
+      <div className="textdiv">
+        <div>Account Number:{senderAccount.id}</div>
+        <div>Balance (in INR):{senderAccount.balance}</div>
+      </div>
+      <div className="formdiv">
+        <form onSubmit={handleSubmit}>
+          <div classNAme="forminsidediv">
+            <label>Select currency in which you want to transfer money:</label>
+            <select
+              name="Currency"
+              defaultValue="INR"
+              onChange={(e) => setSelcurr(e.target.value)}
+            >
+              {Curr.map((cur, index) => (
+                <option key={index} value={cur}>
+                  {cur}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="forminsidediv">
+            <label>Enter the recipient's account number: </label>
+            <input
+              type="number"
+              value={recipientId}
+              placeholder="Enter recipient account number"
+              onChange={handleRecipientId}
+              required
+            />
+          </div>
+          <div className="forminsidediv">
+            <label>Enter the amount to be transferred: </label>
+            <input
+              type="number"
+              max={senderAccount.balance}
+              value={amount}
+              onChange={handleAmount}
+              required
+            />
+          </div>
 
-        <div>
-          Enter PIN{" "}
-          <input
-            type="password"
-            value={pin}
-            placeholder="Enter pin"
-            onChange={handlePin}
-            required
-          />
-        </div>
-        <br />
-        <div>
-          <button type="submit"> Transfer </button>
-        </div>
-      </form>
+          <div className="forminsidediv">
+            <label>Enter PIN </label>
+            <input
+              type="password"
+              value={pin}
+              placeholder="Enter pin"
+              onChange={handlePin}
+              required
+            />
+          </div>
+          <br />
+          <div>
+            <button type="submit"> Transfer </button>
+          </div>
+        </form>
+      </div>
       <br />
-      <buton
+      <button
         type="submit"
         onClick={() => navigate("/getaccountspec/" + id)}
         style={{ color: "blue", border: "10px" }}
       >
         Go Back
-      </buton>
+      </button>
     </div>
   );
 };

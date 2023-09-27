@@ -150,55 +150,55 @@ const DepositPage = () => {
     <div>
       <ToastContainer />
       <h1>Deposit</h1>
-      <p>Account No: {account.id}</p>
-      <p>Balance: {account.balance}</p>
-
-      <form onSubmit={handleSubmit}>
-        <label>Select currency in which you want to deposit money:</label>
-        <select
-          name="Currency"
-          defaultValue="INR"
-          onChange={(e) => setSelcurr(e.target.value)}
-        >
-          {Curr.map((cur, index) => (
-            <option key={index} value={cur}>
-              {cur}
-            </option>
-          ))}
-        </select>
-
-        <div>
-          Enter the amount to deposit:{" "}
-          <input
-            type="number"
-            value={amount}
-            onChange={handleAmount}
-            required
-          />
-        </div>
-        <div>
-          Enter PIN{" "}
-          <input
-            type="password"
-            value={pin}
-            placeholder="Enter ATM Pin"
-            onChange={handlePin}
-            required
-          />
-        </div>
-        <br />
-        <div>
-          <button type="submit"> Deposit </button>
-        </div>
-      </form>
+      <div className="textdiv">
+        <div>Account No: {account.id}</div>
+        <div>Balance (in INR): {account.balance}</div>
+      </div>
+      <div className="formdiv">
+        <form onSubmit={handleSubmit}>
+          <div className="forminsidediv">
+            <label>Select currency in which you want to deposit money:</label>
+            <select
+              name="Currency"
+              defaultValue="INR"
+              onChange={(e) => setSelcurr(e.target.value)}
+            >
+              {Curr.map((cur, index) => (
+                <option key={index} value={cur}>
+                  {cur}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="forminsidediv">
+            <label>Enter the amount to deposit: </label>
+            <input
+              type="number"
+              value={amount}
+              onChange={handleAmount}
+              required
+            />
+          </div>
+          <div className="forminsidediv">
+            <label>Enter PIN </label>
+            <input
+              type="password"
+              value={pin}
+              placeholder="Enter ATM Pin"
+              onChange={handlePin}
+              required
+            />
+          </div>
+          <br />
+          <div>
+            <button type="submit"> Deposit </button>
+          </div>
+        </form>
+      </div>
       <br />
-      <buton
-        type="submit"
-        onClick={() => navigate("/getaccountspec/" + id)}
-        style={{ color: "blue", border: "10px" }}
-      >
+      <button type="submit" onClick={() => navigate("/getaccountspec/" + id)}>
         Go Back
-      </buton>
+      </button>
     </div>
   );
 };

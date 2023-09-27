@@ -204,13 +204,9 @@ const AddCustomerPage = () => {
           </div>
         </form>
       </div>
-      <buton
-        type="submit"
-        onClick={() => navigate("/navigateadmin")}
-        style={{ color: "blue", border: "10px" }}
-      >
+      <button type="submit" onClick={() => navigate("/navigateadmin")}>
         Go Back
-      </buton>
+      </button>
     </div>
   );
 };
